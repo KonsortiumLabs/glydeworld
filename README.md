@@ -1,3 +1,67 @@
+# G//LYDE WORLD
+
+Premium editable IP portal for `glydeworld.com`.
+
+This repo now contains a Vercel-ready Next.js App Router implementation while preserving the original exported prototype in `/glyde` as legacy visual/source reference.
+
+## Local Setup
+
+```bash
+npm install
+npm run dev
+npm run build
+```
+
+Admin:
+
+```text
+/admin
+password: ggchamp
+```
+
+The admin uses browser `localStorage` for prototype overrides. Use **Export JSON** after editing and **Import JSON** to restore/migrate content later.
+
+## Deployment Checklist
+
+1. Push this project to GitHub.
+2. Import the repo into Vercel.
+3. Deploy the default project settings for Next.js.
+4. Add `glydeworld.com` as a custom domain in Vercel.
+5. In Namecheap DNS, follow Vercel's exact DNS record instructions.
+6. Typically Vercel will ask for an `A` record for `@` and a `CNAME` for `www` to `cname.vercel-dns.com`, but use the current Vercel dashboard values.
+7. Wait for DNS propagation.
+8. Confirm SSL is issued in Vercel.
+9. Visit `https://glydeworld.com`.
+10. Visit `https://glydeworld.com/admin` and log in with `ggchamp`.
+
+## Content System
+
+Major editable content lives in:
+
+```text
+content/siteContent.ts
+```
+
+Editable areas include:
+
+- site settings and footer
+- SEO defaults
+- navigation and CTAs
+- homepage, gravsports, G//LYDE Racing, Neo Noctis, Garage, Support
+- character archive
+- story archive entries
+- circuits
+- factions
+- manufacturers
+- sponsors
+- submission/payment/support links
+- concept art note
+- image URLs and captions
+
+---
+
+Legacy original brief follows for context.
+
 CRITICAL DEPLOYMENT + EDITABILITY REQUIREMENT:
 
 This project must be ready to publish live at:
