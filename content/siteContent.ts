@@ -938,7 +938,8 @@ export const siteContent: SiteContent = {
       source: "Kellan Roux",
       location: "Neo Noctis // Rooftop service deck",
       excerpt: "The city looked expensive from above. That was the trick. From below, it looked hungry.",
-      body: "Kellan counts the gates twice and the cameras once. He knows the run is not supposed to count. He knows that is why everyone who matters is watching.",
+      body:
+        "Kellan counts the gates twice and the cameras once. He knows the run is not supposed to count. He knows that is why everyone who matters is watching.\n\nNeo Noctis glows below him like money pretending to be weather. The towers sell clean light. The Lowline throws it back broken, wet, and moving. Somewhere under the service deck, Gate 8 is waiting with its mouth shut.\n\nHe checks the board with his thumb, then checks the city with his eyes. The camera drones are not official. That makes them worse. Official cameras have angles, contracts, and names on the insurance. These have appetite.\n\nKellan does not need them to like him. He needs the line to survive the first replay. He needs the clip to look like a choice, not luck. If the run goes clean, someone upstairs will call it talent. If it goes wrong, someone below will call it terms.\n\nThe countdown never appears. Off Ledger runs do not ask permission from numbers. They begin when everyone in the room understands it is too late to leave.",
       image: asset("ref-night.jpg"),
       tags: ["Off Ledger", "Kellan", "Gate 8"],
       relatedCharacters: ["kellan-roux"],
@@ -955,7 +956,8 @@ export const siteContent: SiteContent = {
       source: "Archive Desk",
       location: "The Rouxline",
       excerpt: "The Rouxline was the lounge. Gate 8 was the reason people came.",
-      body: "A chrome lounge, a small nightclub, a private garage, and a door into routes nobody can buy from the official map.",
+      body:
+        "The Rouxline was never the largest room in Neo Noctis. That was part of its power. Large rooms belong to sponsors. Small rooms belong to people who know which sponsor is lying.\n\nBy midnight the lounge reflects everyone twice: once in chrome, once in glass. Riders come through smelling like heat and battery rain. Models come through with brand handlers. Oddsmakers come through alone. Uno Roux smiles at all of them like he remembers the first favor and the last debt.\n\nThe public sees a nightclub with a private garage. The Lowline sees a door. Gate 8 sits beneath the glamour, tied into old route geometry and older promises. It is not advertised. It does not need to be.\n\nThe Rouxline was the lounge. Gate 8 was the reason people came.",
       image: asset("ref-catalog.jpg"),
       tags: ["Rouxline", "Gate 8", "Neo Noctis"],
       relatedCharacters: ["uno-roux", "kellan-roux"],
@@ -972,7 +974,8 @@ export const siteContent: SiteContent = {
       source: "Redacted",
       location: "Neo Noctis // Lowline threshold",
       excerpt: "In Neo Noctis, real estate was expensive. Access was priceless.",
-      body: "Gate 8 is not a door. It is a claim, a route right, a private geometry, and the difference between running for fun and running for market value.",
+      body:
+        "Gate 8 is not a door. It is a claim, a route right, a private geometry, and the difference between running for fun and running for market value.\n\nOfficial maps call it inactive. The Ledger calls it disputed. The Black Book calls it useful. None of those descriptions are wrong, which is why the argument keeps getting expensive.\n\nA gate controls more than entry. It controls timing, camera access, emergency exits, betting windows, sponsor sightlines, and who gets to say a run happened. In Neo Noctis, a route can be worth more than the building above it because the building only holds people. The route moves them.\n\nWhen Vey Sable asked about Gate 8, nobody heard a threat. That was the threat.",
       image: asset("ref-metroascent.jpg"),
       tags: ["Gate 8", "Route Rights", "Black Book"],
       relatedCharacters: ["gio-roux", "uno-roux"],
@@ -989,7 +992,8 @@ export const siteContent: SiteContent = {
       source: "The Index",
       location: "Neo Noctis",
       excerpt: "He smiled like every contract had already forgiven him.",
-      body: "Uno Roux's empire was not what it used to be. That did not mean it was gone. Some men own machines. Uno owned the path to them.",
+      body:
+        "Uno Roux's empire was not what it used to be. That did not mean it was gone. Some men own machines. Uno owned the path to them.\n\nBefore The Rouxline, Uno handled riders who arrived with talent and left with contracts they did not understand. He knew which sponsor wanted a face, which manufacturer wanted telemetry, and which Wager House wanted a rider desperate enough to confuse ownership with rescue.\n\nThen the betrayal happened. The official record has cleaner language for it. Uno does not. He kept the lounge, some doors, a private garage, and enough old data to make powerful people polite.\n\nHis sons think he is rebuilding an empire. Uno knows better. He is rebuilding leverage.",
       image: asset("ref-catalog.jpg"),
       tags: ["Uno", "Handler", "Access"],
       relatedCharacters: ["uno-roux"],
@@ -1006,7 +1010,8 @@ export const siteContent: SiteContent = {
       source: "Black Book-adjacent",
       location: "Unknown booth // Neo Noctis",
       excerpt: "I don't take lives. I take terms.",
-      body: "Vey Sable prices the room before anyone else sees the table. That is why riders fear the smile more than the wager.",
+      body:
+        "Vey Sable prices the room before anyone else sees the table. That is why riders fear the smile more than the wager.\n\nOddsmakers do not only calculate who wins. They calculate who can afford to lose, who needs to be seen, who is hiding damage, who is riding above their contract, and who will mistake applause for protection.\n\nVey dresses like the future already paid him. White gloves. Red detail. No wasted movement. He does not raise his voice because the terms do that for him.\n\nWhen he says he does not take lives, he is telling the truth. A life is messy. Terms are cleaner. Terms can outlive the rider.",
       image: asset("ref-metroascent.jpg"),
       tags: ["Vey Sable", "Oddsmaker", "Terms"],
       relatedCharacters: ["vey-sable"],
@@ -1023,7 +1028,8 @@ export const siteContent: SiteContent = {
       source: "G//NET scrape",
       location: "Gate 8 // Sector unknown",
       excerpt: "It was supposed to stay off the Ledger. Then G//NET saw it.",
-      body: "Off Ledger does not mean without consequence. It means without protection. Once the clip escaped, Kellan Roux stopped being local and became a number someone could trade.",
+      body:
+        "Off Ledger does not mean without consequence. It means without protection. Once the clip escaped, Kellan Roux stopped being local and became a number someone could trade.\n\nThe run was supposed to stay private: no broadcast, no official timing, no sponsor watermark, no route admission. Just Gate 8, a challenge, and enough witnesses to make denial useful.\n\nThen G//NET saw it.\n\nBy morning, the clip had three cuts, five captions, and a market projection that made Kellan's name look heavier than it had the night before. Sponsors wanted a meeting. Manufacturers wanted the telemetry. Oddsmakers wanted the terms. Neo Noctis wanted to know what the Roux family had been hiding.\n\nSome runs are not supposed to count. Some runs change everything.",
       image: asset("ref-night.jpg"),
       tags: ["Off Ledger", "G//NET", "Kellan"],
       relatedCharacters: ["kellan-roux"],
@@ -1040,7 +1046,8 @@ export const siteContent: SiteContent = {
       source: "G//NET mirror",
       location: "Sector unknown",
       excerpt: "The clip degraded every time it got reposted. The price kept going up.",
-      body: "The first version had no rider tag. The second had three. The third had a sponsor watermark nobody admitted placing.",
+      body:
+        "The first version had no rider tag. The second had three. The third had a sponsor watermark nobody admitted placing.\n\nG//NET does not behave like a channel. It behaves like weather with a memory. A clip leaks, mirrors, corrupts, recuts, gets scored by strangers, gets denied by sponsors, gets priced by The Index, and becomes more real every time someone insists it is not official.\n\nThe Sector Unknown file is damaged in four places. The board trail is clean in two. That contradiction is why the clip keeps moving.\n\nSomeone tried to bury the source. Someone else made sure the compression artifact looked like a signature.",
       image: asset("ref-night.jpg"),
       tags: ["G//NET", "Leak", "Visibility"],
       relatedCharacters: ["kellan-roux"],
@@ -1057,7 +1064,8 @@ export const siteContent: SiteContent = {
       source: "Technical archive",
       location: "G-Tech index",
       excerpt: "You can buy the machine. You cannot buy the Click.",
-      body: "G-Sync is control. Resonance is when the Core answers back. The Click is the moment the rider stops operating the machine and starts being understood by it.",
+      body:
+        "G-Sync is control. Resonance is when the Core answers back. The Click is the moment the rider stops operating the machine and starts being understood by it.\n\nTraining academies describe G-Sync as a measurable link between rider intent and grav system response. Manufacturers prefer that language because it sounds certifiable. Riders use shorter language: the machine listened.\n\nThe Click is not magic. That is what technicians say in public. In private, they admit there are moments when telemetry stops looking like command and starts looking like conversation.\n\nYou can buy the machine. You cannot buy the Click.",
       image: asset("ref-catalog.jpg"),
       tags: ["G-Sync", "The Click", "G-Core"],
       relatedCharacters: [],
@@ -1074,7 +1082,8 @@ export const siteContent: SiteContent = {
       source: "Archive Desk",
       location: "Neo Noctis // Lowline",
       excerpt: "Official racing has rules. Lowline racing has terms.",
-      body: "Lowline Runs are unsanctioned, wager-driven, mixed-class routes below the official city image. The leagues separate disciplines for fairness. The Lowline mixes them because fairness was never the point.",
+      body:
+        "Lowline Runs are unsanctioned, wager-driven, mixed-class routes below the official city image. The leagues separate disciplines for fairness. The Lowline mixes them because fairness was never the point.\n\nA sanctioned race tells you the category before the start. G-Suit. G-Board. G-Rig. Trick format. Circuit format. Clean rules. Clean exits. Clean blame.\n\nA Lowline Run tells you the terms. Who enters, what counts, who pays, who films, what route is legal for the next six minutes, and what happens if the run exposes something valuable.\n\nThe Lowline is not chaos. It has structure. It just does not owe that structure to the official sport.",
       image: asset("ref-night.jpg"),
       tags: ["Lowline", "Runs", "Terms"],
       relatedCharacters: ["gio-roux"],
@@ -1091,7 +1100,8 @@ export const siteContent: SiteContent = {
       source: "The Ledger",
       location: "Neo Noctis",
       excerpt: "Every route has a price.",
-      body: "Route rights decide who can run, film, wager, sponsor, block, insure, tax, or disappear a path through the city. Visibility is class. Access is leverage.",
+      body:
+        "Route rights decide who can run, film, wager, sponsor, block, insure, tax, or disappear a path through the city. Visibility is class. Access is leverage.\n\nA route is not only pavement, airspace, rail gaps, tower drift, or Lowline geometry. A route is permission. It is camera placement. It is liability. It is crowd memory. It is the difference between a rider making a move and a market recognizing it.\n\nSponsors buy routes because routes create moments. Wager Houses pressure routes because routes create terms. Families protect routes because one door can keep an entire name alive.\n\nEvery route has a price. The smart money asks who pays it before the run begins.",
       image: asset("ref-metroascent.jpg"),
       tags: ["Route Rights", "Ledger", "Sponsors"],
       relatedCharacters: ["uno-roux", "vey-sable"],

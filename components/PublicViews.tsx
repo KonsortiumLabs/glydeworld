@@ -236,6 +236,7 @@ export function PageView({ pageKey }: { pageKey: "gravsports" | "racing" | "neoN
     tags?: string[];
     ctas?: Array<{ label: string; href: string; kind: string }>;
   }>(null);
+  const [archiveSelected, setArchiveSelected] = useState<ArchiveEntry | null>(null);
 
   if (pageKey === "neoNoctis") {
     const cityFiles = [
@@ -327,19 +328,11 @@ export function PageView({ pageKey }: { pageKey: "gravsports" | "racing" | "neoN
               <div><span className="label">Related files</span><h2 className="display">Read the city through its pressure points.</h2></div>
               <Link className="btn" href="/archive">Open Archive →</Link>
             </div>
-            <div className="drops-grid">{relatedEntries.map((entry) => <ArchiveCard key={entry.id} entry={entry} onOpen={(archiveEntry) => setSelected({
-              title: archiveEntry.title,
-              category: `${archiveEntry.category} // ${archiveEntry.status}`,
-              image: archiveEntry.image,
-              definition: archiveEntry.excerpt,
-              description: archiveEntry.body,
-              whyItMatters: `${archiveEntry.source} // ${archiveEntry.location}`,
-              tags: archiveEntry.tags,
-              ctas: [{ label: "Submit Related Lore", href: "/garage", kind: "submission" }],
-            })} />)}</div>
+            <div className="drops-grid">{relatedEntries.map((entry) => <ArchiveCard key={entry.id} entry={entry} onOpen={setArchiveSelected} />)}</div>
           </div>
         </section>
         {selected && <FileModal item={selected} onClose={() => setSelected(null)} />}
+        {archiveSelected && <ArchiveReader entry={archiveSelected} onClose={() => setArchiveSelected(null)} />}
       </>
     );
   }
@@ -616,6 +609,58 @@ function FileModal({
   );
 }
 
+function ArchiveReader({ entry, onClose }: { entry: ArchiveEntry; onClose: () => void }) {
+  const { content } = useSiteContent();
+  const relatedCharacters = entry.relatedCharacters
+    .map((id) => content.characters.find((character) => character.id === id))
+    .filter((character): character is Character => Boolean(character));
+  const relatedFactions = entry.relatedFactions
+    .map((id) => content.factions.find((faction) => faction.id === id))
+    .filter((faction): faction is Faction => Boolean(faction));
+  const paragraphs = entry.body.split(/\n{2,}/).map((part) => part.trim()).filter(Boolean);
+
+  return (
+    <div className="modal-backdrop archive-reader-backdrop" onClick={onClose}>
+      <article className="archive-reader" onClick={(event) => event.stopPropagation()}>
+        <button className="close reader-close" onClick={onClose}>x</button>
+        <header className="archive-reader-hero">
+          <img src={entry.image} alt={entry.title} />
+          <div className="archive-reader-title">
+            <span className="label">{entry.category} // {entry.status} // {entry.publishDate}</span>
+            <h2 className="display">{entry.title}</h2>
+            <p>{entry.excerpt}</p>
+          </div>
+        </header>
+        <div className="archive-reader-layout">
+          <aside className="archive-reader-rail">
+            <div><span className="label">Source</span><b>{entry.source}</b></div>
+            <div><span className="label">Location</span><b>{entry.location}</b></div>
+            <div><span className="label">Canon status</span><b>{entry.status}</b></div>
+            <div><span className="label">Related characters</span>{relatedCharacters.length ? relatedCharacters.map((character) => <b key={character.id}>{character.name}</b>) : <b>Unassigned</b>}</div>
+            <div><span className="label">Related factions</span>{relatedFactions.length ? relatedFactions.map((faction) => <b key={faction.id}>{faction.name}</b>) : <b>Unassigned</b>}</div>
+          </aside>
+          <main className="archive-reader-body">
+            <span className="label">Archive file</span>
+            {paragraphs.map((paragraph, index) => (
+              <p className={index === 0 ? "lede" : ""} key={`${entry.id}-${index}`}>{paragraph}</p>
+            ))}
+            <div className="reader-callout">
+              <span className="label">Why this file exists</span>
+              <p>The Archive is how G//LYDE WORLD opens before Volume 0: story fragments, route lore, character pressure, visual drops, and files that make the sport feel lived in.</p>
+            </div>
+            <div className="tag-row">{entry.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
+            <CtaButtons ctas={[
+              { label: "Submit Related Lore", href: "/garage", kind: "submission" },
+              { label: "Support A Visual Drop", href: "/support-a-drop", kind: "support" },
+              { label: "Open Archive", href: "/archive", kind: "secondary" },
+            ]} />
+          </main>
+        </div>
+      </article>
+    </div>
+  );
+}
+
 function ArchiveCard({ entry, onOpen }: { entry: ArchiveEntry; onOpen?: (entry: ArchiveEntry) => void }) {
   const inner = (
     <>
@@ -629,7 +674,7 @@ function ArchiveCard({ entry, onOpen }: { entry: ArchiveEntry; onOpen?: (entry: 
     </>
   );
   if (onOpen) {
-    return <button className="card archive-card clickable-card" onClick={() => onOpen(entry)}>{inner}<span className="btn card-cta">Open File →</span></button>;
+    return <button className="card archive-card clickable-card" onClick={() => onOpen(entry)}>{inner}<span className="btn card-cta">Read File →</span></button>;
   }
   return (
     <Link className="card archive-card" href="/archive">
@@ -661,21 +706,9 @@ export function ArchiveView() {
         <div className="grid">{entries.map((entry) => <ArchiveCard key={entry.id} entry={entry} onOpen={setSelected} />)}</div>
       </section>
       {selected && (
-        <FileModal
+        <ArchiveReader
           onClose={() => setSelected(null)}
-          item={{
-            title: selected.title,
-            category: `${selected.category} // ${selected.status}`,
-            image: selected.image,
-            definition: selected.excerpt,
-            description: selected.body,
-            whyItMatters: `${selected.source} // ${selected.location}`,
-            tags: selected.tags,
-            ctas: [
-              { label: "Submit Related Lore", href: "/garage", kind: "submission" },
-              { label: "Support A Visual Drop", href: "/support", kind: "support" },
-            ],
-          }}
+          entry={selected}
         />
       )}
     </>
