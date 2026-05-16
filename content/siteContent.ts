@@ -110,6 +110,50 @@ export type GaragePath = {
   href: string;
 };
 
+export type HomepageCard = {
+  title: string;
+  eyebrow: string;
+  body: string;
+  href: string;
+  image?: string;
+  tags?: string[];
+};
+
+export type HomepageContent = {
+  startHere: HomepageCard[];
+  movementSystems: HomepageCard[];
+  neoNoctis: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    tags: string[];
+    href: string;
+  };
+  offLedger: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    href: string;
+  };
+  characterSpotlight: {
+    characterId: string;
+    eyebrow: string;
+    title: string;
+    body: string;
+    microcopy: string;
+    ctas: Cta[];
+  };
+  latestDropIds: string[];
+  garageCards: HomepageCard[];
+  supportCta: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    ctas: Cta[];
+  };
+  canonNotice: string;
+};
+
 export type SiteContent = {
   settings: {
     title: string;
@@ -133,6 +177,7 @@ export type SiteContent = {
   ctas: Cta[];
   images: ImageAsset[];
   featureStrip: string[];
+  homepage: HomepageContent;
   pages: Record<string, PageContent>;
   characters: Character[];
   archive: ArchiveEntry[];
@@ -244,7 +289,144 @@ export const siteContent: SiteContent = {
     "THE BLACK BOOK",
     "GRAND CUP",
     "LOWLINE RUNS",
+    "STE.EZ",
+    "G-SYNC",
+    "G-RES",
+    "OVERDRIVE",
+    "GATE 8",
+    "NEO NOCTIS",
   ],
+  homepage: {
+    startHere: [
+      {
+        eyebrow: "01 // Onboard",
+        title: "New to G//LYDE",
+        body: "Learn the sport, the city, and the systems before the Index starts pricing the riders.",
+        href: "/gravsports",
+        image: asset("ref-daylight.jpg"),
+        tags: ["Gravsports", "G-Suit", "G-Board", "G-Rig"],
+      },
+      {
+        eyebrow: "02 // Story",
+        title: "Read the Story",
+        body: "Begin with OFF LEDGER and the Rouxline files, where one private run becomes public market pressure.",
+        href: "/archive",
+        image: asset("ref-night.jpg"),
+        tags: ["OFF LEDGER", "The Rouxline", "Gate 8"],
+      },
+      {
+        eyebrow: "03 // Co-create",
+        title: "Build With Us",
+        body: "Submit a rider, crew, circuit, sponsor, machine, or story concept for curated review.",
+        href: "/garage",
+        image: asset("ref-catalog.jpg"),
+        tags: ["The Garage", "Submissions", "Volume 0"],
+      },
+    ],
+    movementSystems: [
+      {
+        eyebrow: "Body discipline",
+        title: "G-Suit",
+        body: "Body-based gravsport. Foot-thrust, glide soles, wallrides, contact pressure, and raw athletic movement. G-Suit owns the nerve.",
+        href: "/gravsports",
+        image: asset("ref-catalog.jpg"),
+        tags: ["Foot-thrust", "Wallrides", "Nerve"],
+      },
+      {
+        eyebrow: "Culture discipline",
+        title: "G-Board",
+        body: "The culture discipline. Style, Steez, tricks, Lost Lines, crowd impact, and route expression. G-Board owns the culture.",
+        href: "/gravsports",
+        image: asset("ref-night.jpg"),
+        tags: ["Steez", "Lost Lines", "Crowd"],
+      },
+      {
+        eyebrow: "Machine discipline",
+        title: "G-Rig",
+        body: "The machine discipline. Speeders, one-rider rigs, elite engineering, sponsor money, and high-speed prestige. G-Rig owns the money.",
+        href: "/gravsports",
+        image: asset("ref-daylight.jpg"),
+        tags: ["Sector speed", "Sponsors", "Engineering"],
+      },
+    ],
+    neoNoctis: {
+      eyebrow: "Neo Noctis",
+      title: "The city that made gravsports feel like nightlife.",
+      body:
+        "Neo Noctis is Eidolon's race-week capital, where off-world visitors, models, inventors, brand owners, Oddsmakers, riders, and sponsors come to watch, wager, party, and become part of the sport. Above, Neo Noctis sells glamour. Below, the Lowline sets the terms.",
+      tags: ["Eidolon", "Lowline", "Gate 8", "The Rouxline"],
+      href: "/neo-noctis",
+    },
+    offLedger: {
+      eyebrow: "OFF LEDGER // First arc",
+      title: "A private run pulls the Roux family into something bigger than the race.",
+      body:
+        "At The Rouxline, a chrome lounge above the Lowline, route rights are worth more than real estate. When Gate 8 is challenged by a Wager House, one private run turns family pressure into public leverage.",
+      href: "/archive",
+    },
+    characterSpotlight: {
+      characterId: "kellan-roux",
+      eyebrow: "Character spotlight",
+      title: "Primary Lens / G-Board Talent / Neo Noctis",
+      body:
+        "Kellan Roux is a known local rider with flair, logic, and a fear of being ordinary. He wants the main circuit, the money, the status, and the kind of legacy that turns family pressure into generational freedom. But visibility is not freedom. It is exposure.",
+      microcopy: "More perspectives are coming through The Archive.",
+      ctas: [
+        { label: "View Characters", href: "/characters", kind: "primary" },
+        { label: "Read Kellan's First Log", href: "/archive", kind: "secondary" },
+      ],
+    },
+    latestDropIds: [
+      "kellan-rooftop",
+      "rouxline-chrome",
+      "gate-8",
+      "gsync-click",
+      "lowline-runs",
+      "vey-terms",
+    ],
+    garageCards: [
+      {
+        eyebrow: "Rider file",
+        title: "Submit a Rider",
+        body: "Create a racer, Handler, Oddsmaker, mechanic, G//NET personality, model, inventor, or sponsor figure.",
+        href: "/garage",
+        tags: ["Character", "Discipline", "Quote"],
+      },
+      {
+        eyebrow: "Crew build",
+        title: "Create a Crew",
+        body: "Build a Lowline crew, academy team, private racing house, or sponsor-backed squad.",
+        href: "/garage",
+        tags: ["Lowline", "Academy", "House"],
+      },
+      {
+        eyebrow: "Route pitch",
+        title: "Submit a Circuit",
+        body: "Pitch a route, gate, city, planet, track, or Grand Cup host concept.",
+        href: "/garage",
+        tags: ["Route", "Gate", "Planet"],
+      },
+      {
+        eyebrow: "Back a drop",
+        title: "Support a Drop",
+        body: "Help fund character files, concept visuals, story entries, and Volume 0 development.",
+        href: "/support",
+        tags: ["Archive", "Visuals", "Volume 0"],
+      },
+    ],
+    supportCta: {
+      eyebrow: "Join the early signal",
+      title: "Help make the world impossible to ignore.",
+      body:
+        "Back Volume 0, fund visual development, join updates, or enter The Garage with a concept worth pricing.",
+      ctas: [
+        { label: "Support Volume 0", href: "/support", kind: "primary" },
+        { label: "Enter The Garage", href: "/garage", kind: "secondary" },
+      ],
+    },
+    canonNotice:
+      "Canon is curated. Submissions may inspire or be adapted into the archive, but do not guarantee inclusion, ownership, compensation, publication, or official status.",
+  },
   pages: {
     home: {
       slug: "/",
@@ -253,10 +435,10 @@ export const siteContent: SiteContent = {
       seoDescription:
         "Enter G//LYDE WORLD, a living gravsports universe of G-Suits, G-Boards, G-Rigs, Neo Noctis, Off Ledger runs, route rights, wagers, style, and speed.",
       hero: {
-        eyebrow: "OVER//UNDER // GRAVSPORTS // OFF LEDGER",
+        eyebrow: "G//LYDE WORLD // A gravsports saga from the OVER//UNDER universe",
         title: "THE WORLD DOES NOT RACE ON WHEELS ANYMORE.",
         body:
-          "Gravsports are the biggest sport in the known worlds. G//LYDE Grav Racing is the peak: a high-stakes discipline where riders compete across official circuits, Lowline Runs, and planetary routes using G-Suits, G-Boards, and G-Rigs. Style is mechanical. Every route has a price. And in Neo Noctis, one Off Ledger run can turn a local rider into a market event.",
+          "Gravsports are the biggest sport in the known worlds. G//LYDE Grav Racing is the peak: where speed, style, route rights, wagers, and machine control collide. In Neo Noctis, one Off Ledger run can turn a local rider into a market event.",
         image: asset("ref-metroascent.jpg"),
         ctas: [
           { label: "Enter Neo Noctis", href: "/neo-noctis", kind: "primary" },
@@ -268,16 +450,16 @@ export const siteContent: SiteContent = {
       blocks: [
         {
           kicker: "What is G//LYDE?",
-          title: "Gravsports made movement competitive. G//LYDE made it impossible to look away.",
+          title: "GRAVSPORTS MADE MOVEMENT COMPETITIVE. G//LYDE MADE IT IMPOSSIBLE TO LOOK AWAY.",
           body:
-            "G//LYDE is the sport people watch, sponsors buy, kids dream about, and Lowline riders risk everything to enter. Official racing is polished, broadcast, sponsored, and regulated. Underneath, it is wager-driven, social, stylish, and tied to access, status, debt, and visibility.",
+            "G//LYDE Grav Racing is the peak of gravsports: a world of G-Suits, G-Boards, G-Rigs, official circuits, Lowline Runs, route rights, sponsor empires, and wagers that can change a rider's life in one night. Official racing has rules. Lowline racing has terms.",
           quote: "G//LYDE does not just reward talent. It prices it.",
         },
         {
           kicker: "Three movement systems",
-          title: "G-Board owns the culture. G-Rig owns the money. G-Suit owns the nerve.",
+          title: "THREE WAYS TO MOVE. ONE WAY TO BE REMEMBERED.",
           body:
-            "G-Suits make the body the machine. G-Boards carry the style economy. G-Rigs pull sponsor empires, manufacturers, and elite circuit money into the air.",
+            "G//LYDE is fought across body, board, and machine. Each discipline has its own culture, economy, and danger.",
           points: ["G-Suit: foot-thrust, wallrides, contact control.", "G-Board: Steez, Lost Lines, crowd impact.", "G-Rig: speed, sector dominance, engineering power."],
         },
         {
@@ -417,14 +599,14 @@ export const siteContent: SiteContent = {
     {
       id: "kellan-roux",
       name: "Kellan Roux",
-      role: "First POV / local G-Board talent",
+      role: "Primary lens / local G-Board talent",
       discipline: "G-Board first, versatile across all",
       affiliation: "The Rouxline",
       location: "Neo Noctis",
       status: "Canon // OFF LEDGER",
       quote: "I don't need them to like me. I need them to remember.",
       bio:
-        "Flair plus logic. Stylish, camera-aware, ambitious, and terrified of being ordinary. Kellan wants the main circuit, money, generational freedom, status, and a chance to change the sport. He may end up going independent before he understands what that costs.",
+        "Kellan Roux is a known local rider with flair, logic, and a fear of being ordinary. He wants the main circuit, the money, the status, and the kind of legacy that turns family pressure into generational freedom. But visibility is not freedom. It is exposure.",
       tags: ["POV", "Rouxline", "G-Board", "Off Ledger"],
       image: asset("ref-night.jpg"),
       archiveIds: ["kellan-rooftop", "off-ledger-run"],

@@ -20,9 +20,12 @@ function CtaButtons({ ctas }: { ctas: Array<{ label: string; href: string; kind:
 export function HomeView() {
   const { content } = useSiteContent();
   const page = content.pages.home;
-  const spotlight = content.characters[0];
-  const archivePreview = content.archive.slice(0, 3);
-  const doubled = [...content.featureStrip, ...content.featureStrip];
+  const home = content.homepage;
+  const spotlight = content.characters.find((character) => character.id === home.characterSpotlight.characterId) ?? content.characters[0];
+  const latestDrops = home.latestDropIds
+    .map((id) => content.archive.find((entry) => entry.id === id))
+    .filter((entry): entry is ArchiveEntry => Boolean(entry));
+  const tickerItems = Array.from({ length: 4 }, () => content.featureStrip).flat();
 
   return (
     <>
@@ -30,14 +33,15 @@ export function HomeView() {
         <img className="bg" src={page.hero.image} alt="" />
         <div className="broadcast-strip">
           <div>
-            <span><i className="live-dot" /> LIVE // GLYDEWORLD.COM</span>
-            <span>OFF LEDGER // VOLUME 0</span>
+            <span><i className="live-dot" /> G//NET LIVE</span>
+            <span>GLYDEWORLD.COM</span>
+            <span>A GRAVSPORTS SAGA FROM THE OVER//UNDER UNIVERSE</span>
             <span>NEO NOCTIS // EIDOLON</span>
-            <span style={{ marginLeft: "auto", color: "var(--acid)" }}>JOIN THE WORLD</span>
+            <span style={{ marginLeft: "auto", color: "var(--acid)" }}>OFF LEDGER // VOLUME 0</span>
           </div>
         </div>
         <div className="hero-inner">
-          <div>
+          <div className="hero-copy-panel">
             <p className="label hero-kicker">{page.hero.eyebrow}</p>
             <h1 className="display">{page.hero.title}</h1>
             <p className="hero-copy">{page.hero.body}</p>
@@ -46,15 +50,41 @@ export function HomeView() {
           <div className="telemetry">
             <div><span className="label">First planet</span><b>Eidolon</b></div>
             <div><span className="label">First city</span><b>Neo Noctis</b></div>
-            <div><span className="label">First POV</span><b>Kellan Roux</b></div>
+            <div><span className="label">Primary lens</span><b>Kellan Roux</b></div>
             <div><span className="label">First arc</span><b>OFF LEDGER</b></div>
           </div>
         </div>
       </section>
 
-      <div className="ticker"><div className="ticker-track">{doubled.map((item, i) => <span key={`${item}-${i}`}>{item}</span>)}</div></div>
+      <div className="ticker gnet-ticker" aria-label="G//NET signal ticker">
+        <div className="ticker-track">
+          {tickerItems.map((item, i) => <span key={`${item}-${i}`}><i />{item}</span>)}
+        </div>
+      </div>
 
-      <section className="section">
+      <section className="section start-section">
+        <div className="section-head compact">
+          <div>
+            <span className="label">Start here</span>
+            <h2 className="display">START WHERE YOU ARE.</h2>
+          </div>
+          <p className="lead">Three clean doors into the sport, the story, and the living archive.</p>
+        </div>
+        <div className="path-grid">
+          {home.startHere.map((card, index) => (
+            <Link className="path-card" href={card.href} key={card.title}>
+              {card.image && <img src={card.image} alt="" />}
+              <span className="label">{card.eyebrow}</span>
+              <h3 className="display">{card.title}</h3>
+              <p>{card.body}</p>
+              <div className="tag-row">{card.tags?.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
+              <b className="path-index">{String(index + 1).padStart(2, "0")}</b>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="section editorial-section">
         <div className="section-head">
           <div>
             <span className="label">{page.blocks[0].kicker}</span>
@@ -65,80 +95,125 @@ export function HomeView() {
         <div className="quote-panel"><p className="display">{page.blocks[0].quote}</p></div>
       </section>
 
-      <section className="section alt">
+      <section className="section alt movement-section">
         <div className="section-inner">
           <div className="section-head">
             <div>
               <span className="label">{page.blocks[1].kicker}</span>
               <h2 className="display">{page.blocks[1].title}</h2>
             </div>
+            <p className="lead">{page.blocks[1].body}</p>
           </div>
-          <div className="grid">
-            {[
-              ["G-Suit", "Body-based gravsport. Foot-thrust, glide soles, wallrides, contact-heavy movement, raw athleticism.", content.images[2].url],
-              ["G-Board", "Culture-defining discipline. Boards, tricks, Steez, Lost Lines, crowd impact, style-heavy racing.", content.images[1].url],
-              ["G-Rig", "Machine discipline. Speeders, bikes, one-rider rigs, sponsorship money, engineering, elite circuits.", content.images[3].url],
-            ].map(([title, body, image]) => (
-              <article className="card" key={title}>
-                <div className="card-img"><img src={image} alt="" /></div>
+          <div className="movement-grid">
+            {home.movementSystems.map((system, index) => (
+              <Link className="movement-card" href={system.href} key={system.title}>
+                <div className="movement-image"><img src={system.image} alt="" /></div>
                 <div className="card-body">
-                  <span className="label">Movement system</span>
-                  <h3 className="display">{title}</h3>
-                  <p className="muted">{body}</p>
+                  <span className="label">{system.eyebrow}</span>
+                  <h3 className="display">{system.title}</h3>
+                  <p className="muted">{system.body}</p>
+                  <div className="spec-strip">
+                    {system.tags?.map((tag) => <span key={tag}>{tag}</span>)}
+                  </div>
                 </div>
-              </article>
+                <span className="system-number">{String(index + 1).padStart(2, "0")}</span>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section">
-        <div className="grid two">
-          <article className="card">
-            <div className="card-img"><img src={content.images[0].url} alt={content.images[0].alt} /></div>
-            <div className="card-body">
-              <span className="label">Neo Noctis preview</span>
-              <h3 className="display">Above sells glamour. Below sets terms.</h3>
-              <p className="muted">The Rouxline was the lounge. Gate 8 was the reason people came.</p>
-              <div className="tag-row"><span className="tag">Eidolon</span><span className="tag">Lowline</span><span className="tag">Gate 8</span></div>
+      <section className="section city-story-section">
+        <div className="city-story-grid">
+          <Link href={home.neoNoctis.href} className="feature-panel city-panel">
+            <img src={content.images[0].url} alt={content.images[0].alt} />
+            <div>
+              <span className="label">{home.neoNoctis.eyebrow}</span>
+              <h2 className="display">{home.neoNoctis.title}</h2>
+              <p>{home.neoNoctis.body}</p>
+              <div className="tag-row">{home.neoNoctis.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
             </div>
-          </article>
-          <article className="card">
-            <div className="card-img"><img src={spotlight.image} alt={spotlight.name} /></div>
-            <div className="card-body">
-              <span className="label">Character spotlight</span>
-              <h3 className="display">{spotlight.name}</h3>
-              <p className="muted">{spotlight.bio}</p>
-              <p className="display" style={{ color: "var(--acid)", fontSize: "1.8rem" }}>"{spotlight.quote}"</p>
+          </Link>
+          <Link href={home.offLedger.href} className="feature-panel ledger-panel">
+            <div>
+              <span className="label">{home.offLedger.eyebrow}</span>
+              <h2 className="display">{home.offLedger.title}</h2>
+              <p>{home.offLedger.body}</p>
+              <span className="btn">Read Off Ledger →</span>
             </div>
-          </article>
+          </Link>
         </div>
       </section>
 
-      <section className="section alt">
+      <section className="section character-section alt">
+        <div className="section-inner character-spotlight">
+          <div className="spotlight-image">
+            <img src={spotlight.image} alt={spotlight.name} />
+          </div>
+          <div className="spotlight-copy">
+            <span className="label">{home.characterSpotlight.eyebrow}</span>
+            <h2 className="display">{spotlight.name}</h2>
+            <h3>{home.characterSpotlight.title}</h3>
+            <p>{home.characterSpotlight.body}</p>
+            <blockquote>"{spotlight.quote}"</blockquote>
+            <p className="label">{home.characterSpotlight.microcopy}</p>
+            <CtaButtons ctas={home.characterSpotlight.ctas} />
+          </div>
+        </div>
+      </section>
+
+      <section className="section drops-section">
         <div className="section-inner">
           <div className="section-head">
-            <div><span className="label">Latest archive drops</span><h2 className="display">THE ARCHIVE IS ALREADY MOVING.</h2></div>
+            <div><span className="label">Latest drops</span><h2 className="display">THE ARCHIVE IS ALREADY MOVING.</h2></div>
             <Link className="btn" href="/archive">Open Archive →</Link>
           </div>
-          <div className="grid">
-            {archivePreview.map((entry) => <ArchiveCard key={entry.id} entry={entry} />)}
+          <div className="drops-grid">
+            {latestDrops.map((entry) => <ArchiveCard key={entry.id} entry={entry} />)}
           </div>
         </div>
       </section>
 
-      <section className="section">
-        <div className="grid two">
-          <div>
+      <section className="section garage-home-section alt">
+        <div className="section-inner">
+          <div className="section-head">
+            <div>
             <span className="label">The Garage</span>
-            <h2 className="display">Curated co-creation, not an open dump.</h2>
-            <p className="lead">{content.garage.intro}</p>
-            <CtaButtons ctas={[{ label: "Enter The Garage", href: "/garage", kind: "primary" }, { label: "Support Volume 0", href: "/support", kind: "secondary" }]} />
+              <h2 className="display">BUILD IN THE GARAGE.</h2>
+            </div>
+            <p className="lead">Submit riders, crews, sponsors, circuits, machines, and story entries for curated review inside the evolving G//LYDE universe.</p>
           </div>
-          <div className="notice">
-            <b>Canon & Submission Notice</b>
-            <p>{content.garage.canonNotice}</p>
+          <p className="garage-intro">G//LYDE WORLD is being built as a living archive. The Garage is where early supporters, writers, artists, builders, and worldmakers can help shape the edges of the sport without breaking the canon.</p>
+          <div className="garage-card-grid">
+            {home.garageCards.map((card) => (
+              <Link className="garage-card" href={card.href} key={card.title}>
+                <span className="label">{card.eyebrow}</span>
+                <h3 className="display">{card.title}</h3>
+                <p>{card.body}</p>
+                <div className="tag-row">{card.tags?.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
+              </Link>
+            ))}
           </div>
+          <div className="garage-actions">
+            <CtaButtons ctas={[
+              { label: "Enter The Garage", href: "/garage", kind: "primary" },
+              { label: "Submit A Rider", href: "/garage", kind: "submission" },
+              { label: "Support Volume 0", href: "/support", kind: "secondary" },
+            ]} />
+            <details className="policy-note">
+              <summary>Read Submission Policy</summary>
+              <p>{home.canonNotice}</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section className="section support-band">
+        <div className="support-panel">
+          <span className="label">{home.supportCta.eyebrow}</span>
+          <h2 className="display">{home.supportCta.title}</h2>
+          <p>{home.supportCta.body}</p>
+          <CtaButtons ctas={home.supportCta.ctas} />
         </div>
       </section>
     </>
@@ -248,7 +323,7 @@ function CharacterModal({ character, onClose }: { character: Character; onClose:
 
 function ArchiveCard({ entry }: { entry: ArchiveEntry }) {
   return (
-    <article className="card">
+    <Link className="card archive-card" href="/archive">
       <div className="card-img"><img src={entry.image} alt={entry.title} /></div>
       <div className="card-body">
         <span className="label">{entry.category} // {entry.status}</span>
@@ -256,7 +331,7 @@ function ArchiveCard({ entry }: { entry: ArchiveEntry }) {
         <p className="muted">{entry.excerpt}</p>
         <div className="tag-row">{entry.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
       </div>
-    </article>
+    </Link>
   );
 }
 

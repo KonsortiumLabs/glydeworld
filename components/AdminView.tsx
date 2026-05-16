@@ -8,6 +8,7 @@ type TabKey =
   | "settings"
   | "seo"
   | "nav"
+  | "homepage"
   | "pages"
   | "characters"
   | "archive"
@@ -24,6 +25,7 @@ const tabs: Array<{ key: TabKey; label: string }> = [
   { key: "settings", label: "Settings" },
   { key: "seo", label: "SEO" },
   { key: "nav", label: "Nav / CTAs" },
+  { key: "homepage", label: "Homepage" },
   { key: "pages", label: "Pages" },
   { key: "characters", label: "Characters" },
   { key: "archive", label: "Archive" },
@@ -213,6 +215,7 @@ export function AdminView() {
             </>
           )}
 
+          {tab === "homepage" && <JsonEditor label="Homepage sections: Start Here, movement systems, Neo Noctis, Off Ledger, spotlight, latest drops, Garage, Support CTA" value={draft.homepage} onChange={(value) => update(["homepage"], value)} />}
           {tab === "pages" && <JsonEditor label="Pages: home, gravsports, racing, neoNoctis, garage, support" value={draft.pages} onChange={(value) => update(["pages"], value)} />}
           {tab === "characters" && <JsonEditor label="Characters" value={draft.characters} onChange={(value) => update(["characters"], value)} />}
           {tab === "archive" && <JsonEditor label="Archive entries" value={draft.archive} onChange={(value) => update(["archive"], value)} />}
