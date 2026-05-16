@@ -72,11 +72,28 @@ export function HomeView() {
             <CtaButtons ctas={page.hero.ctas} />
             </div>
             <div className="hero-poster-card">
-              <span className="label">Neo Noctis feed</span>
-              <b>OFF LEDGER CLIP DETECTED</b>
-              <p>Gate 8 access dispute. Rouxline signal. Lowline terms unknown.</p>
-              <div className="mini-map">
-                <i /><i /><i /><i />
+              <div className="feed-topline">
+                <span className="label"><i className="live-dot" /> G//NET mirror</span>
+                <span className="feed-status">unverified clip</span>
+              </div>
+              <div className="feed-visual">
+                <img src={content.images[1].url} alt="" />
+                <div className="feed-scanline" />
+                <div className="feed-route">
+                  <span>Rouxline</span>
+                  <b>Gate 8</b>
+                  <span>Lowline</span>
+                </div>
+              </div>
+              <div className="feed-copy">
+                <span className="label">Neo Noctis feed</span>
+                <b>OFF LEDGER CLIP DETECTED</b>
+                <p>Route-right challenge. Sponsor interest rising. Black Book terms unknown.</p>
+              </div>
+              <div className="feed-metrics">
+                <div><span className="label">Source</span><b>G//NET scrape</b></div>
+                <div><span className="label">Sector</span><b>Unknown</b></div>
+                <div><span className="label">Price</span><b>moving</b></div>
               </div>
             </div>
           </div>
