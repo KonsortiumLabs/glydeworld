@@ -583,10 +583,107 @@ img { max-width: 100%; display: block; }
   padding: 0.75rem;
 }
 .field textarea { min-height: 7rem; resize: vertical; }
+.consent-field {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  color: var(--chrome);
+  line-height: 1.5;
+  margin: 0.2rem 0 1rem;
+}
+.consent-field input { margin-top: 0.25rem; }
 .edit-list { display: grid; gap: 1rem; }
 .edit-item { border: 1px solid var(--line); background: rgba(0,0,0,0.2); padding: 1rem; }
 .admin-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1rem 0; }
 .preview-img { width: 150px; aspect-ratio: 16/10; object-fit: cover; border: 1px solid var(--line); margin-top: 0.4rem; }
+
+.submission-section {
+  max-width: none;
+  background:
+    radial-gradient(circle at 85% 0%, rgba(70,230,212,0.12), transparent 28rem),
+    linear-gradient(180deg, #f8f5ee, #dfe7ee);
+  color: var(--bg);
+}
+.submission-layout {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.58fr);
+  gap: 1rem;
+}
+.submission-form,
+.submission-side {
+  border: 1px solid rgba(8,9,11,0.14);
+  border-radius: 30px;
+  background: rgba(255,255,255,0.72);
+  box-shadow: 0 26px 80px rgba(35,43,52,0.14);
+  padding: clamp(1rem, 3vw, 2rem);
+}
+.submission-form .field input,
+.submission-form .field textarea,
+.submission-form .field select {
+  background: rgba(255,255,255,0.8);
+  color: var(--bg);
+  border-color: rgba(8,9,11,0.18);
+}
+.submission-form .label,
+.submission-side .label,
+.submission-section .policy-note summary { color: #535a63; }
+.submission-side p,
+.submission-section .consent-field,
+.submission-section .policy-note p { color: #343941; }
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+.form-status {
+  margin-top: 1rem;
+  border: 1px solid rgba(8,9,11,0.14);
+  border-radius: 18px;
+  padding: 1rem;
+  background: rgba(8,9,11,0.06);
+}
+.form-status.sent {
+  border-color: rgba(83,148,93,0.36);
+  background: rgba(83,148,93,0.12);
+}
+.form-status.error {
+  border-color: rgba(255,77,67,0.36);
+  background: rgba(255,77,67,0.12);
+}
+.submission-steps {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+.submission-steps span {
+  border: 1px solid rgba(8,9,11,0.12);
+  border-radius: 999px;
+  padding: 0.72rem 0.85rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.submission-admin-list {
+  display: grid;
+  gap: 1rem;
+}
+.submission-admin-card {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.035);
+  padding: 1rem;
+}
+.submission-admin-card h3 {
+  font-size: clamp(1.8rem, 4vw, 3.6rem);
+  margin: 0.3rem 0;
+}
+.submission-admin-card p {
+  color: var(--chrome);
+  line-height: 1.55;
+}
 
 .teaser-hero {
   min-height: min(820px, calc(100svh - 66px));
@@ -1471,7 +1568,8 @@ img { max-width: 100%; display: block; }
   .footer-inner { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .hero-stage,
   .story-panel,
-  .city-feature {
+  .city-feature,
+  .submission-layout {
     grid-template-columns: 1fr;
   }
   .hero-poster-card { min-height: 360px; }
@@ -1565,6 +1663,9 @@ img { max-width: 100%; display: block; }
   }
   .system-table-row {
     display: block;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
   }
   .system-table-row span {
     min-height: auto;

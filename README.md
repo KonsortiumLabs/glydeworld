@@ -21,18 +21,43 @@ password: ggchamp
 
 The admin uses browser `localStorage` for prototype overrides. Use **Export JSON** after editing and **Import JSON** to restore/migrate content later.
 
+## Functional Submissions
+
+The Garage submission flows are real routes backed by API storage:
+
+- `/join`
+- `/submit-rider`
+- `/submit-crew`
+- `/submit-sponsor`
+- `/submit-circuit`
+- `/submit-machine`
+- `/submit-story`
+- `/support-a-drop`
+- `/collaborate`
+
+API routes:
+
+- `POST /api/submissions`
+- `GET /api/submissions` with `x-admin-password: ggchamp`
+- `PATCH /api/submissions/:id` with `x-admin-password: ggchamp`
+
+Local development stores submissions in `.data/submissions.json`, which is gitignored. Production should use Vercel Blob for durable storage. In Vercel, add a Blob store to the project so `BLOB_READ_WRITE_TOKEN` is available, then redeploy. Admin has a **Submissions** tab for review status, notes, and export.
+
 ## Deployment Checklist
 
 1. Push this project to GitHub.
 2. Import the repo into Vercel.
 3. Deploy the default project settings for Next.js.
-4. Add `glydeworld.com` as a custom domain in Vercel.
-5. In Namecheap DNS, follow Vercel's exact DNS record instructions.
-6. Typically Vercel will ask for an `A` record for `@` and a `CNAME` for `www` to `cname.vercel-dns.com`, but use the current Vercel dashboard values.
-7. Wait for DNS propagation.
-8. Confirm SSL is issued in Vercel.
-9. Visit `https://glydeworld.com`.
-10. Visit `https://glydeworld.com/admin` and log in with `ggchamp`.
+4. Add Vercel Blob storage to the Vercel project and confirm `BLOB_READ_WRITE_TOKEN` exists for Production.
+5. Redeploy after Blob is connected.
+6. Add `glydeworld.com` as a custom domain in Vercel.
+7. In Namecheap DNS, follow Vercel's exact DNS record instructions.
+8. Typically Vercel will ask for an `A` record for `@` and a `CNAME` for `www` to `cname.vercel-dns.com`, but use the current Vercel dashboard values.
+9. Wait for DNS propagation.
+10. Confirm SSL is issued in Vercel.
+11. Visit `https://glydeworld.com`.
+12. Visit `https://glydeworld.com/admin` and log in with `ggchamp`.
+13. Open the **Submissions** tab and test one live submission.
 
 ## Content System
 

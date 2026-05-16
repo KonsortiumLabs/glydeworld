@@ -1,8 +1,26 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { siteContent, type SiteContent } from "@/content/siteContent";
 import { useSiteContent } from "@/components/ContentProvider";
+
+type SubmissionRecord = {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  status: "new" | "reviewing" | "approved" | "declined" | "adapted";
+  type: string;
+  name: string;
+  email: string;
+  conceptTitle: string;
+  conceptDescription: string;
+  roleOrDiscipline: string;
+  visualReferences: string;
+  fitReason: string;
+  consent: boolean;
+  notes: string;
+  source: string;
+};
 
 type TabKey =
   | "dashboard"
@@ -20,6 +38,7 @@ type TabKey =
   | "sponsors"
   | "codex"
   | "gcores"
+  | "submissions"
   | "garage"
   | "support"
   | "footer"
@@ -42,6 +61,7 @@ const tabs: Array<{ key: TabKey; label: string }> = [
   { key: "sponsors", label: "Sponsors" },
   { key: "codex", label: "Codex" },
   { key: "gcores", label: "Machines / G-Cores" },
+  { key: "submissions", label: "Submissions" },
   { key: "garage", label: "Garage" },
   { key: "support", label: "Support" },
   { key: "footer", label: "Footer" },
@@ -138,9 +158,30 @@ export function AdminView() {
   const [password, setPassword] = useState("");
   const [tab, setTab] = useState<TabKey>("dashboard");
   const [draft, setDraft] = useState<SiteContent>(content);
+  const [submissions, setSubmissions] = useState<SubmissionRecord[]>([]);
+  const [submissionMessage, setSubmissionMessage] = useState("");
+  const [storageMode, setStorageMode] = useState("");
   const importRef = useRef<HTMLInputElement | null>(null);
 
   const update = (path: Array<string | number>, value: unknown) => setDraft((current) => setAtPath(current, path, value));
+  const loadSubmissions = async () => {
+    setSubmissionMessage("Loading submissions...");
+    const response = await fetch("/api/submissions", { headers: { "x-admin-password": "ggchamp" } });
+    const data = await response.json();
+    if (!response.ok) {
+      setSubmissionMessage(data.error ?? "Could not load submissions.");
+      return;
+    }
+    setSubmissions(data.submissions ?? []);
+    setStorageMode(data.storage ?? "");
+    setSubmissionMessage("");
+  };
+
+  useEffect(() => {
+    if (unlocked && tab === "submissions") {
+      loadSubmissions();
+    }
+  }, [unlocked, tab]);
 
   if (!unlocked) {
     return (
@@ -223,8 +264,9 @@ export function AdminView() {
                 ["Circuits", draft.circuits.length],
                 ["Factions", draft.factions.length],
                 ["G-Cores", draft.gCores.length],
+                ["Submissions", submissions.length],
               ].map(([label, value]) => (
-                <button className="cms-stat" key={label} onClick={() => setTab(label === "G-Cores" ? "gcores" : label === "Archive Drops" ? "archive" : label === "Codex Files" ? "codex" : String(label).toLowerCase() as TabKey)}>
+                <button className="cms-stat" key={label} onClick={() => setTab(label === "G-Cores" ? "gcores" : label === "Archive Drops" ? "archive" : label === "Codex Files" ? "codex" : label === "Submissions" ? "submissions" : String(label).toLowerCase() as TabKey)}>
                   <span className="label">{label}</span>
                   <b className="display">{value}</b>
                 </button>
@@ -285,6 +327,74 @@ export function AdminView() {
           {tab === "sponsors" && <JsonEditor label="Sponsors" value={draft.sponsors} onChange={(value) => update(["sponsors"], value)} />}
           {tab === "codex" && <JsonEditor label="Codex terms" value={draft.codex} onChange={(value) => update(["codex"], value)} />}
           {tab === "gcores" && <JsonEditor label="G-Core / machine spec panels" value={draft.gCores} onChange={(value) => update(["gCores"], value)} />}
+          {tab === "submissions" && (
+            <div className="submissions-admin">
+              <div className="admin-actions compact">
+                <button className="btn primary" onClick={loadSubmissions}>Refresh</button>
+                <button onClick={() => {
+                  const blob = new Blob([JSON.stringify(submissions, null, 2)], { type: "application/json" });
+                  const url = URL.createObjectURL(blob);
+                  const link = document.createElement("a");
+                  link.href = url;
+                  link.download = "glydeworld-submissions.json";
+                  link.click();
+                  URL.revokeObjectURL(url);
+                }}>Export Submissions</button>
+              </div>
+              <div className="notice cms-note">
+                <b>Submission backend</b>
+                <p>Storage: {storageMode || "unknown"}. Local mode works for development. Production persistence uses Vercel Blob with BLOB_READ_WRITE_TOKEN.</p>
+                {submissionMessage && <p>{submissionMessage}</p>}
+              </div>
+              <div className="submission-admin-list">
+                {submissions.length === 0 && <p className="muted">No submissions yet.</p>}
+                {submissions.map((submission) => (
+                  <article className="submission-admin-card" key={submission.id}>
+                    <div>
+                      <span className="label">{submission.type} // {submission.status} // {new Date(submission.createdAt).toLocaleString()}</span>
+                      <h3 className="display">{submission.conceptTitle}</h3>
+                      <p><b>{submission.name}</b> · <a href={`mailto:${submission.email}`}>{submission.email}</a></p>
+                      <p>{submission.conceptDescription}</p>
+                      <p><b>Role:</b> {submission.roleOrDiscipline || "n/a"}</p>
+                      <p><b>Why it fits:</b> {submission.fitReason}</p>
+                      {submission.visualReferences && <p><b>Refs:</b> <a href={submission.visualReferences}>{submission.visualReferences}</a></p>}
+                    </div>
+                    <label className="field">
+                      <span className="label">Review status</span>
+                      <select
+                        value={submission.status}
+                        onChange={async (event) => {
+                          await fetch(`/api/submissions/${submission.id}`, {
+                            method: "PATCH",
+                            headers: { "Content-Type": "application/json", "x-admin-password": "ggchamp" },
+                            body: JSON.stringify({ status: event.target.value, notes: submission.notes }),
+                          });
+                          await loadSubmissions();
+                        }}
+                      >
+                        {["new", "reviewing", "approved", "declined", "adapted"].map((status) => <option key={status} value={status}>{status}</option>)}
+                      </select>
+                    </label>
+                    <label className="field">
+                      <span className="label">Internal notes</span>
+                      <textarea
+                        value={submission.notes}
+                        onChange={(event) => setSubmissions((current) => current.map((item) => item.id === submission.id ? { ...item, notes: event.target.value } : item))}
+                      />
+                    </label>
+                    <button onClick={async () => {
+                      await fetch(`/api/submissions/${submission.id}`, {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json", "x-admin-password": "ggchamp" },
+                        body: JSON.stringify({ status: submission.status, notes: submission.notes }),
+                      });
+                      await loadSubmissions();
+                    }}>Save Notes</button>
+                  </article>
+                ))}
+              </div>
+            </div>
+          )}
           {tab === "garage" && <JsonEditor label="Garage content and submission links" value={draft.garage} onChange={(value) => update(["garage"], value)} />}
           {tab === "support" && <JsonEditor label="Support content and payment links" value={draft.support} onChange={(value) => update(["support"], value)} />}
           {tab === "footer" && <JsonEditor label="Footer tagline, columns, links, and social links" value={draft.footer} onChange={(value) => update(["footer"], value)} />}
