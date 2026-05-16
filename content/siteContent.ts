@@ -103,6 +103,53 @@ export type BrandEntity = {
   link: string;
 };
 
+export type BrandSettings = {
+  logoText: string;
+  logoImageUrl: string;
+  alternateLogoImageUrl: string;
+  faviconUrl: string;
+  markUrl: string;
+  wordmarkUrl: string;
+  lightLogoUrl: string;
+  darkLogoUrl: string;
+  footerLogoUrl: string;
+  accentColor: string;
+};
+
+export type FooterLinkGroup = {
+  title: string;
+  links: Array<{ label: string; href: string }>;
+};
+
+export type CodexTerm = {
+  id: string;
+  term: string;
+  category: string;
+  definition: string;
+  fullDescription: string;
+  whyItMatters: string;
+  usage: string;
+  tags: string[];
+  relatedTerms: string[];
+  relatedArchiveIds: string[];
+  relatedCharacterIds: string[];
+  image: string;
+};
+
+export type GCore = {
+  id: string;
+  name: string;
+  color: string;
+  affinity: string;
+  riderType: string;
+  strengths: string[];
+  weakness: string;
+  discipline: string;
+  image: string;
+  relatedRiders: string[];
+  relatedMachines: string[];
+};
+
 export type GaragePath = {
   title: string;
   body: string;
@@ -172,6 +219,14 @@ export type SiteContent = {
     universeLabel: string;
     footerCopy: string;
     conceptArtNote: string;
+    copyrightText: string;
+  };
+  brand: BrandSettings;
+  footer: {
+    tagline: string;
+    copy: string;
+    columns: FooterLinkGroup[];
+    socialLinks: Array<{ label: string; href: string }>;
   };
   seo: {
     title: string;
@@ -195,6 +250,8 @@ export type SiteContent = {
   factions: Faction[];
   manufacturers: BrandEntity[];
   sponsors: BrandEntity[];
+  codex: CodexTerm[];
+  gCores: GCore[];
   garage: {
     title: string;
     intro: string;
@@ -228,6 +285,73 @@ export const siteContent: SiteContent = {
       "G//LYDE WORLD is the first public portal into OVER//UNDER: a gravsports universe built for manga, anime, games, fashion, and interactive storytelling.",
     conceptArtNote:
       "Select visuals are concept development references for the evolving G//LYDE universe.",
+    copyrightText: "© G//LYDE WORLD / OVER//UNDER.",
+  },
+  brand: {
+    logoText: "G//LYDE",
+    logoImageUrl: "",
+    alternateLogoImageUrl: "",
+    faviconUrl: "/favicon.ico",
+    markUrl: "",
+    wordmarkUrl: "",
+    lightLogoUrl: "",
+    darkLogoUrl: "",
+    footerLogoUrl: "",
+    accentColor: "#d4f23a",
+  },
+  footer: {
+    tagline: "A gravsports saga from the OVER//UNDER universe.",
+    copy:
+      "The official portal for G//LYDE: character files, illustrated story drops, route lore, Codex entries, and curated worldbuilding before Volume 0.",
+    columns: [
+      {
+        title: "World",
+        links: [
+          { label: "Home", href: "/" },
+          { label: "Gravsports", href: "/gravsports" },
+          { label: "G//LYDE Racing", href: "/glyde-racing" },
+          { label: "Neo Noctis", href: "/neo-noctis" },
+          { label: "Off Ledger", href: "/off-ledger" },
+        ],
+      },
+      {
+        title: "Archive",
+        links: [
+          { label: "Characters", href: "/characters" },
+          { label: "Archive", href: "/archive" },
+          { label: "Codex", href: "/codex" },
+          { label: "Circuits", href: "/circuits" },
+          { label: "Factions", href: "/factions" },
+          { label: "Machines", href: "/machines" },
+        ],
+      },
+      {
+        title: "Build",
+        links: [
+          { label: "The Garage", href: "/garage" },
+          { label: "Submit a Concept", href: "/garage" },
+          { label: "Support a Drop", href: "/support" },
+          { label: "Collaborate", href: "/support" },
+          { label: "Join Early List", href: "/support" },
+        ],
+      },
+      {
+        title: "Connect",
+        links: [
+          { label: "Discord", href: "https://example.com/discord" },
+          { label: "Instagram", href: "https://example.com/instagram" },
+          { label: "X / Twitter", href: "https://example.com/x" },
+          { label: "Email / Contact", href: "mailto:hello@glydeworld.com" },
+          { label: "Newsletter", href: "https://example.com/early-list" },
+        ],
+      },
+    ],
+    socialLinks: [
+      { label: "Discord", href: "https://example.com/discord" },
+      { label: "Instagram", href: "https://example.com/instagram" },
+      { label: "X / Twitter", href: "https://example.com/x" },
+      { label: "Newsletter", href: "https://example.com/early-list" },
+    ],
   },
   seo: {
     title: "G//LYDE WORLD | The Peak of Gravsports",
@@ -248,6 +372,7 @@ export const siteContent: SiteContent = {
     { label: "Neo Noctis", href: "/neo-noctis" },
     { label: "Characters", href: "/characters" },
     { label: "Archive", href: "/archive" },
+    { label: "Codex", href: "/codex" },
     { label: "Circuits", href: "/circuits" },
     { label: "Factions", href: "/factions" },
     { label: "The Garage", href: "/garage" },
@@ -587,7 +712,7 @@ export const siteContent: SiteContent = {
         ctas: [
           { label: "Enter Neo Noctis", href: "/neo-noctis", kind: "primary" },
           { label: "Read Off Ledger", href: "/archive", kind: "secondary" },
-          { label: "Build in The Garage", href: "/garage", kind: "support" },
+          { label: "Build With Us", href: "/garage", kind: "support" },
         ],
       },
       blocks: [
@@ -712,12 +837,16 @@ export const siteContent: SiteContent = {
       seoDescription:
         "The Garage is the curated co-creation portal for riders, crews, sponsors, circuits, machines, and story concepts.",
       hero: {
-        eyebrow: "Curated co-creation",
-        title: "BUILD WHAT THE ARCHIVE MIGHT REMEMBER.",
+        eyebrow: "The Garage",
+        title: "ENTER THE WORLD BEFORE THE FIRST VOLUME DROPS.",
         body:
-          "G//LYDE is being built as a living universe. The Garage is where early supporters, writers, artists, riders, builders, and worldmakers can submit concepts for potential adaptation into the official archive.",
+          "G//LYDE WORLD is being built in public as a future manga, game, anime, fashion, and interactive universe. The Garage is the early-access portal for supporters, writers, artists, builders, brands, and worldmakers who want to help shape the edges of the sport.",
         image: asset("ref-catalog.jpg"),
-        ctas: [{ label: "Submit a Rider", href: "#submission-paths", kind: "submission" }],
+        ctas: [
+          { label: "Join The World", href: "/support", kind: "primary" },
+          { label: "Support A Drop", href: "/support", kind: "support" },
+          { label: "Submit A Rider", href: "#submission-paths", kind: "submission" },
+        ],
       },
       blocks: [],
     },
@@ -729,9 +858,9 @@ export const siteContent: SiteContent = {
         "Support G//LYDE WORLD, back Volume 0, fund visual development, submit concepts, and join the early list.",
       hero: {
         eyebrow: "Early backer signal",
-        title: "HELP MAKE THE WORLD IMPOSSIBLE TO IGNORE.",
+        title: "HELP BUILD THE WORLD BEFORE THE FIRST VOLUME DROPS.",
         body:
-          "G//LYDE WORLD is being built from the ground up as a future manga, game, anime, fashion, and interactive universe. Support helps fund visual development, archive entries, character illustrations, pitch materials, and Volume 0.",
+          "Support funds character files, visual development, archive entries, pitch materials, Volume 0, and the systems that let early creators help shape the edges of G//LYDE WORLD.",
         image: asset("ref-daylight.jpg"),
         ctas: [{ label: "Back Volume 0", href: "https://example.com/back-volume-0", kind: "payment" }],
       },
@@ -1202,6 +1331,133 @@ export const siteContent: SiteContent = {
     { id: "red-halo", name: "Red Halo", category: "Performance drink", tagline: "Pulse sells.", description: "Aggressive Lowline-adjacent sponsor with official ambitions.", link: "https://example.com" },
     { id: "auraline", name: "Auraline", category: "Audio", tagline: "Hear the Click.", description: "Sound systems, race audio, and G//NET clip identity.", link: "https://example.com" },
     { id: "house-argent", name: "House Argent", category: "Wager House", tagline: "Elegant terms.", description: "Placeholder Wager House, editable and intentionally not hard-locked.", link: "https://example.com" },
+  ],
+  codex: [
+    {
+      id: "g-core",
+      term: "G-Core",
+      category: "Technology",
+      definition: "The power architecture behind controlled gravity, sync behavior, and forbidden prototype rumors.",
+      fullDescription: "A G-Core converts engineered gravity into rider-responsive movement. Official cores are certified, measured, and insured. Prototype cores drift into behavior the Authority does not like naming.",
+      whyItMatters: "The Core decides what a machine can survive, what a rider can feel, and what a sponsor can sell.",
+      usage: "You can buy the machine. You cannot buy the Click.",
+      tags: ["machine", "energy", "risk"],
+      relatedTerms: ["G-Sync", "The Click", "Overdrive"],
+      relatedArchiveIds: ["gsync-click"],
+      relatedCharacterIds: ["kellan-roux"],
+      image: asset("ref-catalog.jpg"),
+    },
+    {
+      id: "g-sync",
+      term: "G-Sync",
+      category: "Movement",
+      definition: "The rider-machine connection that separates clean motion from expensive mistakes.",
+      fullDescription: "G-Sync measures how cleanly a rider translates intent into gravity control. Training improves it. Fear interrupts it. Talent makes it look effortless.",
+      whyItMatters: "Without G-Sync, speed becomes liability. With it, a rider becomes sponsor-readable.",
+      usage: "G-Sync is control. Resonance is when the Core answers back.",
+      tags: ["control", "telemetry", "training"],
+      relatedTerms: ["The Click", "G-Res"],
+      relatedArchiveIds: ["gsync-click"],
+      relatedCharacterIds: [],
+      image: asset("ref-catalog.jpg"),
+    },
+    {
+      id: "the-click",
+      term: "The Click",
+      category: "Culture",
+      definition: "The moment control stops feeling like command and starts feeling like the Core answered back.",
+      fullDescription: "Riders talk about The Click like a confession. It is not simply skill. It is the instant machine, route, nerve, and timing agree.",
+      whyItMatters: "The Click makes a rider memorable. It also makes them expensive.",
+      usage: "You cannot buy the Click.",
+      tags: ["resonance", "instinct", "G-Res"],
+      relatedTerms: ["G-Sync", "G-Core"],
+      relatedArchiveIds: ["gsync-click"],
+      relatedCharacterIds: ["kellan-roux"],
+      image: asset("ref-night.jpg"),
+    },
+    {
+      id: "steez",
+      term: "Steez",
+      category: "Sport",
+      definition: "Style judged as mechanical value: crowd reaction, route expression, originality, and nerve.",
+      fullDescription: "Steez is not decoration. It changes how a run is remembered, replayed, scored, sponsored, and copied by kids who should be asleep.",
+      whyItMatters: "Technique wins races. Steez changes how the world remembers them.",
+      usage: "Style is mechanical.",
+      tags: ["culture", "score", "memory"],
+      relatedTerms: ["G-Board", "G//NET"],
+      relatedArchiveIds: ["kellan-rooftop"],
+      relatedCharacterIds: ["kellan-roux"],
+      image: asset("ref-night.jpg"),
+    },
+    {
+      id: "black-book",
+      term: "The Black Book",
+      category: "Wager",
+      definition: "A shadow record of wagers, debts, off-Ledger terms, route claims, and consequences.",
+      fullDescription: "The Black Book is not one object. It is a memory network for things the official sport refuses to admit still move it.",
+      whyItMatters: "Official records protect winners. The Black Book remembers who paid for the chance.",
+      usage: "The Black Book remembers what you owe.",
+      tags: ["debt", "terms", "Lowline"],
+      relatedTerms: ["The Ledger", "Lowline Runs"],
+      relatedArchiveIds: ["gate-8", "vey-terms"],
+      relatedCharacterIds: ["vey-sable"],
+      image: asset("ref-metroascent.jpg"),
+    },
+    {
+      id: "route-rights",
+      term: "Route Rights",
+      category: "Locations",
+      definition: "Legal, private, or shadow claims over who can run, film, wager, insure, or block a route.",
+      fullDescription: "Route rights turn geography into power. In Neo Noctis, access can be worth more than real estate because access decides who becomes visible.",
+      whyItMatters: "Gate 8 matters because it is not a place. It is leverage.",
+      usage: "Every route has a price.",
+      tags: ["access", "contracts", "Gate 8"],
+      relatedTerms: ["The Ledger", "Gate 8"],
+      relatedArchiveIds: ["route-rights", "gate-8"],
+      relatedCharacterIds: ["uno-roux"],
+      image: asset("ref-metroascent.jpg"),
+    },
+  ],
+  gCores: [
+    {
+      id: "aurora-core",
+      name: "Aurora Core",
+      color: "Glass blue",
+      affinity: "Control / clean resonance",
+      riderType: "Precision riders and official circuit prospects",
+      strengths: ["Stable G-Sync", "Clean route telemetry", "High certification rating"],
+      weakness: "Overdrive ceiling is lower than outlaw cores.",
+      discipline: "G-Board / G-Suit",
+      image: asset("ref-catalog.jpg"),
+      relatedRiders: ["kellan-roux"],
+      relatedMachines: ["G-Board", "G-Suit"],
+    },
+    {
+      id: "redline-core",
+      name: "Redline Core",
+      color: "Signal red",
+      affinity: "Burst speed / unstable sector dominance",
+      riderType: "Lowline runners and G-Rig pilots with bad ideas",
+      strengths: ["Explosive launch", "Sector speed", "Crowd heat"],
+      weakness: "Heat drift and sync spikes can punish hesitation.",
+      discipline: "G-Rig",
+      image: asset("ref-night.jpg"),
+      relatedRiders: ["gio-roux"],
+      relatedMachines: ["G-Rig"],
+    },
+    {
+      id: "noctis-core",
+      name: "Noctis Key",
+      color: "Black chrome",
+      affinity: "Route memory / access anomalies",
+      riderType: "Unknown",
+      strengths: ["Hidden route recall", "Gate interaction rumors", "Index-resistant behavior"],
+      weakness: "Uncertified, unpriced, and possibly not just a Core.",
+      discipline: "Classified",
+      image: asset("ref-metroascent.jpg"),
+      relatedRiders: ["uno-roux"],
+      relatedMachines: ["Gate systems"],
+    },
   ],
   garage: {
     title: "The Garage",

@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { GCoreView } from "@/components/PublicViews";
 
-export default function MachinesRedirect() {
-  redirect("/gravsports");
+export default function MachinesPage() {
+  return <GCoreView />;
 }

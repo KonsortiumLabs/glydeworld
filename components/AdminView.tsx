@@ -5,7 +5,9 @@ import { siteContent, type SiteContent } from "@/content/siteContent";
 import { useSiteContent } from "@/components/ContentProvider";
 
 type TabKey =
+  | "dashboard"
   | "settings"
+  | "brand"
   | "seo"
   | "nav"
   | "homepage"
@@ -16,13 +18,18 @@ type TabKey =
   | "factions"
   | "manufacturers"
   | "sponsors"
+  | "codex"
+  | "gcores"
   | "garage"
   | "support"
+  | "footer"
   | "images"
   | "json";
 
 const tabs: Array<{ key: TabKey; label: string }> = [
-  { key: "settings", label: "Settings" },
+  { key: "dashboard", label: "Dashboard" },
+  { key: "settings", label: "Site Settings" },
+  { key: "brand", label: "Logo / Brand" },
   { key: "seo", label: "SEO" },
   { key: "nav", label: "Nav / CTAs" },
   { key: "homepage", label: "Homepage" },
@@ -33,8 +40,11 @@ const tabs: Array<{ key: TabKey; label: string }> = [
   { key: "factions", label: "Factions" },
   { key: "manufacturers", label: "Manufacturers" },
   { key: "sponsors", label: "Sponsors" },
+  { key: "codex", label: "Codex" },
+  { key: "gcores", label: "Machines / G-Cores" },
   { key: "garage", label: "Garage" },
   { key: "support", label: "Support" },
+  { key: "footer", label: "Footer" },
   { key: "images", label: "Images" },
   { key: "json", label: "Import / Export" },
 ];
@@ -110,11 +120,23 @@ function JsonEditor({
   );
 }
 
+function ImageField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+  return (
+    <div className="image-field">
+      <Field label={label} value={value} onChange={onChange} />
+      {value ? <img className="preview-img wide" src={value} alt="" /> : <div className="upload-placeholder">Paste an image URL. Permanent uploads require connected storage.</div>}
+      <div className="admin-actions compact">
+        <button onClick={() => onChange("")}>Remove</button>
+      </div>
+    </div>
+  );
+}
+
 export function AdminView() {
   const { content, setContent, resetContent } = useSiteContent();
   const [unlocked, setUnlocked] = useState(() => typeof window !== "undefined" && window.sessionStorage.getItem("glyde-admin") === "yes");
   const [password, setPassword] = useState("");
-  const [tab, setTab] = useState<TabKey>("settings");
+  const [tab, setTab] = useState<TabKey>("dashboard");
   const [draft, setDraft] = useState<SiteContent>(content);
   const importRef = useRef<HTMLInputElement | null>(null);
 
@@ -192,6 +214,28 @@ export function AdminView() {
           ))}
         </nav>
         <div className="admin-panel">
+          {tab === "dashboard" && (
+            <div className="cms-dashboard">
+              {[
+                ["Characters", draft.characters.length],
+                ["Archive Drops", draft.archive.length],
+                ["Codex Files", draft.codex.length],
+                ["Circuits", draft.circuits.length],
+                ["Factions", draft.factions.length],
+                ["G-Cores", draft.gCores.length],
+              ].map(([label, value]) => (
+                <button className="cms-stat" key={label} onClick={() => setTab(label === "G-Cores" ? "gcores" : label === "Archive Drops" ? "archive" : label === "Codex Files" ? "codex" : String(label).toLowerCase() as TabKey)}>
+                  <span className="label">{label}</span>
+                  <b className="display">{value}</b>
+                </button>
+              ))}
+              <div className="notice cms-note">
+                <b>CMS mode</b>
+                <p>Use visual sections for common edits. JSON import/export remains as backup for full migrations.</p>
+              </div>
+            </div>
+          )}
+
           {tab === "settings" && (
             <>
               <Field label="Site title" value={draft.settings.title} onChange={(value) => update(["settings", "title"], value)} />
@@ -200,6 +244,22 @@ export function AdminView() {
               <Field label="Universe label" value={draft.settings.universeLabel} onChange={(value) => update(["settings", "universeLabel"], value)} />
               <Field label="Footer copy" value={draft.settings.footerCopy} onChange={(value) => update(["settings", "footerCopy"], value)} textarea />
               <Field label="Concept art note" value={draft.settings.conceptArtNote} onChange={(value) => update(["settings", "conceptArtNote"], value)} textarea />
+            </>
+          )}
+
+          {tab === "brand" && (
+            <>
+              <Field label="Logo text" value={draft.brand.logoText} onChange={(value) => update(["brand", "logoText"], value)} />
+              <ImageField label="Logo image URL" value={draft.brand.logoImageUrl} onChange={(value) => update(["brand", "logoImageUrl"], value)} />
+              <ImageField label="Alternate logo image URL" value={draft.brand.alternateLogoImageUrl} onChange={(value) => update(["brand", "alternateLogoImageUrl"], value)} />
+              <ImageField label="Mark / icon URL" value={draft.brand.markUrl} onChange={(value) => update(["brand", "markUrl"], value)} />
+              <ImageField label="Wordmark URL" value={draft.brand.wordmarkUrl} onChange={(value) => update(["brand", "wordmarkUrl"], value)} />
+              <ImageField label="Light logo URL" value={draft.brand.lightLogoUrl} onChange={(value) => update(["brand", "lightLogoUrl"], value)} />
+              <ImageField label="Dark logo URL" value={draft.brand.darkLogoUrl} onChange={(value) => update(["brand", "darkLogoUrl"], value)} />
+              <ImageField label="Footer logo URL" value={draft.brand.footerLogoUrl} onChange={(value) => update(["brand", "footerLogoUrl"], value)} />
+              <ImageField label="Favicon URL" value={draft.brand.faviconUrl} onChange={(value) => update(["brand", "faviconUrl"], value)} />
+              <ImageField label="Open Graph image URL" value={draft.seo.ogImage} onChange={(value) => update(["seo", "ogImage"], value)} />
+              <Field label="Brand accent color" value={draft.brand.accentColor} onChange={(value) => update(["brand", "accentColor"], value)} />
             </>
           )}
 
@@ -223,8 +283,11 @@ export function AdminView() {
           {tab === "factions" && <JsonEditor label="Factions" value={draft.factions} onChange={(value) => update(["factions"], value)} />}
           {tab === "manufacturers" && <JsonEditor label="Manufacturers" value={draft.manufacturers} onChange={(value) => update(["manufacturers"], value)} />}
           {tab === "sponsors" && <JsonEditor label="Sponsors" value={draft.sponsors} onChange={(value) => update(["sponsors"], value)} />}
+          {tab === "codex" && <JsonEditor label="Codex terms" value={draft.codex} onChange={(value) => update(["codex"], value)} />}
+          {tab === "gcores" && <JsonEditor label="G-Core / machine spec panels" value={draft.gCores} onChange={(value) => update(["gCores"], value)} />}
           {tab === "garage" && <JsonEditor label="Garage content and submission links" value={draft.garage} onChange={(value) => update(["garage"], value)} />}
           {tab === "support" && <JsonEditor label="Support content and payment links" value={draft.support} onChange={(value) => update(["support"], value)} />}
+          {tab === "footer" && <JsonEditor label="Footer tagline, columns, links, and social links" value={draft.footer} onChange={(value) => update(["footer"], value)} />}
 
           {tab === "images" && (
             <div className="edit-list">

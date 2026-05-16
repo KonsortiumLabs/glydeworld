@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { useMemo, useState } from "react";
-import type { ArchiveEntry, Character, PageContent } from "@/content/siteContent";
+import type { ArchiveEntry, Character, CodexTerm, Circuit, Faction, GCore, PageContent } from "@/content/siteContent";
 import { useSiteContent } from "@/components/ContentProvider";
 
 function CtaButtons({ ctas }: { ctas: Array<{ label: string; href: string; kind: string }> }) {
@@ -21,13 +22,33 @@ export function HomeView() {
   const { content } = useSiteContent();
   const page = content.pages.home;
   const home = content.homepage;
-  const featuredCharacters = ["kellan-roux", "gio-roux", "uno-roux", "vey-sable"]
-    .map((id) => content.characters.find((character) => character.id === id))
-    .filter((character): character is Character => Boolean(character));
-  const latestDrops = home.latestDropIds
-    .map((id) => content.archive.find((entry) => entry.id === id))
-    .filter((entry): entry is ArchiveEntry => Boolean(entry));
   const tickerItems = Array.from({ length: 4 }, () => content.featureStrip).flat();
+  const worldCards = [
+    {
+      title: "Neo Noctis",
+      href: "/neo-noctis",
+      image: content.images[0].url,
+      body: "The city where gravsports became nightlife, status, and religion.",
+    },
+    {
+      title: "Characters",
+      href: "/characters",
+      image: content.images[1].url,
+      body: "Open rider files, family lines, rivals, Oddsmakers, inventors, sponsors, and future community-created figures.",
+    },
+    {
+      title: "Archive",
+      href: "/archive",
+      image: content.images[2].url,
+      body: "Read character journals, Off Ledger files, G//NET clips, route notes, and illustrated story drops.",
+    },
+    {
+      title: "Codex",
+      href: "/codex",
+      image: content.images[3].url,
+      body: "Learn the terms, machines, wagers, signals, and systems that shape the world.",
+    },
+  ];
 
   return (
     <>
@@ -140,126 +161,43 @@ export function HomeView() {
         </div>
       </section>
 
-      <section className="section city-feature-section">
-        <div className="city-feature">
-          <Link href={home.neoNoctis.href} className="city-hero-card">
-            <img src={content.images[0].url} alt={content.images[0].alt} />
-            <div>
-              <span className="label">{home.neoNoctis.eyebrow}</span>
-              <h2 className="display">{home.neoNoctis.title}</h2>
-              <p>{home.neoNoctis.body}</p>
-              <div className="tag-row">{home.neoNoctis.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
-            </div>
-          </Link>
-          <div className="city-node-grid">
-            {home.neoNoctis.subcards.map((card) => (
-              <Link className="city-node-card" href={card.href} key={card.title}>
-                {card.image && <img src={card.image} alt="" />}
-                <span className="label">{card.eyebrow}</span>
-                <h3 className="display">{card.title}</h3>
-                <p>{card.body}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section character-files-section">
+      <section className="section enter-world-section">
         <div className="section-head">
           <div>
-            <span className="label">Character files</span>
-            <h2 className="display">Every rider has a price. Every name has a route.</h2>
+            <span className="label">Enter the world</span>
+            <h2 className="display">ENTER THE WORLD.</h2>
           </div>
-          <p className="lead">Kellan Roux is one of the first major lenses into G//LYDE WORLD. The Archive widens from there.</p>
+          <p className="lead">Choose a door into the sport, the city, the story, or the archive.</p>
         </div>
-        <div className="cast-grid">
-          {featuredCharacters.map((character) => (
-            <Link className="cast-card" href="/characters" key={character.id}>
-              <img src={character.image} alt={character.name} />
+        <div className="world-gateway-grid">
+          {worldCards.map((card) => (
+            <Link className="world-gateway-card" href={card.href} key={card.title}>
+              <img src={card.image} alt="" />
               <div>
-                <span className="label">{character.role}</span>
-                <h3 className="display">{character.name}</h3>
-                <p>{character.bio}</p>
-                <b>"{character.quote}"</b>
+                <span className="label">Open file</span>
+                <h3 className="display">{card.title}</h3>
+                <p>{card.body}</p>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="section drops-section">
-        <div className="section-inner">
-          <div className="section-head">
-            <div><span className="label">Latest drops</span><h2 className="display">Read the world as it opens.</h2></div>
-            <Link className="btn" href="/archive">Open Archive →</Link>
-          </div>
-          <div className="drops-grid">
-            {latestDrops.map((entry) => <ArchiveCard key={entry.id} entry={entry} />)}
-          </div>
-        </div>
-      </section>
-
-      <section className="section codex-preview-section">
-        <div className="section-head">
-          <div>
-            <span className="label">Codex preview</span>
-            <h2 className="display">The sport has language. The city has memory.</h2>
-          </div>
-          <p className="lead">Every term in G//LYDE carries weight: a rule, a risk, a rumor, a debt, a machine, a route, or a way to disappear.</p>
-        </div>
-        <div className="codex-grid">
-          {home.codexCards.map((card) => (
-            <Link className="codex-card" href={card.href} key={card.title}>
-              <span className="label">{card.eyebrow}</span>
-              <h3 className="display">{card.title}</h3>
-              <p>{card.body}</p>
-              <div className="tag-row">{card.tags?.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
-            </Link>
-          ))}
-        </div>
-        <Link className="btn primary inline-section-cta" href="/archive">Open The Codex →</Link>
-      </section>
-
-      <section className="section garage-home-section">
-        <div className="section-inner">
-          <div className="section-head">
-            <div>
-            <span className="label">The Garage</span>
-              <h2 className="display">BUILD IN THE GARAGE.</h2>
-            </div>
-            <p className="lead">Submit riders, crews, circuits, machines, brands, and story fragments for curated review.</p>
-          </div>
-          <p className="garage-intro">G//LYDE WORLD is being developed in public through character files, illustrated drops, route lore, and curated community submissions. Not everything becomes canon. Everything sharpens the world.</p>
-          <div className="garage-card-grid">
-            {home.garageCards.map((card) => (
-              <Link className="garage-card" href={card.href} key={card.title}>
-                <span className="label">{card.eyebrow}</span>
-                <h3 className="display">{card.title}</h3>
-                <p>{card.body}</p>
-                <div className="tag-row">{card.tags?.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
-              </Link>
-            ))}
-          </div>
-          <div className="garage-actions">
-            <CtaButtons ctas={[
-              { label: "Enter The Garage", href: "/garage", kind: "primary" },
-              { label: "Submit A Rider", href: "/garage", kind: "submission" },
-              { label: "Support Volume 0", href: "/support", kind: "secondary" },
-            ]} />
-            <details className="policy-note">
-              <summary>Read Submission Policy</summary>
-              <p>{home.canonNotice}</p>
-            </details>
-          </div>
-        </div>
-      </section>
-
-      <section className="section support-band">
+      <section className="section support-band garage-support-merge">
         <div className="support-panel">
           <span className="label">{home.supportCta.eyebrow}</span>
           <h2 className="display">{home.supportCta.title}</h2>
           <p>{home.supportCta.body}</p>
-          <CtaButtons ctas={home.supportCta.ctas} />
+          <CtaButtons ctas={[
+            { label: "Join The World", href: "/support", kind: "primary" },
+            { label: "Submit A Concept", href: "/garage", kind: "submission" },
+            { label: "Support A Drop", href: "/support", kind: "support" },
+            { label: "Collaborate", href: "/support", kind: "secondary" },
+          ]} />
+          <details className="policy-note">
+            <summary>Canon note</summary>
+            <p>{home.canonNotice}</p>
+          </details>
         </div>
       </section>
     </>
@@ -367,9 +305,49 @@ function CharacterModal({ character, onClose }: { character: Character; onClose:
   );
 }
 
-function ArchiveCard({ entry }: { entry: ArchiveEntry }) {
+function FileModal({
+  item,
+  onClose,
+}: {
+  item: {
+    title: string;
+    category: string;
+    image: string;
+    definition: string;
+    description: string;
+    whyItMatters?: string;
+    tags?: string[];
+    ctas?: Array<{ label: string; href: string; kind: string }>;
+  };
+  onClose: () => void;
+}) {
   return (
-    <Link className="card archive-card" href="/archive">
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal file-modal" onClick={(event) => event.stopPropagation()}>
+        <button className="close" onClick={onClose}>x</button>
+        <div className="modal-head">
+          <img src={item.image} alt={item.title} />
+          <div className="modal-title">
+            <span className="label">{item.category}</span>
+            <h2 className="display" style={{ fontSize: "clamp(3rem, 7vw, 7rem)", margin: 0 }}>{item.title}</h2>
+          </div>
+        </div>
+        <div className="detail-grid"><span className="label">Definition</span><p>{item.definition}</p></div>
+        <div className="detail-grid"><span className="label">Full file</span><p>{item.description}</p></div>
+        {item.whyItMatters && <div className="detail-grid"><span className="label">Why it matters</span><p>{item.whyItMatters}</p></div>}
+        {item.tags && <div className="detail-grid"><span className="label">Tags</span><div className="tag-row">{item.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div></div>}
+        <div className="detail-grid">
+          <span className="label">Next route</span>
+          <CtaButtons ctas={item.ctas ?? [{ label: "Enter The Garage", href: "/garage", kind: "primary" }]} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ArchiveCard({ entry, onOpen }: { entry: ArchiveEntry; onOpen?: (entry: ArchiveEntry) => void }) {
+  const inner = (
+    <>
       <div className="card-img"><img src={entry.image} alt={entry.title} /></div>
       <div className="card-body">
         <span className="label">{entry.category} // {entry.status}</span>
@@ -377,6 +355,14 @@ function ArchiveCard({ entry }: { entry: ArchiveEntry }) {
         <p className="muted">{entry.excerpt}</p>
         <div className="tag-row">{entry.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
       </div>
+    </>
+  );
+  if (onOpen) {
+    return <button className="card archive-card clickable-card" onClick={() => onOpen(entry)}>{inner}<span className="btn card-cta">Open File →</span></button>;
+  }
+  return (
+    <Link className="card archive-card" href="/archive">
+      {inner}
     </Link>
   );
 }
@@ -385,6 +371,7 @@ export function ArchiveView() {
   const { content } = useSiteContent();
   const categories = useMemo(() => ["All", ...Array.from(new Set(content.archive.map((entry) => entry.category)))], [content.archive]);
   const [category, setCategory] = useState("All");
+  const [selected, setSelected] = useState<ArchiveEntry | null>(null);
   const entries = category === "All" ? content.archive : content.archive.filter((entry) => entry.category === category);
 
   return (
@@ -400,14 +387,33 @@ export function ArchiveView() {
       }} />
       <section id="entries" className="section">
         <div className="filters">{categories.map((item) => <button key={item} className={`filter-btn ${item === category ? "active" : ""}`} onClick={() => setCategory(item)}>{item}</button>)}</div>
-        <div className="grid">{entries.map((entry) => <ArchiveCard key={entry.id} entry={entry} />)}</div>
+        <div className="grid">{entries.map((entry) => <ArchiveCard key={entry.id} entry={entry} onOpen={setSelected} />)}</div>
       </section>
+      {selected && (
+        <FileModal
+          onClose={() => setSelected(null)}
+          item={{
+            title: selected.title,
+            category: `${selected.category} // ${selected.status}`,
+            image: selected.image,
+            definition: selected.excerpt,
+            description: selected.body,
+            whyItMatters: `${selected.source} // ${selected.location}`,
+            tags: selected.tags,
+            ctas: [
+              { label: "Submit Related Lore", href: "/garage", kind: "submission" },
+              { label: "Support A Visual Drop", href: "/support", kind: "support" },
+            ],
+          }}
+        />
+      )}
     </>
   );
 }
 
 export function CollectionView({ type }: { type: "circuits" | "factions" }) {
   const { content } = useSiteContent();
+  const [selected, setSelected] = useState<Circuit | Faction | null>(null);
   const isCircuits = type === "circuits";
   const items = isCircuits ? content.circuits : content.factions;
   return (
@@ -424,7 +430,7 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
       <section className="section">
         <div className="grid">
           {items.map((item: any) => (
-            <article className="card" key={item.id}>
+            <button className="card clickable-card" key={item.id} onClick={() => setSelected(item)}>
               <div className="card-img"><img src={item.image} alt={item.name} /></div>
               <div className="card-body">
                 <span className="label">{isCircuits ? `${item.planet} // ${item.status}` : item.role}</span>
@@ -432,10 +438,181 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
                 <p className="muted">{isCircuits ? item.description : item.description}</p>
                 <div className="tag-row">{(item.tags || []).map((tag: string) => <span className="tag" key={tag}>{tag}</span>)}</div>
               </div>
-            </article>
+              <span className="btn card-cta">Open File →</span>
+            </button>
           ))}
         </div>
       </section>
+      {selected && (
+        <FileModal
+          onClose={() => setSelected(null)}
+          item={{
+            title: "name" in selected ? selected.name : "",
+            category: isCircuits ? "Circuit / Location" : "Faction / Power bloc",
+            image: selected.image,
+            definition: isCircuits ? `${(selected as Circuit).planet} // ${(selected as Circuit).status}` : (selected as Faction).role,
+            description: selected.description,
+            whyItMatters: isCircuits ? `${(selected as Circuit).risk} // ${(selected as Circuit).discipline}` : (selected as Faction).agenda,
+            tags: selected.tags,
+            ctas: [{ label: isCircuits ? "Submit a Circuit" : "Build in The Garage", href: "/garage", kind: "primary" }],
+          }}
+        />
+      )}
+    </>
+  );
+}
+
+export function OffLedgerView() {
+  const { content } = useSiteContent();
+  const entries = content.homepage.latestDropIds
+    .map((id) => content.archive.find((entry) => entry.id === id))
+    .filter((entry): entry is ArchiveEntry => Boolean(entry));
+  const keyCharacters = content.characters.filter((character) => ["kellan-roux", "gio-roux", "uno-roux", "vey-sable"].includes(character.id));
+
+  return (
+    <>
+      <RouteHero page={{
+        hero: {
+          eyebrow: "OFF LEDGER // First arc",
+          title: "THE RUN THAT WAS SUPPOSED TO STAY QUIET.",
+          body: "A private challenge over Gate 8 turns The Rouxline into a public pressure point. No broadcast. No record. No protection. Then the clip leaks.",
+          image: content.images[1].url,
+          ctas: [{ label: "Start Reading", href: "/archive", kind: "primary" }, { label: "Submit Related Lore", href: "/garage", kind: "submission" }],
+        }
+      }} />
+      <section className="section arc-section">
+        <div className="section-head">
+          <div><span className="label">Arc hub</span><h2 className="display">Gate 8 made the family valuable. The leak made them visible.</h2></div>
+          <p className="lead">OFF LEDGER is the first story arc from G//LYDE WORLD: Neo Noctis, The Rouxline, route rights, Oddsmaker pressure, and the moment a local run becomes market weather.</p>
+        </div>
+        <div className="grid two">
+          {["The Rouxline", "Gate 8", "Neo Noctis", "The Lowline"].map((title, index) => (
+            <Link className="card feature-file-card" href={index < 2 ? "/archive" : "/neo-noctis"} key={title}>
+              <div className="card-img"><img src={content.images[index % content.images.length].url} alt="" /></div>
+              <div className="card-body">
+                <span className="label">Key location</span>
+                <h3 className="display">{title}</h3>
+                <p className="muted">{title === "Gate 8" ? "A private route access point worth more than the building itself." : "A pressure point in the first arc's route, family, and wager economy."}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+      <section className="section character-files-section">
+        <div className="section-head"><div><span className="label">Key characters</span><h2 className="display">The first pressure map.</h2></div></div>
+        <div className="cast-grid">
+          {keyCharacters.map((character) => (
+            <Link className="cast-card" href="/characters" key={character.id}>
+              <img src={character.image} alt={character.name} />
+              <div><span className="label">{character.role}</span><h3 className="display">{character.name}</h3><p>{character.bio}</p></div>
+            </Link>
+          ))}
+        </div>
+      </section>
+      <section className="section drops-section">
+        <div className="section-inner">
+          <div className="section-head"><div><span className="label">Reading order</span><h2 className="display">Read the first files.</h2></div><Link className="btn" href="/archive">Open Archive →</Link></div>
+          <div className="drops-grid">{entries.map((entry) => <ArchiveCard key={entry.id} entry={entry} />)}</div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+export function CodexView() {
+  const { content } = useSiteContent();
+  const categories = useMemo(() => ["All", ...Array.from(new Set(content.codex.map((term) => term.category)))], [content.codex]);
+  const [category, setCategory] = useState("All");
+  const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState<CodexTerm | null>(null);
+  const terms = content.codex.filter((term) => {
+    const matchesCategory = category === "All" || term.category === category;
+    const text = `${term.term} ${term.definition} ${term.tags.join(" ")}`.toLowerCase();
+    return matchesCategory && text.includes(query.toLowerCase());
+  });
+
+  return (
+    <>
+      <RouteHero page={{
+        hero: {
+          eyebrow: "Codex",
+          title: "THE SPORT HAS LANGUAGE. THE CITY HAS MEMORY.",
+          body: "Every term in G//LYDE carries weight: a rule, a risk, a rumor, a debt, a machine, a route, or a way to disappear.",
+          image: content.images[2].url,
+          ctas: [{ label: "Submit a Term", href: "/garage", kind: "submission" }],
+        }
+      }} />
+      <section className="section codex-page-section">
+        <div className="filters">
+          {categories.map((item) => <button key={item} className={`filter-btn ${item === category ? "active" : ""}`} onClick={() => setCategory(item)}>{item}</button>)}
+        </div>
+        <label className="field codex-search"><span className="label">Search Codex</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="G-Core, Steez, Black Book..." /></label>
+        <div className="codex-grid">
+          {terms.map((term) => (
+            <button className="codex-card clickable-card" onClick={() => setSelected(term)} key={term.id}>
+              <span className="label">{term.category}</span>
+              <h3 className="display">{term.term}</h3>
+              <p>{term.definition}</p>
+              <div className="tag-row">{term.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
+              <span className="btn card-cta">Open File →</span>
+            </button>
+          ))}
+        </div>
+      </section>
+      {selected && <FileModal onClose={() => setSelected(null)} item={{
+        title: selected.term,
+        category: selected.category,
+        image: selected.image,
+        definition: selected.definition,
+        description: `${selected.fullDescription}\n\nIn-world usage: ${selected.usage}`,
+        whyItMatters: selected.whyItMatters,
+        tags: selected.tags,
+        ctas: [{ label: "Submit Related Lore", href: "/garage", kind: "submission" }],
+      }} />}
+    </>
+  );
+}
+
+export function GCoreView() {
+  const { content } = useSiteContent();
+  const [selected, setSelected] = useState<GCore | null>(null);
+  return (
+    <>
+      <RouteHero page={{
+        hero: {
+          eyebrow: "G-Core // Machines",
+          title: "THE ENGINE DOES NOT JUST MOVE THE MACHINE. IT LEARNS THE RIDER.",
+          body: "G-Core files are product spec, rumor, and warning label at the same time.",
+          image: content.images[2].url,
+          ctas: [{ label: "Open Codex", href: "/codex", kind: "primary" }],
+        }
+      }} />
+      <section className="section gcore-section">
+        <div className="gcore-grid">
+          {content.gCores.map((core) => (
+            <button className="gcore-card clickable-card" key={core.id} onClick={() => setSelected(core)} style={{ "--core-color": core.color.toLowerCase().includes("red") ? "var(--red)" : core.color.toLowerCase().includes("black") ? "#111" : "var(--cyan)" } as CSSProperties}>
+              <img src={core.image} alt={core.name} />
+              <div className="card-body">
+                <span className="label">{core.color} // {core.discipline}</span>
+                <h3 className="display">{core.name}</h3>
+                <p className="muted">{core.affinity}</p>
+                <div className="spec-strip">{core.strengths.map((item) => <span key={item}>{item}</span>)}</div>
+                <span className="btn card-cta">Open Spec →</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </section>
+      {selected && <FileModal onClose={() => setSelected(null)} item={{
+        title: selected.name,
+        category: `G-Core // ${selected.color}`,
+        image: selected.image,
+        definition: selected.affinity,
+        description: `Rider type: ${selected.riderType}. Strengths: ${selected.strengths.join(", ")}.`,
+        whyItMatters: `Failure mode: ${selected.weakness}`,
+        tags: [...selected.relatedMachines, selected.discipline],
+        ctas: [{ label: "Submit a Machine", href: "/garage", kind: "submission" }],
+      }} />}
     </>
   );
 }
@@ -443,28 +620,50 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
 export function GarageView() {
   const { content } = useSiteContent();
   const page = content.pages.garage;
+  const openCalls = ["Neo Noctis Lowline Crews", "G//NET Personalities", "Rival Riders", "Wager House Concepts", "Sponsor Brands", "Gate 8 Rumors", "G-Rig Teams", "Off-World Circuits"];
   return (
     <>
       <RouteHero page={page} />
+      <section className="section world-teaser-section">
+        <div className="section-head">
+          <div><span className="label">Not a form. A front door.</span><h2 className="display">G//LYDE is curated, but it is not closed.</h2></div>
+          <p className="lead">Join the world. Support a drop. Submit a concept. Build with us. Support does not buy canon. It funds development, review, visual production, and the chance to build with the team.</p>
+        </div>
+        <div className="signal-card-grid">
+          {[
+            ["Follow The World", "Get updates, drops, and early Volume 0 signals.", "/support"],
+            ["Support The Build", "Fund character files, visual drops, and pitch-ready materials.", "/support"],
+            ["Create With Us", "Submit a rider, crew, sponsor, route, machine, or story file.", "#submission-paths"],
+          ].map(([title, body, href]) => (
+            <Link className="signal-card" href={href} key={title}><span className="label">Entry point</span><h3 className="display">{title}</h3><p>{body}</p></Link>
+          ))}
+        </div>
+      </section>
       <section className="section" id="submission-paths">
         <div className="section-head">
-          <div><span className="label">Submission paths</span><h2 className="display">{content.garage.title}</h2></div>
+          <div><span className="label">Choose your route</span><h2 className="display">Entry points</h2></div>
           <p className="lead">{content.garage.prompt}</p>
         </div>
         <div className="grid">
           {content.garage.paths.map((path) => (
-            <article className="card" key={path.title}>
+            <Link className="card" key={path.title} href={path.href}>
               <div className="card-body">
                 <span className="label">Curated review</span>
                 <h3 className="display">{path.title}</h3>
                 <p className="muted">{path.body}</p>
-                <a className="btn" href={path.href}>{path.linkLabel} →</a>
+                <span className="btn">{path.linkLabel} →</span>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </section>
-      <section className="section alt"><div className="section-inner grid two"><div className="notice"><b>Canon & Submission Notice</b><p>{content.garage.canonNotice}</p></div><div className="notice"><b>Support Notice</b><p>{content.garage.supportNotice}</p></div></div></section>
+      <section className="section garage-home-section">
+        <div className="section-inner">
+          <div className="section-head"><div><span className="label">Open calls</span><h2 className="display">What we are looking for now.</h2></div></div>
+          <div className="garage-card-grid">{openCalls.map((call) => <Link className="garage-card" href="/garage" key={call}><span className="label">Open call</span><h3 className="display">{call}</h3><p>Bring a clean hook, a visual direction, and a reason it matters to Neo Noctis or the wider Cup.</p></Link>)}</div>
+          <details className="policy-note"><summary>Canon & support notice</summary><p>{content.garage.canonNotice}</p><p>{content.garage.supportNotice}</p></details>
+        </div>
+      </section>
     </>
   );
 }
@@ -481,14 +680,14 @@ export function SupportView() {
         </div>
         <div className="grid">
           {content.support.cards.map((card) => (
-            <article className="card" key={card.title}>
+            <Link className="card" key={card.title} href={card.href}>
               <div className="card-body">
                 <span className="label">Support path</span>
                 <h3 className="display">{card.title}</h3>
                 <p className="muted">{card.body}</p>
-                <a className="btn" href={card.href}>{card.linkLabel} →</a>
+                <span className="btn">{card.linkLabel} →</span>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </section>

@@ -22,6 +22,9 @@ export const metadata: Metadata = {
     description: siteContent.seo.twitterDescription,
     images: [siteContent.seo.twitterImage],
   },
+  icons: {
+    icon: siteContent.brand.faviconUrl,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

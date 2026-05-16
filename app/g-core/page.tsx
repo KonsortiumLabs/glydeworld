@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { GCoreView } from "@/components/PublicViews";
 
-export default function GCoreRedirect() {
-  redirect("/glyde-racing");
+export default function GCorePage() {
+  return <GCoreView />;
 }

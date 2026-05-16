@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { CodexView } from "@/components/PublicViews";
 
-export default function CodexRedirect() {
-  redirect("/archive");
+export default function CodexPage() {
+  return <CodexView />;
 }

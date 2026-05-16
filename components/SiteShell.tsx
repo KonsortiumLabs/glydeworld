@@ -6,7 +6,13 @@ import { useState } from "react";
 import { useSiteContent } from "@/components/ContentProvider";
 
 export function Wordmark({ small = false }: { small?: boolean }) {
-  return <span className="wordmark" style={{ fontSize: small ? 28 : undefined }}>G<span>//</span>LYDE</span>;
+  const { content } = useSiteContent();
+  const logoUrl = content.brand.wordmarkUrl || content.brand.logoImageUrl;
+  if (logoUrl) {
+    return <img className={`brand-logo ${small ? "small" : ""}`} src={logoUrl} alt={content.brand.logoText} />;
+  }
+  const [first, second = "LYDE"] = content.brand.logoText.split("//");
+  return <span className="wordmark" style={{ fontSize: small ? 28 : undefined }}>{first}<span>//</span>{second}</span>;
 }
 
 export function SiteHeader() {
@@ -35,7 +41,7 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Link className="nav-cta" href="/garage">Join the World</Link>
+        <Link className="nav-cta" href="/garage">Join The World</Link>
         <button className="mobile-toggle mono" onClick={() => setOpen((value) => !value)}>
           {open ? "Close" : "Menu"}
         </button>
@@ -54,33 +60,37 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   const { content } = useSiteContent();
+  const footerLogo = content.brand.footerLogoUrl || content.brand.wordmarkUrl || content.brand.logoImageUrl;
   return (
     <footer className="footer">
-      <div className="footer-inner">
+      <div className="footer-cta">
         <div>
-          <Wordmark />
-          <p className="muted" style={{ maxWidth: 520 }}>{content.settings.footerCopy}</p>
-          <p className="label" style={{ marginTop: 18 }}>{content.settings.conceptArtNote}</p>
+          <span className="label">G//LYDE WORLD</span>
+          <h2 className="display">Enter before Volume 0 drops.</h2>
         </div>
-        <div>
-          <b className="label">World</b>
-          {content.nav.slice(0, 4).map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
-        </div>
-        <div>
-          <b className="label">Archive</b>
-          {content.nav.slice(4, 8).map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
-        </div>
-        <div>
-          <b className="label">Join</b>
-          <Link href="/garage">The Garage</Link>
-          <Link href="/support">Support</Link>
-          <Link href="/admin">Admin</Link>
+        <div className="cta-row">
+          <Link className="btn primary" href="/garage">Join The World →</Link>
+          <Link className="btn" href="/off-ledger">Read Off Ledger →</Link>
         </div>
       </div>
+      <div className="footer-inner">
+        <div className="footer-brand">
+          {footerLogo ? <img className="footer-logo" src={footerLogo} alt={content.brand.logoText} /> : <Wordmark />}
+          <h3>{content.settings.title}</h3>
+          <p className="label">{content.footer.tagline}</p>
+          <p className="muted">{content.footer.copy}</p>
+        </div>
+        {content.footer.columns.map((column) => (
+          <div key={column.title}>
+            <b className="label">{column.title}</b>
+            {column.links.map((item) => <Link key={`${column.title}-${item.href}-${item.label}`} href={item.href}>{item.label}</Link>)}
+          </div>
+        ))}
+      </div>
       <div className="footer-tape">
-        <span>G//NET makes you visible.</span>
-        <span>The Index prices you.</span>
-        <span>The Black Book remembers what you owe.</span>
+        <span>{content.settings.copyrightText}</span>
+        <span>{content.settings.conceptArtNote}</span>
+        <span>Canon is curated. Submissions do not guarantee inclusion or ownership.</span>
       </div>
     </footer>
   );
