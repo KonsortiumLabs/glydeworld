@@ -496,6 +496,79 @@ img { max-width: 100%; display: block; }
 .garage-card:hover { transform: translateY(-5px); border-color: rgba(245,243,236,0.32); }
 .garage-card h3 { font-size: clamp(1.8rem, 2.7vw, 3rem); margin: 0.65rem 0; }
 .garage-card p { color: var(--chrome); line-height: 1.6; }
+.garage-route-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+.garage-route-card {
+  position: relative;
+  min-height: 330px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(8,9,11,0.14);
+  border-radius: 30px;
+  padding: 1.15rem;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(212,242,58,0.18), transparent 12rem),
+    linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.54));
+  color: var(--bg);
+  box-shadow: 0 22px 70px rgba(35,43,52,0.12);
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+.garage-route-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(8,9,11,0.3);
+  box-shadow: 0 32px 100px rgba(35,43,52,0.2);
+}
+.garage-route-card h3 {
+  font-size: clamp(2rem, 3.5vw, 4.4rem);
+  margin: 0.55rem 0;
+}
+.garage-route-card p {
+  color: #363d45;
+  line-height: 1.5;
+}
+.garage-route-card .btn {
+  width: fit-content;
+  color: var(--bg);
+  border-color: rgba(8,9,11,0.22);
+}
+.garage-process-section {
+  max-width: none;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(70,230,212,0.1), transparent 25rem),
+    linear-gradient(180deg, #08090b, #12161b);
+  border-block: 1px solid rgba(245,243,236,0.10);
+}
+.garage-process-section .section-head,
+.review-flow-grid {
+  max-width: 1480px;
+  margin-inline: auto;
+}
+.review-flow-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(245,243,236,0.14);
+  background: rgba(245,243,236,0.14);
+}
+.review-flow-card {
+  min-height: 260px;
+  padding: 1rem;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03)),
+    #0b0d10;
+}
+.review-flow-card h3 {
+  font-size: clamp(2rem, 3.4vw, 4rem);
+  margin: 0.55rem 0;
+}
+.review-flow-card p {
+  color: var(--chrome);
+  line-height: 1.55;
+}
 .garage-actions {
   display: flex;
   justify-content: space-between;
@@ -1553,7 +1626,9 @@ img { max-width: 100%; display: block; }
   .movement-grid,
   .movement-deep-grid,
   .drops-grid,
-  .garage-card-grid {
+  .garage-card-grid,
+  .garage-route-grid,
+  .review-flow-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .city-story-grid,
@@ -1644,6 +1719,8 @@ img { max-width: 100%; display: block; }
   .movement-deep-grid,
   .drops-grid,
   .garage-card-grid,
+  .garage-route-grid,
+  .review-flow-grid,
   .footer-inner,
   .admin-grid {
     grid-template-columns: 1fr;

@@ -1074,34 +1074,37 @@ export function GarageView() {
       <RouteHero page={page} />
       <section className="section world-teaser-section">
         <div className="section-head">
-          <div><span className="label">Not a form. A front door.</span><h2 className="display">G//LYDE is curated, but it is not closed.</h2></div>
-          <p className="lead">Join the world. Support a drop. Submit a concept. Build with us. Support does not buy canon. It funds development, review, visual production, and the chance to build with the team.</p>
+          <div><span className="label">Choose your route</span><h2 className="display">One front door. Different ways in.</h2></div>
+          <p className="lead">{content.garage.prompt}</p>
         </div>
-        <div className="signal-card-grid">
-          {[
-            ["Follow The World", "Get updates, drops, and early Volume 0 signals.", "/join"],
-            ["Support The Build", "Fund character files, visual drops, and pitch-ready materials.", "/support-a-drop"],
-            ["Create With Us", "Submit a rider, crew, sponsor, route, machine, or story file.", "#submission-paths"],
-          ].map(([title, body, href]) => (
-            <Link className="signal-card" href={href} key={title}><span className="label">Entry point</span><h3 className="display">{title}</h3><p>{body}</p></Link>
+        <div className="garage-route-grid">
+          {content.garage.paths.map((path) => (
+            <Link className="garage-route-card" key={path.title} href={path.href}>
+              <span className="label">Garage route</span>
+              <h3 className="display">{path.title}</h3>
+              <p>{path.body}</p>
+              <span className="btn">{path.linkLabel} →</span>
+            </Link>
           ))}
         </div>
       </section>
-      <section className="section" id="submission-paths">
+      <section className="section garage-process-section">
         <div className="section-head">
-          <div><span className="label">Choose your route</span><h2 className="display">Entry points</h2></div>
-          <p className="lead">{content.garage.prompt}</p>
+          <div><span className="label">Review flow</span><h2 className="display">What happens after you submit.</h2></div>
+          <p className="lead">The Garage is curated, not closed. Every submission becomes a clean review file, then moves through fit, continuity, follow-up, and possible adaptation.</p>
         </div>
-        <div className="grid">
-          {content.garage.paths.map((path) => (
-            <Link className="card" key={path.title} href={path.href}>
-              <div className="card-body">
-                <span className="label">Curated review</span>
-                <h3 className="display">{path.title}</h3>
-                <p className="muted">{path.body}</p>
-                <span className="btn">{path.linkLabel} →</span>
-              </div>
-            </Link>
+        <div className="review-flow-grid">
+          {[
+            ["01", "Received", "The submission is saved to the backend and appears in Admin for review."],
+            ["02", "Checked for fit", "We look for a clean hook, visual clarity, world pressure, and continuity."],
+            ["03", "Follow-up", "Strong files may need refinement, questions, references, or a sharper route into the archive."],
+            ["04", "Adapted or declined", "Accepted ideas may be edited, renamed, merged, expanded, or held for later."],
+          ].map(([step, title, body]) => (
+            <article className="review-flow-card" key={step}>
+              <span className="label">{step}</span>
+              <h3 className="display">{title}</h3>
+              <p>{body}</p>
+            </article>
           ))}
         </div>
       </section>
