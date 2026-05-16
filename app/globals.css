@@ -975,6 +975,24 @@ img { max-width: 100%; display: block; }
 }
 .city-node-card h3 { font-size: clamp(1.8rem, 3vw, 3rem); margin: 0.45rem 0; }
 .city-node-card p { color: #333941; line-height: 1.5; margin: 0; }
+.neo-deep-section .section-head {
+  max-width: 1480px;
+  margin-inline: auto;
+}
+.neo-deep-section .lead { color: #333941; }
+.neo-deep-section .city-node-card {
+  text-align: left;
+  color: var(--bg);
+}
+.neo-deep-section .city-node-card .card-cta {
+  margin: 1rem 0 0;
+  width: fit-content;
+  color: var(--bg);
+  border-color: rgba(8,9,11,0.2);
+}
+.neo-deep-section .city-hero-card .btn {
+  margin-top: 1rem;
+}
 
 .character-files-section {
   max-width: none;

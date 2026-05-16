@@ -224,6 +224,123 @@ export function HomeView() {
 export function PageView({ pageKey }: { pageKey: "gravsports" | "racing" | "neoNoctis" }) {
   const { content } = useSiteContent();
   const page = content.pages[pageKey] as PageContent;
+  const [selected, setSelected] = useState<null | {
+    title: string;
+    category: string;
+    image: string;
+    definition: string;
+    description: string;
+    whyItMatters?: string;
+    tags?: string[];
+    ctas?: Array<{ label: string; href: string; kind: string }>;
+  }>(null);
+
+  if (pageKey === "neoNoctis") {
+    const cityFiles = [
+      {
+        title: "The Overcity",
+        category: "Neo Noctis // Skyline layer",
+        image: content.images[0].url,
+        definition: "Sponsor towers, official events, broadcast decks, luxury suites, and the version of the sport sold in perfect light.",
+        description: "The Overcity is where Neo Noctis performs itself. Grand Cup guests arrive here first. Sponsors buy glass, height, and proximity to the cameras. The official sport looks clean from this altitude because the debts are below the frame.",
+        whyItMatters: "The Overcity sells the dream that every Lowline rider is trying to touch without being owned by it.",
+        tags: ["Official", "Sponsors", "Broadcast", "Luxury"],
+      },
+      {
+        title: "The Lowline",
+        category: "Neo Noctis // Below the route map",
+        image: content.images[1].url,
+        definition: "Off-route races, hidden access, Black Book terms, street crews, mechanics, and people with nothing to lose.",
+        description: "The Lowline is not simply underground. It is the part of Neo Noctis that keeps the official sport honest, dangerous, and hungry. Runs happen there because sanctioned routes cannot answer every ambition.",
+        whyItMatters: "Official racing has rules. Lowline racing has terms.",
+        tags: ["Lowline Runs", "Black Book", "Crews", "Terms"],
+      },
+      {
+        title: "The Rouxline",
+        category: "Neo Noctis // Lounge / garage / family asset",
+        image: content.images[2].url,
+        definition: "A chrome lounge above the Lowline, beautiful enough for celebrities and useful enough for danger.",
+        description: "The Rouxline is a small nightclub, private garage, social room, and old access node. Uno Roux built it like a place to be seen. People who understand route rights know it is also a place to disappear into the city.",
+        whyItMatters: "The Rouxline was the lounge. Gate 8 was the reason people came.",
+        tags: ["Uno Roux", "Kellan Roux", "Garage", "Access"],
+      },
+      {
+        title: "Gate 8",
+        category: "Neo Noctis // Private route access",
+        image: content.images[3].url,
+        definition: "The private route point worth more than the building. The door everyone pretends not to want.",
+        description: "Gate 8 is route geometry, family leverage, and market pressure in one place. When a Wager House challenges it, they are not challenging a door. They are challenging who gets to control visibility.",
+        whyItMatters: "In Neo Noctis, real estate was expensive. Access was priceless.",
+        tags: ["Route Rights", "Off Ledger", "Wager Houses", "Gate 8"],
+      },
+    ];
+    const relatedEntries = content.archive.filter((entry) => ["rouxline-chrome", "gate-8", "lowline-runs", "route-rights", "off-ledger-run"].includes(entry.id));
+
+    return (
+      <>
+        <RouteHero page={page} />
+        <section className="section city-feature-section neo-deep-section">
+          <div className="section-head">
+            <div>
+              <span className="label">City files</span>
+              <h2 className="display">Neo Noctis is a stack of dreams, debts, doors, and cameras.</h2>
+            </div>
+            <p className="lead">Open each layer to understand why the first story begins here: luxury above, pressure below, and Gate 8 sitting between family history and market appetite.</p>
+          </div>
+          <div className="city-feature">
+            <button className="city-hero-card clickable-card" onClick={() => setSelected({
+              title: "Neo Noctis",
+              category: "Eidolon // First major city",
+              image: content.images[0].url,
+              definition: "The Miami / Vegas / Monaco of Eidolon, where gravsports became nightlife, status, and religion.",
+              description: "Neo Noctis is coastal, vertical, luxurious, hot, social, and dangerous underneath the beauty. Off-world visitors, models, inventors, brand owners, riders, Oddsmakers, sponsors, and G//NET personalities come here to watch, wager, party, and become part of the sport.",
+              whyItMatters: "This is the first iconic setting because it makes the promise and the cost of G//LYDE visible in the same skyline.",
+              tags: ["Eidolon", "Lowline", "Gate 8", "The Rouxline"],
+              ctas: [{ label: "Read Off Ledger", href: "/off-ledger", kind: "primary" }],
+            })}>
+              <img src={content.images[0].url} alt={content.images[0].alt} />
+              <div>
+                <span className="label">Open city file</span>
+                <h2 className="display">The city that made gravsports feel like nightlife.</h2>
+                <p>Above, Neo Noctis sells glamour. Below, the Lowline sets the terms.</p>
+                <span className="btn">Open Neo Noctis File →</span>
+              </div>
+            </button>
+            <div className="city-node-grid">
+              {cityFiles.map((file) => (
+                <button className="city-node-card clickable-card" onClick={() => setSelected({ ...file, ctas: [{ label: "Open Related Archive", href: "/archive", kind: "primary" }] })} key={file.title}>
+                  <img src={file.image} alt="" />
+                  <span className="label">{file.category}</span>
+                  <h3 className="display">{file.title}</h3>
+                  <p>{file.definition}</p>
+                  <span className="btn card-cta">Open File →</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section className="section drops-section">
+          <div className="section-inner">
+            <div className="section-head">
+              <div><span className="label">Related files</span><h2 className="display">Read the city through its pressure points.</h2></div>
+              <Link className="btn" href="/archive">Open Archive →</Link>
+            </div>
+            <div className="drops-grid">{relatedEntries.map((entry) => <ArchiveCard key={entry.id} entry={entry} onOpen={(archiveEntry) => setSelected({
+              title: archiveEntry.title,
+              category: `${archiveEntry.category} // ${archiveEntry.status}`,
+              image: archiveEntry.image,
+              definition: archiveEntry.excerpt,
+              description: archiveEntry.body,
+              whyItMatters: `${archiveEntry.source} // ${archiveEntry.location}`,
+              tags: archiveEntry.tags,
+              ctas: [{ label: "Submit Related Lore", href: "/garage", kind: "submission" }],
+            })} />)}</div>
+          </div>
+        </section>
+        {selected && <FileModal item={selected} onClose={() => setSelected(null)} />}
+      </>
+    );
+  }
 
   return (
     <>
