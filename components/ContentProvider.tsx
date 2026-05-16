@@ -21,12 +21,27 @@ function parseStoredContent(): SiteContent | null {
   }
 }
 
+function mergeContentDefaults<T>(defaults: T, overrides: unknown): T {
+  if (!overrides || typeof overrides !== "object" || Array.isArray(defaults)) {
+    return overrides === undefined ? defaults : (overrides as T);
+  }
+  const merged = { ...(defaults as Record<string, unknown>) };
+  for (const [key, value] of Object.entries(overrides as Record<string, unknown>)) {
+    const defaultValue = merged[key];
+    merged[key] =
+      defaultValue && typeof defaultValue === "object" && !Array.isArray(defaultValue)
+        ? mergeContentDefaults(defaultValue, value)
+        : value;
+  }
+  return merged as T;
+}
+
 export function ContentProvider({ children }: { children: React.ReactNode }) {
   const [content, setContentState] = useState<SiteContent>(siteContent);
 
   useEffect(() => {
     const stored = parseStoredContent();
-    if (stored) setContentState(stored);
+    if (stored) setContentState(mergeContentDefaults(siteContent, stored));
   }, []);
 
   const value = useMemo<ContentContextValue>(() => ({

@@ -121,6 +121,12 @@ export type HomepageCard = {
 
 export type HomepageContent = {
   startHere: HomepageCard[];
+  worldTeaser: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    callouts: HomepageCard[];
+  };
   movementSystems: HomepageCard[];
   neoNoctis: {
     eyebrow: string;
@@ -128,11 +134,14 @@ export type HomepageContent = {
     body: string;
     tags: string[];
     href: string;
+    subcards: HomepageCard[];
   };
   offLedger: {
     eyebrow: string;
     title: string;
     body: string;
+    image: string;
+    ctas: Cta[];
     href: string;
   };
   characterSpotlight: {
@@ -144,6 +153,7 @@ export type HomepageContent = {
     ctas: Cta[];
   };
   latestDropIds: string[];
+  codexCards: HomepageCard[];
   garageCards: HomepageCard[];
   supportCta: {
     eyebrow: string;
@@ -323,6 +333,42 @@ export const siteContent: SiteContent = {
         tags: ["The Garage", "Submissions", "Volume 0"],
       },
     ],
+    worldTeaser: {
+      eyebrow: "World teaser",
+      title: "A sport big enough to build gods. A city hungry enough to price them.",
+      body:
+        "G//LYDE is where athletes become celebrities, machines become status symbols, and route access can be worth more than real estate. Official leagues sell the dream. The Lowline writes the terms. G//NET turns one impossible clip into a career, a debt, or a target.",
+      callouts: [
+        {
+          eyebrow: "Broadcast",
+          title: "G//NET makes you visible.",
+          body: "One clip can turn a local rider into a planet-wide argument before sunrise.",
+          href: "/archive",
+          tags: ["Clips", "Virality", "Pressure"],
+        },
+        {
+          eyebrow: "Market",
+          title: "The Index prices you.",
+          body: "Talent becomes projection. Projection becomes leverage. Leverage becomes a contract.",
+          href: "/factions",
+          tags: ["Rankings", "Sponsors", "Value"],
+        },
+        {
+          eyebrow: "Record",
+          title: "The Ledger records you.",
+          body: "Official wins, route rights, obligations, licenses, and the deals riders sign to survive.",
+          href: "/factions",
+          tags: ["Contracts", "Results", "Rights"],
+        },
+        {
+          eyebrow: "Debt",
+          title: "The Black Book remembers what you owe.",
+          body: "Off Ledger never means free. It means the consequences belong to someone else.",
+          href: "/archive",
+          tags: ["Wagers", "Terms", "Lowline"],
+        },
+      ],
+    },
     movementSystems: [
       {
         eyebrow: "Body discipline",
@@ -356,12 +402,51 @@ export const siteContent: SiteContent = {
         "Neo Noctis is Eidolon's race-week capital, where off-world visitors, models, inventors, brand owners, Oddsmakers, riders, and sponsors come to watch, wager, party, and become part of the sport. Above, Neo Noctis sells glamour. Below, the Lowline sets the terms.",
       tags: ["Eidolon", "Lowline", "Gate 8", "The Rouxline"],
       href: "/neo-noctis",
+      subcards: [
+        {
+          eyebrow: "Skyline",
+          title: "The Overcity",
+          body: "Broadcast decks, official events, sponsor towers, luxury suites, and the dream sold in perfect light.",
+          href: "/neo-noctis",
+          image: asset("ref-metroascent.jpg"),
+          tags: ["Official", "Luxury", "Broadcast"],
+        },
+        {
+          eyebrow: "Below",
+          title: "The Lowline",
+          body: "Off-route races, hidden access, Black Book terms, street crews, and people with nothing to lose.",
+          href: "/neo-noctis",
+          image: asset("ref-night.jpg"),
+          tags: ["Terms", "Wagers", "Pressure"],
+        },
+        {
+          eyebrow: "Roux owned",
+          title: "The Rouxline",
+          body: "A chrome lounge above the Lowline. Beautiful enough for celebrities. Useful enough for danger.",
+          href: "/archive",
+          image: asset("ref-catalog.jpg"),
+          tags: ["Lounge", "Garage", "Family"],
+        },
+        {
+          eyebrow: "Route access",
+          title: "Gate 8",
+          body: "The private route point worth more than the building. The door everyone pretends not to want.",
+          href: "/archive",
+          image: asset("ref-daylight.jpg"),
+          tags: ["Access", "Route rights", "Conflict"],
+        },
+      ],
     },
     offLedger: {
-      eyebrow: "OFF LEDGER // First arc",
-      title: "A private run pulls the Roux family into something bigger than the race.",
+      eyebrow: "OFF LEDGER",
+      title: "The first file from G//LYDE WORLD",
       body:
-        "At The Rouxline, a chrome lounge above the Lowline, route rights are worth more than real estate. When Gate 8 is challenged by a Wager House, one private run turns family pressure into public leverage.",
+        "At The Rouxline, a chrome lounge above the Lowline, the party is only the surface. Below it sits Gate 8, a private route access point worth more than the building itself. When a private run challenges the Roux family's route rights, the race is supposed to stay quiet. No broadcast. No record. No protection. Then the clip leaks. By morning, sponsors want the rider, Oddsmakers price the moment, manufacturers study the data, and Neo Noctis wants to know what the Roux family has been hiding.",
+      image: asset("ref-night.jpg"),
+      ctas: [
+        { label: "Read Off Ledger", href: "/archive", kind: "primary" },
+        { label: "Open Gate 8 File", href: "/archive", kind: "secondary" },
+      ],
       href: "/archive",
     },
     characterSpotlight: {
@@ -380,9 +465,53 @@ export const siteContent: SiteContent = {
       "kellan-rooftop",
       "rouxline-chrome",
       "gate-8",
+      "off-ledger-run",
       "gsync-click",
       "lowline-runs",
-      "vey-terms",
+    ],
+    codexCards: [
+      {
+        eyebrow: "Core tech",
+        title: "G-Core",
+        body: "The power architecture behind controlled gravity, sync behavior, and forbidden prototype rumors.",
+        href: "/g-core",
+        tags: ["Machine", "Energy", "Risk"],
+      },
+      {
+        eyebrow: "Control",
+        title: "G-Sync",
+        body: "The rider-machine connection that separates clean motion from expensive mistakes.",
+        href: "/glyde-racing",
+        tags: ["Control", "Telemetry", "Training"],
+      },
+      {
+        eyebrow: "Moment",
+        title: "The Click",
+        body: "When control stops feeling like command and starts feeling like the Core answered back.",
+        href: "/archive",
+        tags: ["Resonance", "Instinct", "G-Res"],
+      },
+      {
+        eyebrow: "Style value",
+        title: "Steez",
+        body: "Style judged as mechanical value: crowd reaction, route expression, originality, and nerve.",
+        href: "/glyde-racing",
+        tags: ["Culture", "Score", "Memory"],
+      },
+      {
+        eyebrow: "Underground record",
+        title: "The Black Book",
+        body: "A shadow record of wagers, debts, off-Ledger terms, route claims, and consequences.",
+        href: "/factions",
+        tags: ["Debt", "Terms", "Lowline"],
+      },
+      {
+        eyebrow: "Access economy",
+        title: "Route Rights",
+        body: "Control the route and you control who gets seen, who gets paid, and who gets owned.",
+        href: "/archive",
+        tags: ["Access", "Contracts", "Gate 8"],
+      },
     ],
     garageCards: [
       {
@@ -413,14 +542,29 @@ export const siteContent: SiteContent = {
         href: "/support",
         tags: ["Archive", "Visuals", "Volume 0"],
       },
+      {
+        eyebrow: "Brand file",
+        title: "Submit a Sponsor",
+        body: "Pitch a fashion house, Wager House, media brand, manufacturer, or performance label.",
+        href: "/garage",
+        tags: ["Brand", "Money", "Style"],
+      },
+      {
+        eyebrow: "Archive pitch",
+        title: "Submit a Story File",
+        body: "Send a rider log, G//NET clip, Black Book note, route rumor, or scene fragment.",
+        href: "/garage",
+        tags: ["Story", "Lore", "Drop"],
+      },
     ],
     supportCta: {
-      eyebrow: "Join the early signal",
-      title: "Help make the world impossible to ignore.",
+      eyebrow: "Before Volume 0",
+      title: "Help build the world before the first volume drops.",
       body:
-        "Back Volume 0, fund visual development, join updates, or enter The Garage with a concept worth pricing.",
+        "Support funds character files, visual development, archive entries, pitch materials, Volume 0, and the systems that let early creators help shape the edges of G//LYDE WORLD.",
       ctas: [
-        { label: "Support Volume 0", href: "/support", kind: "primary" },
+        { label: "Join Early List", href: "/support", kind: "primary" },
+        { label: "Fund a Visual Drop", href: "/support", kind: "support" },
         { label: "Enter The Garage", href: "/garage", kind: "secondary" },
       ],
     },
@@ -438,13 +582,12 @@ export const siteContent: SiteContent = {
         eyebrow: "G//LYDE WORLD // A gravsports saga from the OVER//UNDER universe",
         title: "THE WORLD DOES NOT RACE ON WHEELS ANYMORE.",
         body:
-          "Gravsports are the biggest sport in the known worlds. G//LYDE Grav Racing is the peak: where speed, style, route rights, wagers, and machine control collide. In Neo Noctis, one Off Ledger run can turn a local rider into a market event.",
+          "Gravsports are the biggest spectacle in the known worlds. At the top is G//LYDE Grav Racing: a sport of G-Suits, G-Boards, G-Rigs, route rights, sponsor empires, and Lowline runs where one wager can change a life overnight. In Neo Noctis, speed is status. Style is mechanical. Every route has a price.",
         image: asset("ref-metroascent.jpg"),
         ctas: [
           { label: "Enter Neo Noctis", href: "/neo-noctis", kind: "primary" },
-          { label: "Explore G//LYDE Racing", href: "/glyde-racing", kind: "secondary" },
           { label: "Read Off Ledger", href: "/archive", kind: "secondary" },
-          { label: "Join the World", href: "/garage", kind: "support" },
+          { label: "Build in The Garage", href: "/garage", kind: "support" },
         ],
       },
       blocks: [

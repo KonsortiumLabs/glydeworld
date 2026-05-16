@@ -21,7 +21,9 @@ export function HomeView() {
   const { content } = useSiteContent();
   const page = content.pages.home;
   const home = content.homepage;
-  const spotlight = content.characters.find((character) => character.id === home.characterSpotlight.characterId) ?? content.characters[0];
+  const featuredCharacters = ["kellan-roux", "gio-roux", "uno-roux", "vey-sable"]
+    .map((id) => content.characters.find((character) => character.id === id))
+    .filter((character): character is Character => Boolean(character));
   const latestDrops = home.latestDropIds
     .map((id) => content.archive.find((entry) => entry.id === id))
     .filter((entry): entry is ArchiveEntry => Boolean(entry));
@@ -29,7 +31,7 @@ export function HomeView() {
 
   return (
     <>
-      <section className="hero">
+      <section className="hero teaser-hero">
         <img className="bg" src={page.hero.image} alt="" />
         <div className="broadcast-strip">
           <div>
@@ -41,17 +43,27 @@ export function HomeView() {
           </div>
         </div>
         <div className="hero-inner">
-          <div className="hero-copy-panel">
+          <div className="hero-stage">
+            <div className="hero-copy-panel">
             <p className="label hero-kicker">{page.hero.eyebrow}</p>
             <h1 className="display">{page.hero.title}</h1>
             <p className="hero-copy">{page.hero.body}</p>
             <CtaButtons ctas={page.hero.ctas} />
+            </div>
+            <div className="hero-poster-card">
+              <span className="label">Neo Noctis feed</span>
+              <b>OFF LEDGER CLIP DETECTED</b>
+              <p>Gate 8 access dispute. Rouxline signal. Lowline terms unknown.</p>
+              <div className="mini-map">
+                <i /><i /><i /><i />
+              </div>
+            </div>
           </div>
           <div className="telemetry">
             <div><span className="label">First planet</span><b>Eidolon</b></div>
             <div><span className="label">First city</span><b>Neo Noctis</b></div>
-            <div><span className="label">Primary lens</span><b>Kellan Roux</b></div>
             <div><span className="label">First arc</span><b>OFF LEDGER</b></div>
+            <div><span className="label">World</span><b>OVER//UNDER</b></div>
           </div>
         </div>
       </section>
@@ -62,40 +74,45 @@ export function HomeView() {
         </div>
       </div>
 
-      <section className="section start-section">
-        <div className="section-head compact">
+      <section className="section world-teaser-section">
+        <div className="section-head">
           <div>
-            <span className="label">Start here</span>
-            <h2 className="display">START WHERE YOU ARE.</h2>
+            <span className="label">{home.worldTeaser.eyebrow}</span>
+            <h2 className="display">{home.worldTeaser.title}</h2>
           </div>
-          <p className="lead">Three clean doors into the sport, the story, and the living archive.</p>
+          <p className="lead">{home.worldTeaser.body}</p>
         </div>
-        <div className="path-grid">
-          {home.startHere.map((card, index) => (
-            <Link className="path-card" href={card.href} key={card.title}>
-              {card.image && <img src={card.image} alt="" />}
+        <div className="signal-card-grid">
+          {home.worldTeaser.callouts.map((card) => (
+            <Link className="signal-card" href={card.href} key={card.title}>
               <span className="label">{card.eyebrow}</span>
               <h3 className="display">{card.title}</h3>
               <p>{card.body}</p>
               <div className="tag-row">{card.tags?.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
-              <b className="path-index">{String(index + 1).padStart(2, "0")}</b>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="section editorial-section">
-        <div className="section-head">
-          <div>
-            <span className="label">{page.blocks[0].kicker}</span>
-            <h2 className="display">{page.blocks[0].title}</h2>
+      <section className="section off-ledger-section">
+        <Link href={home.offLedger.href} className="story-panel">
+          <img src={home.offLedger.image} alt="" />
+          <div className="story-copy">
+            <span className="label">{home.offLedger.eyebrow}</span>
+            <h2 className="display">{home.offLedger.title}</h2>
+            <p>{home.offLedger.body}</p>
+            <CtaButtons ctas={home.offLedger.ctas} />
           </div>
-          <p className="lead">{page.blocks[0].body}</p>
-        </div>
-        <div className="quote-panel"><p className="display">{page.blocks[0].quote}</p></div>
+          <div className="story-data">
+            <span>NO BROADCAST</span>
+            <span>NO RECORD</span>
+            <span>NO PROTECTION</span>
+            <b>CLIP LEAKED</b>
+          </div>
+        </Link>
       </section>
 
-      <section className="section alt movement-section">
+      <section className="section movement-section">
         <div className="section-inner">
           <div className="section-head">
             <div>
@@ -123,9 +140,9 @@ export function HomeView() {
         </div>
       </section>
 
-      <section className="section city-story-section">
-        <div className="city-story-grid">
-          <Link href={home.neoNoctis.href} className="feature-panel city-panel">
+      <section className="section city-feature-section">
+        <div className="city-feature">
+          <Link href={home.neoNoctis.href} className="city-hero-card">
             <img src={content.images[0].url} alt={content.images[0].alt} />
             <div>
               <span className="label">{home.neoNoctis.eyebrow}</span>
@@ -134,38 +151,46 @@ export function HomeView() {
               <div className="tag-row">{home.neoNoctis.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
             </div>
           </Link>
-          <Link href={home.offLedger.href} className="feature-panel ledger-panel">
-            <div>
-              <span className="label">{home.offLedger.eyebrow}</span>
-              <h2 className="display">{home.offLedger.title}</h2>
-              <p>{home.offLedger.body}</p>
-              <span className="btn">Read Off Ledger →</span>
-            </div>
-          </Link>
+          <div className="city-node-grid">
+            {home.neoNoctis.subcards.map((card) => (
+              <Link className="city-node-card" href={card.href} key={card.title}>
+                {card.image && <img src={card.image} alt="" />}
+                <span className="label">{card.eyebrow}</span>
+                <h3 className="display">{card.title}</h3>
+                <p>{card.body}</p>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="section character-section alt">
-        <div className="section-inner character-spotlight">
-          <div className="spotlight-image">
-            <img src={spotlight.image} alt={spotlight.name} />
+      <section className="section character-files-section">
+        <div className="section-head">
+          <div>
+            <span className="label">Character files</span>
+            <h2 className="display">Every rider has a price. Every name has a route.</h2>
           </div>
-          <div className="spotlight-copy">
-            <span className="label">{home.characterSpotlight.eyebrow}</span>
-            <h2 className="display">{spotlight.name}</h2>
-            <h3>{home.characterSpotlight.title}</h3>
-            <p>{home.characterSpotlight.body}</p>
-            <blockquote>"{spotlight.quote}"</blockquote>
-            <p className="label">{home.characterSpotlight.microcopy}</p>
-            <CtaButtons ctas={home.characterSpotlight.ctas} />
-          </div>
+          <p className="lead">Kellan Roux is one of the first major lenses into G//LYDE WORLD. The Archive widens from there.</p>
+        </div>
+        <div className="cast-grid">
+          {featuredCharacters.map((character) => (
+            <Link className="cast-card" href="/characters" key={character.id}>
+              <img src={character.image} alt={character.name} />
+              <div>
+                <span className="label">{character.role}</span>
+                <h3 className="display">{character.name}</h3>
+                <p>{character.bio}</p>
+                <b>"{character.quote}"</b>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
       <section className="section drops-section">
         <div className="section-inner">
           <div className="section-head">
-            <div><span className="label">Latest drops</span><h2 className="display">THE ARCHIVE IS ALREADY MOVING.</h2></div>
+            <div><span className="label">Latest drops</span><h2 className="display">Read the world as it opens.</h2></div>
             <Link className="btn" href="/archive">Open Archive →</Link>
           </div>
           <div className="drops-grid">
@@ -174,16 +199,37 @@ export function HomeView() {
         </div>
       </section>
 
-      <section className="section garage-home-section alt">
+      <section className="section codex-preview-section">
+        <div className="section-head">
+          <div>
+            <span className="label">Codex preview</span>
+            <h2 className="display">The sport has language. The city has memory.</h2>
+          </div>
+          <p className="lead">Every term in G//LYDE carries weight: a rule, a risk, a rumor, a debt, a machine, a route, or a way to disappear.</p>
+        </div>
+        <div className="codex-grid">
+          {home.codexCards.map((card) => (
+            <Link className="codex-card" href={card.href} key={card.title}>
+              <span className="label">{card.eyebrow}</span>
+              <h3 className="display">{card.title}</h3>
+              <p>{card.body}</p>
+              <div className="tag-row">{card.tags?.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
+            </Link>
+          ))}
+        </div>
+        <Link className="btn primary inline-section-cta" href="/archive">Open The Codex →</Link>
+      </section>
+
+      <section className="section garage-home-section">
         <div className="section-inner">
           <div className="section-head">
             <div>
             <span className="label">The Garage</span>
               <h2 className="display">BUILD IN THE GARAGE.</h2>
             </div>
-            <p className="lead">Submit riders, crews, sponsors, circuits, machines, and story entries for curated review inside the evolving G//LYDE universe.</p>
+            <p className="lead">Submit riders, crews, circuits, machines, brands, and story fragments for curated review.</p>
           </div>
-          <p className="garage-intro">G//LYDE WORLD is being built as a living archive. The Garage is where early supporters, writers, artists, builders, and worldmakers can help shape the edges of the sport without breaking the canon.</p>
+          <p className="garage-intro">G//LYDE WORLD is being developed in public through character files, illustrated drops, route lore, and curated community submissions. Not everything becomes canon. Everything sharpens the world.</p>
           <div className="garage-card-grid">
             {home.garageCards.map((card) => (
               <Link className="garage-card" href={card.href} key={card.title}>
