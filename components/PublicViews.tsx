@@ -365,6 +365,141 @@ export function PageView({ pageKey }: { pageKey: "gravsports" | "racing" | "neoN
   );
 }
 
+export function MovementSystemsView() {
+  const { content } = useSiteContent();
+  const [selected, setSelected] = useState<null | {
+    title: string;
+    category: string;
+    image: string;
+    definition: string;
+    description: string;
+    whyItMatters?: string;
+    tags?: string[];
+    ctas?: Array<{ label: string; href: string; kind: string }>;
+  }>(null);
+  const systems = content.homepage.movementSystems.map((system) => {
+    const title = system.title.toUpperCase();
+    const details = {
+      "G-SUIT": {
+        category: "Body discipline // Gravsports",
+        definition: "A body-based gravsport built around G-Suits, foot-thrust, glide soles, wallrides, contact pressure, and raw athletic movement.",
+        description: "G-Suit riders turn their own bodies into the vehicle. They launch, brake, wallride, redirect, and absorb impact through suit control instead of standing on a board or sitting inside a rig. It is the most exposed discipline because the rider has the least separation from the route.",
+        whyItMatters: "G-Suit owns the nerve. It proves who can make gravity personal before the machines and sponsors start translating talent into market value.",
+        tags: ["Foot-thrust", "Glide soles", "Wallrides", "Contact control", "Raw movement"],
+      },
+      "G-BOARD": {
+        category: "Culture discipline // Gravsports",
+        definition: "The style-led discipline of boards, Steez, tricks, Lost Lines, crowd impact, route expression, and remembered movement.",
+        description: "G-Board is where G//LYDE gets its cultural heat. A great board rider does not only clear a route. They make the route feel newly possible. Crowds remember the line, the posture, the risk, the sound, and the moment the rider decides to take a path nobody priced correctly.",
+        whyItMatters: "G-Board owns the culture. It is the discipline kids copy, G//NET clips fastest, and sponsors chase when technique becomes a look.",
+        tags: ["Steez", "Lost Lines", "Crowd impact", "Route expression", "Trick pressure"],
+      },
+      "G-RIG": {
+        category: "Machine discipline // Gravsports",
+        definition: "The high-money machine discipline of speeders, one-rider rigs, elite engineering, sponsor pressure, and sector dominance.",
+        description: "G-Rig is where engineering becomes status. Rigs can be bikes, speeders, single-rider craft, and prototype machines tuned around a rider's sync behavior. Official circuits love them because they are fast, measurable, expensive, and easy to package as spectacle.",
+        whyItMatters: "G-Rig owns the money. Manufacturers, sponsors, and Grand Cup teams use it to turn speed into empire.",
+        tags: ["Sector speed", "Engineering", "Sponsors", "Telemetry", "Prototype money"],
+      },
+    }[title] ?? {
+      category: "Movement discipline",
+      definition: system.body,
+      description: system.body,
+      whyItMatters: "Each movement system changes what a rider can risk, sell, and become.",
+      tags: system.tags ?? [],
+    };
+    return { ...system, ...details };
+  });
+  const comparisonRows = [
+    ["Core fantasy", "Your body becomes the route.", "Your line becomes culture.", "Your machine becomes status."],
+    ["What wins", "Control, nerve, contact discipline.", "Placement, Steez, execution, crowd memory.", "Sector dominance, speed, sync, engineering."],
+    ["Where it lives", "Training decks, wall routes, contact-heavy events.", "Lowline runs, showcases, broadcast clips.", "Official circuits, team garages, sponsor decks."],
+    ["What can go wrong", "Impact, overcorrection, suit lag.", "Lost line, crowd pressure, route misread.", "Core failure, sync drift, expensive mistakes."],
+  ];
+
+  return (
+    <>
+      <RouteHero page={{
+        hero: {
+          eyebrow: "Movement systems // Body / Board / Machine",
+          title: "G-SUIT. G-BOARD. G-RIG. THREE WAYS TO ENTER THE SPORT.",
+          body: "Gravsports are not one machine or one style. G//LYDE is fought across body, board, and rig. Each discipline has its own culture, scoring logic, danger, and path into Neo Noctis.",
+          image: content.images[2].url,
+          ctas: [
+            { label: "Explore Gravsports", href: "/gravsports", kind: "primary" },
+            { label: "Open G//LYDE Racing", href: "/glyde-racing", kind: "secondary" },
+          ],
+        }
+      }} />
+      <section className="section movement-deep-section">
+        <div className="section-head">
+          <div>
+            <span className="label">System files</span>
+            <h2 className="display">Three ways to move. One way to be remembered.</h2>
+          </div>
+          <p className="lead">Open each discipline for the rules, culture, risk, and story value behind the equipment. This is where G//LYDE stops being hoverboards and becomes an ecosystem.</p>
+        </div>
+        <div className="movement-deep-grid">
+          {systems.map((system, index) => (
+            <button className="movement-file-card clickable-card" onClick={() => setSelected({
+              title: system.title,
+              category: system.category,
+              image: system.image ?? content.images[index % content.images.length].url,
+              definition: system.definition,
+              description: system.description,
+              whyItMatters: system.whyItMatters,
+              tags: system.tags,
+              ctas: [
+                { label: "Read Race Rules", href: "/glyde-racing", kind: "primary" },
+                { label: "Submit A Rider", href: "/garage", kind: "submission" },
+              ],
+            })} key={system.title}>
+              <img src={system.image ?? content.images[index % content.images.length].url} alt="" />
+              <div className="movement-file-copy">
+                <span className="label">{system.eyebrow}</span>
+                <h3 className="display">{system.title}</h3>
+                <p>{system.definition}</p>
+                <div className="spec-strip">{system.tags?.map((tag) => <span key={tag}>{tag}</span>)}</div>
+                <span className="btn card-cta">Open System File →</span>
+              </div>
+              <span className="system-number">{String(index + 1).padStart(2, "0")}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+      <section className="section system-compare-section">
+        <div className="section-inner">
+          <div className="section-head">
+            <div><span className="label">Race literacy</span><h2 className="display">The leagues separate disciplines. The Lowline mixes them.</h2></div>
+            <p className="lead">Official events separate body, board, and rig for fairness. Lowline Runs mix them because fairness was never the point.</p>
+          </div>
+          <div className="system-table">
+            <div className="system-table-row header"><span>Signal</span><span>G-Suit</span><span>G-Board</span><span>G-Rig</span></div>
+            {comparisonRows.map((row) => (
+              <div className="system-table-row" key={row[0]}>
+                {row.map((cell) => <span key={cell}>{cell}</span>)}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="section support-band movement-cta-band">
+        <div className="support-panel">
+          <span className="label">Why it matters</span>
+          <h2 className="display">G-Board owns the culture. G-Rig owns the money. G-Suit owns the nerve.</h2>
+          <p>The dream changes depending on what you ride. So does the danger, the sponsor interest, the crowd memory, and the price The Index puts beside your name.</p>
+          <CtaButtons ctas={[
+            { label: "Open The Codex", href: "/codex", kind: "primary" },
+            { label: "View Characters", href: "/characters", kind: "secondary" },
+            { label: "Build In The Garage", href: "/garage", kind: "submission" },
+          ]} />
+        </div>
+      </section>
+      {selected && <FileModal item={selected} onClose={() => setSelected(null)} />}
+    </>
+  );
+}
+
 function RouteHero({ page }: { page: Pick<PageContent, "hero"> }) {
   return (
     <section className="route-hero">
