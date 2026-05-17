@@ -661,6 +661,98 @@ function ArchiveReader({ entry, onClose }: { entry: ArchiveEntry; onClose: () =>
   );
 }
 
+function CodexReader({
+  term,
+  onClose,
+  onSelectTerm,
+}: {
+  term: CodexTerm;
+  onClose: () => void;
+  onSelectTerm: (term: CodexTerm) => void;
+}) {
+  const { content } = useSiteContent();
+  const relatedCharacters = term.relatedCharacterIds
+    .map((id) => content.characters.find((character) => character.id === id))
+    .filter((character): character is Character => Boolean(character));
+  const relatedArchive = term.relatedArchiveIds
+    .map((id) => content.archive.find((entry) => entry.id === id))
+    .filter((entry): entry is ArchiveEntry => Boolean(entry));
+  const relatedRoutes = (term.relatedCircuitIds ?? [])
+    .map((id) => content.circuits.find((route) => route.id === id))
+    .filter((route): route is Circuit => Boolean(route));
+  const relatedTerms = term.relatedTerms
+    .map((name) => {
+      const normalized = name.toLowerCase();
+      return content.codex.find((item) => item.term.toLowerCase() === normalized || item.id === normalized.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""));
+    })
+    .filter((item): item is CodexTerm => Boolean(item));
+
+  return (
+    <div className="modal-backdrop archive-reader-backdrop" onClick={onClose}>
+      <article className="codex-reader" onClick={(event) => event.stopPropagation()}>
+        <button className="close reader-close" onClick={onClose}>x</button>
+        <header className="codex-reader-hero">
+          <img src={term.image} alt={term.term} />
+          <div className="codex-reader-title">
+            <span className="label">Codex File // {term.category}</span>
+            <h2 className="display">{term.term}</h2>
+            <p>{term.definition}</p>
+          </div>
+        </header>
+        <div className="codex-reader-layout">
+          <aside className="codex-reader-rail">
+            <div><span className="label">Category</span><b>{term.category}</b></div>
+            <div><span className="label">Related characters</span>{relatedCharacters.length ? relatedCharacters.map((character) => <b key={character.id}>{character.name}</b>) : <b>None yet</b>}</div>
+            <div><span className="label">Related routes / cities</span>{relatedRoutes.length ? relatedRoutes.map((route) => <b key={route.id}>{route.name}</b>) : <b>Unmapped</b>}</div>
+            <div><span className="label">Tags</span><div className="tag-row">{term.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div></div>
+          </aside>
+          <main className="codex-reader-body">
+            <section>
+              <span className="label">Expanded file</span>
+              <p className="lede">{term.fullDescription}</p>
+            </section>
+            <section className="reader-callout">
+              <span className="label">Why it matters</span>
+              <p>{term.whyItMatters}</p>
+            </section>
+            <section>
+              <span className="label">In-world example</span>
+              <p>{term.usage}</p>
+            </section>
+            <section>
+              <div className="reader-section-title">
+                <span className="label">Related files</span>
+                <Link className="text-link" href="/archive">Open Archive →</Link>
+              </div>
+              <div className="related-file-grid">
+                {relatedArchive.length ? relatedArchive.map((entry) => (
+                  <Link className="related-file-card" href="/archive" key={entry.id}>
+                    <img src={entry.image} alt="" />
+                    <div><span className="label">{entry.category}</span><b>{entry.title}</b><p>{entry.excerpt}</p></div>
+                  </Link>
+                )) : <p className="muted">No archive file is attached yet. This is a clean place for a future drop.</p>}
+              </div>
+            </section>
+            <section>
+              <span className="label">Related terms</span>
+              <div className="codex-term-links">
+                {relatedTerms.length ? relatedTerms.map((related) => (
+                  <button key={related.id} onClick={() => onSelectTerm(related)}>{related.term}</button>
+                )) : <span className="muted">No linked term files yet.</span>}
+              </div>
+            </section>
+            <CtaButtons ctas={[
+              { label: "Submit Related Lore", href: "/garage", kind: "submission" },
+              { label: "Support A Visual Drop", href: "/support-a-drop", kind: "support" },
+              { label: "Open Routes & Cities", href: "/routes-cities", kind: "secondary" },
+            ]} />
+          </main>
+        </div>
+      </article>
+    </div>
+  );
+}
+
 function ArchiveCard({ entry, onOpen }: { entry: ArchiveEntry; onOpen?: (entry: ArchiveEntry) => void }) {
   const inner = (
     <>
@@ -825,13 +917,15 @@ export function OffLedgerView() {
 
 export function CodexView() {
   const { content } = useSiteContent();
-  const categories = useMemo(() => ["All", ...Array.from(new Set(content.codex.map((term) => term.category)))], [content.codex]);
+  const categoryOrder = ["All", "World", "Sport", "Boards", "Gear", "Routes", "Culture", "Economy", "Institutions", "Signals"];
+  const categories = useMemo(() => categoryOrder.filter((item) => item === "All" || content.codex.some((term) => term.category === item)), [content.codex]);
   const [category, setCategory] = useState("All");
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<CodexTerm | null>(null);
+  const featuredTerms = content.codex.filter((term) => term.featured).slice(0, 8);
   const terms = content.codex.filter((term) => {
     const matchesCategory = category === "All" || term.category === category;
-    const text = `${term.term} ${term.definition} ${term.tags.join(" ")}`.toLowerCase();
+    const text = `${term.term} ${term.definition} ${term.fullDescription} ${term.whyItMatters} ${term.usage} ${term.tags.join(" ")} ${term.relatedTerms.join(" ")}`.toLowerCase();
     return matchesCategory && text.includes(query.toLowerCase());
   });
 
@@ -841,38 +935,53 @@ export function CodexView() {
         hero: {
           eyebrow: "Codex",
           title: "THE SPORT HAS LANGUAGE. THE CITY HAS MEMORY.",
-          body: "Every term in G//LYDE carries weight: a rule, a risk, a rumor, a debt, a machine, a route, or a way to disappear.",
+          body: "Every term in G//LYDE carries weight: a rule, a risk, a rumor, a debt, a machine, a route, or a way to disappear. Open the files. Learn what the cameras miss.",
           image: content.images[2].url,
           ctas: [{ label: "Submit a Term", href: "/garage", kind: "submission" }],
         }
       }} />
       <section className="section codex-page-section">
+        <div className="codex-console">
+          <div>
+            <span className="label">Operating manual // World bible // Database layer</span>
+            <h2 className="display">Read the systems behind the story.</h2>
+          </div>
+          <p className="lead">Search the language of Neo Noctis, then open full files with examples, related characters, archive drops, routes, and linked terms.</p>
+        </div>
+        <div className="codex-featured-grid">
+          {featuredTerms.map((term) => (
+            <button className="codex-featured-card clickable-card" key={term.id} onClick={() => setSelected(term)}>
+              <img src={term.image} alt="" />
+              <div>
+                <span className="label">{term.category} // Featured</span>
+                <h3 className="display">{term.term}</h3>
+                <p>{term.definition}</p>
+              </div>
+            </button>
+          ))}
+        </div>
         <div className="filters">
           {categories.map((item) => <button key={item} className={`filter-btn ${item === category ? "active" : ""}`} onClick={() => setCategory(item)}>{item}</button>)}
         </div>
-        <label className="field codex-search"><span className="label">Search Codex</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="G-Core, Steez, Black Book..." /></label>
+        <label className="field codex-search"><span className="label">Search Codex</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Neo Noctis, G-Board, Route Rights, The Click..." /></label>
+        <div className="codex-result-bar">
+          <span>{terms.length} files</span>
+          <span>{category === "All" ? "All categories" : category}</span>
+        </div>
         <div className="codex-grid">
           {terms.map((term) => (
             <button className="codex-card clickable-card" onClick={() => setSelected(term)} key={term.id}>
               <span className="label">{term.category}</span>
               <h3 className="display">{term.term}</h3>
               <p>{term.definition}</p>
+              <small>{term.relatedArchiveIds.length} archive links // {(term.relatedCircuitIds ?? []).length} route links</small>
               <div className="tag-row">{term.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
               <span className="btn card-cta">Open File →</span>
             </button>
           ))}
         </div>
       </section>
-      {selected && <FileModal onClose={() => setSelected(null)} item={{
-        title: selected.term,
-        category: selected.category,
-        image: selected.image,
-        definition: selected.definition,
-        description: `${selected.fullDescription}\n\nIn-world usage: ${selected.usage}`,
-        whyItMatters: selected.whyItMatters,
-        tags: selected.tags,
-        ctas: [{ label: "Submit Related Lore", href: "/garage", kind: "submission" }],
-      }} />}
+      {selected && <CodexReader onClose={() => setSelected(null)} onSelectTerm={setSelected} term={selected} />}
     </>
   );
 }
