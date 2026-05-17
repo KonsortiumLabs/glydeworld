@@ -60,7 +60,6 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   const { content } = useSiteContent();
-  const footerLogo = content.brand.footerLogoUrl || content.brand.wordmarkUrl || content.brand.logoImageUrl;
   return (
     <footer className="footer">
       <div className="footer-cta">
@@ -81,7 +80,6 @@ export function SiteFooter() {
       </div>
       <div className="footer-inner">
         <div className="footer-brand">
-          {footerLogo ? <img className="footer-logo" src={footerLogo} alt={content.brand.logoText} /> : <Wordmark />}
           <h3>G//LYDE</h3>
           <p className="label">{content.footer.tagline}</p>
           <p className="muted">{content.footer.copy}</p>

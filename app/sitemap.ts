@@ -5,9 +5,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     ...siteContent.nav,
     { label: "Off Ledger Files", href: "/archive?category=off-ledger" },
+    { label: "Gallery", href: "/gallery" },
     { label: "Boards & Gear", href: "/movement-systems" },
     { label: "Lowline", href: "/lowline" },
-    { label: "Routes & Tracks", href: "/routes-cities" },
+    { label: "Routes & Cities", href: "/routes-cities" },
     { label: "G-Core", href: "/g-core" },
     { label: "Machines", href: "/machines" },
     { label: "Join", href: "/join" },

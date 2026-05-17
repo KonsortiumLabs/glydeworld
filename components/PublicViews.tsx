@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useState } from "react";
-import type { ArchiveEntry, Character, CodexTerm, Circuit, Faction, GCore, PageContent } from "@/content/siteContent";
+import type { ArchiveEntry, Character, CodexTerm, Circuit, Faction, GalleryItem, GCore, PageContent } from "@/content/siteContent";
 import { useSiteContent } from "@/components/ContentProvider";
 
 type SubmissionKind = "rider" | "crew" | "sponsor" | "circuit" | "machine" | "story" | "join" | "collaborate" | "support";
@@ -455,7 +455,7 @@ export function MovementSystemsView() {
           image: content.images[2].url,
           ctas: [
             { label: "Open G//LYDE", href: "/glyde-racing", kind: "primary" },
-            { label: "View Routes & Tracks", href: "/routes-cities", kind: "secondary" },
+            { label: "View Routes & Cities", href: "/routes-cities", kind: "secondary" },
           ],
         }
       }} />
@@ -1048,7 +1048,7 @@ function CodexReader({
             <CtaButtons ctas={[
               { label: "Submit Related Lore", href: "/garage", kind: "submission" },
               { label: "Support A Visual Drop", href: "/support-a-drop", kind: "support" },
-              { label: "Open Routes & Tracks", href: "/routes-cities", kind: "secondary" },
+              { label: "Open Routes & Cities", href: "/routes-cities", kind: "secondary" },
             ]} />
           </main>
         </div>
@@ -1262,13 +1262,21 @@ type FactionDossier = {
   id: string;
   number: string;
   title: string;
+  category: string;
   type: string;
   access: string;
   priority: string;
+  publicFace: string;
+  visualIdentity: string;
+  privateAgenda: string;
+  storyUse: string;
+  signature: string;
   body: string;
   detail: string;
   controls: string[];
   tension: string;
+  tags: string[];
+  primary?: boolean;
   image: string;
 };
 
@@ -1462,29 +1470,31 @@ function FactionDossierDrawer({ dossier, onClose }: { dossier: FactionDossier; o
         <div className="faction-drawer-hero">
           <img src={dossier.image} alt="" />
           <div>
-            <span className="label">{dossier.number} // {dossier.type} // {dossier.access}</span>
+            <span className="label">{dossier.number} // {dossier.category} // {dossier.type}</span>
             <h2 className="display"><SplitDisplayTitle text={dossier.title} /></h2>
-            <p>{dossier.body}</p>
+            <p>{dossier.publicFace}</p>
           </div>
         </div>
         <div className="faction-drawer-grid">
           <main>
-            <span className="label">Classified read</span>
+            <span className="label">Power bloc read</span>
             <p className="lede">{dossier.detail}</p>
             <div className="faction-relation-grid">
-              <div><span>Controls</span><b>{dossier.controls.join(" / ")}</b></div>
-              <div><span>Access Level</span><b>{dossier.access}</b></div>
-              <div><span>Priority</span><b>{dossier.priority}</b></div>
-              <div><span>Pressure Point</span><b>{dossier.tension}</b></div>
-              <div className="wide"><span>Rider Consequence</span><b>Every alignment can become a door, a price, or a leash.</b></div>
+              <div><span>Public Face</span><b>{dossier.publicFace}</b></div>
+              <div><span>Visual Identity</span><b>{dossier.visualIdentity}</b></div>
+              <div><span>Private Agenda</span><b>{dossier.privateAgenda}</b></div>
+              <div><span>Story Use</span><b>{dossier.storyUse}</b></div>
+              <div className="wide"><span>Signature Line</span><b>{dossier.signature}</b></div>
             </div>
+            <div className="faction-control-tags">{dossier.tags.map((chip) => <span key={chip}>{chip}</span>)}</div>
           </main>
           <aside>
-            <div><span>FACTION TYPE</span><b>{dossier.type}</b></div>
+            <div><span>CATEGORY</span><b>{dossier.category}</b></div>
+            <div><span>WHAT THEY REPRESENT</span><b>{dossier.body}</b></div>
             <div><span>WHAT THEY SHAPE</span><b>{dossier.controls.join(", ")}</b></div>
-            <div><span>KNOWN TERRITORY</span><b>{dossier.access}</b></div>
+            <div><span>PRESSURE POINT</span><b>{dossier.tension}</b></div>
             <CtaButtons ctas={[
-              { label: "Study the Network", href: "/factions#power-map", kind: "primary" },
+              { label: "Study the Power Blocs", href: "/factions#power-map", kind: "primary" },
               { label: "Open the Black Book", href: "/codex", kind: "secondary" },
               { label: "Return to Archive", href: "/archive", kind: "secondary" },
             ]} />
@@ -1552,7 +1562,6 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
     { title: "Access", body: "Rider houses, routekeepers, private gates, rooftop lines, and the rooms that open before a run." },
     { title: "Money", body: "Sponsor contracts, private backers, wager pressure, debt terms, and consequences nobody puts in the release." },
   ];
-  const factionFilters = ["All", "Institutions", "Houses", "Crews", "Sponsors", "Wager Systems", "Networks", "Off Ledger"];
   const routeFormats = [
     {
       title: "Tracks",
@@ -1577,136 +1586,347 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
   if (!isCircuits) {
     const factionDossiers: FactionDossier[] = [
       {
-        id: "sanctioning-bodies",
+        id: "morrow-actuation",
         number: "01",
-        title: "Sanctioning Bodies",
-        type: "Officials",
-        access: "Public legitimacy",
-        priority: "Official",
-        body: "The official authorities behind licenses, events, rankings, penalties, and public legitimacy.",
-        detail: "They sell order. They decide what counts, which results matter, what gear passes inspection, and when a rider becomes too dangerous to keep visible.",
-        controls: ["Licenses", "Events", "Rankings", "Penalties"],
-        tension: "They need spectacle, but not the kind that exposes how the sport really moves.",
+        title: "Morrow Actuation",
+        category: "Manufacturers",
+        type: "Robotics / Mobility",
+        access: "Development riders",
+        priority: "High",
+        publicFace: "The future moves before you do.",
+        visualIdentity: "Matte white, surgical gray, soft blue LEDs, elegant machine limbs, quiet drones.",
+        privateAgenda: "MORROW wants to reduce the rider into a readable mechanical system. Their endgame is riders who can be modeled, corrected, and replaced.",
+        storyUse: "They sponsor official development riders and claim their systems protect talent. Kellan's Gift frustrates them because his best output happens outside predicted body mechanics.",
+        signature: "MORROW does not build machines that move like people. It teaches people to move like machines.",
+        body: "Robotics, exo-assist, rider stabilization, drone crews, recovery frames, training exos, and predictive balance systems.",
+        detail: "MORROW sells protection as progress, but its deepest interest is legibility. If every rider can be modeled, every rider can be priced before they ever touch the line.",
+        controls: ["Exo-assist", "Stabilization", "Drone crews", "Predictive balance"],
+        tension: "Kellan's best output happens outside predicted body mechanics.",
+        tags: ["ROBOTICS", "MOBILITY", "PREDICTION"],
         image: content.images[2].url,
       },
       {
-        id: "sponsor-houses",
+        id: "eidolon-works",
         number: "02",
-        title: "Sponsor Houses",
-        type: "Patron money",
-        access: "Contracts / image rights",
+        title: "Eidolon Works",
+        category: "Infrastructure",
+        type: "Engineering / Infrastructure",
+        access: "Certified lines",
         priority: "High",
-        body: "Fashion labels, beverage brands, tech patrons, luxury houses, and private backers turning riders into symbols.",
-        detail: "Sponsor houses buy more than visibility. They buy posture, language, color, public emotion, and the right to make a rider mean something profitable.",
-        controls: ["Contracts", "Brand identity", "Travel", "Public image"],
-        tension: "The deal that saves a rider can become the room they cannot leave.",
-        image: content.images[1].url,
+        publicFace: "Built for the sanctioned line.",
+        visualIdentity: "Steel blue, white, black hazard marks, monumental track pylons, certification geometry.",
+        privateAgenda: "They control what counts as safe, certified, and official. If EIDOLON WORKS does not approve it, the sanctioned world can pretend it does not exist.",
+        storyUse: "They helped build the official racing world on Eidolon V and may know more about early Core infrastructure than the public record admits.",
+        signature: "EIDOLON WORKS decides where speed is allowed to exist.",
+        body: "Track construction, gate systems, certified G-Core infrastructure, safety barriers, lift corridors, and official competition environments.",
+        detail: "Infrastructure is power before anyone calls it power. EIDOLON WORKS makes the map the official circuit trusts.",
+        controls: ["Tracks", "Gate systems", "Core infrastructure", "Certification"],
+        tension: "They define safe, then sell access to what they define.",
+        tags: ["EIDOLON V", "TRACKS", "CERTIFIED"],
+        image: content.images[3].url,
       },
       {
-        id: "manufacturers",
+        id: "vector-royal",
         number: "03",
-        title: "Manufacturers",
-        type: "Equipment power",
-        access: "Boards / G-Skins / telemetry",
-        priority: "High",
-        body: "Boardmakers, G-Skin houses, Core handlers, telemetry firms, and design labs shaping the equipment behind the sport.",
-        detail: "Manufacturers decide who rides clean, who rides loud, who gets prototype response, and who becomes test data without knowing it.",
-        controls: ["G-Boards", "G-Skins", "Telemetry", "Core interfaces"],
-        tension: "Recovered technology does not belong to the street, but the street keeps finding ways to adapt it.",
-        image: content.images[3].url,
-      },
-      {
-        id: "broadcast-houses",
-        number: "04",
-        title: "Broadcast Houses",
-        type: "Media power",
-        access: "Feeds / edits / memory",
-        priority: "High",
-        body: "The feeds, editors, stream networks, and media syndicates turning riders into icons or erasing them overnight.",
-        detail: "Broadcast houses do not only report the sport. They choose the angle, replay the mistake, bury the debt, and decide which rider becomes a face.",
-        controls: ["Clips", "Narratives", "Public memory", "Scandal velocity"],
-        tension: "G//NET can make a rider visible faster than anyone can protect them.",
-        image: content.images[0].url,
-      },
-      {
-        id: "routekeepers",
-        number: "05",
-        title: "Routekeepers",
-        type: "Access control",
-        access: "City lines / private gates",
-        priority: "Selective",
-        body: "Local operators who control corridors, rooftops, shortcuts, private gates, and the knowledge needed to survive a city line.",
-        detail: "Routekeepers know which door opens, which drop is watched, and which line has already been promised to someone else.",
-        controls: ["Corridors", "Rooftops", "Gates", "Shortcut memory"],
-        tension: "They rarely look powerful until the rider needs to move without being seen.",
-        image: content.images[2].url,
-      },
-      {
-        id: "rider-houses",
-        number: "06",
-        title: "Rider Houses",
-        type: "Talent systems",
-        access: "Training / styling / patron circles",
-        priority: "High",
-        body: "Elite training rooms, salons, academies, and patron circles where riders are recruited, styled, funded, and owned.",
-        detail: "A rider house can teach discipline, protect a name, hide a problem, or turn a person into property with better lighting.",
-        controls: ["Training", "Introductions", "Style language", "Private funding"],
-        tension: "Family, ambition, loyalty, and ownership blur fastest inside a beautiful room.",
+        title: "Vector Royal",
+        category: "Racing Houses",
+        type: "Racing House / Official Circuit",
+        access: "Official ladder",
+        priority: "Volume Zero",
+        publicFace: "Only the line matters.",
+        visualIdentity: "Black, champagne gold, deep red, razor graphics, royal insignia, trackside banners.",
+        privateAgenda: "VECTOR ROYAL wants to own the ladder from development tracks to planetary league. Talent only matters once it can be placed into hierarchy.",
+        storyUse: "They are the first official racing door Kellan wants access to, but their access comes with control.",
+        signature: "VECTOR ROYAL does not discover riders. It crowns the ones it can control.",
+        body: "Official racing hierarchy, elite development tracks, title sponsorships, rider contracts, and championship prestige.",
+        detail: "The official circuit does not discover talent. It waits for the Lowlines to prove it, then arrives with contracts.",
+        controls: ["Development tracks", "Contracts", "Championship prestige", "Rider hierarchy"],
+        tension: "Kellan wants the door before he understands the price of entering.",
+        tags: ["RACING HOUSE", "OFFICIAL CIRCUIT", "VOLUME ZERO"],
+        primary: true,
         image: content.images[1].url,
       },
       {
-        id: "street-crews",
-        number: "07",
-        title: "Street Crews",
-        type: "Lowline power",
-        access: "Neighborhood routes",
-        priority: "Essential",
-        body: "Lowline families, mechanics, runners, spotters, and neighborhood riders who protect reputation outside the polished circuit.",
-        detail: "Street crews carry the memory official broadcasts clean up. They know who earned the line, who bought it, and who should not be trusted near it.",
-        controls: ["Reputation", "Protection", "Repair", "Local route memory"],
-        tension: "The official sport harvests Lowline style while pretending the Lowline is a problem.",
+        id: "aegis-particle",
+        number: "04",
+        title: "Aegis Particle",
+        category: "Performance",
+        type: "Particle Shields / Safety Tech",
+        access: "Certified protection",
+        priority: "High",
+        publicFace: "Survive the impossible.",
+        visualIdentity: "Translucent violet, silver, shield halos, glasslike impact fields.",
+        privateAgenda: "AEGIS makes the sport more dangerous by making audiences believe risk has been solved.",
+        storyUse: "Official riders use AEGIS-certified protection. Lowline riders often rely on expired, patched, stolen, or counterfeit protection.",
+        signature: "AEGIS sells safety to a sport addicted to danger.",
+        body: "Crash protection, particle shields, impact fields, rider containment, gate shields, and emergency safety systems.",
+        detail: "AEGIS reduces death statistically, then lets leagues push riders farther because the crowd believes the fall has been solved.",
+        controls: ["Particle shields", "Impact fields", "Containment", "Gate safety"],
+        tension: "Safety becomes permission to raise the speed.",
+        tags: ["SAFETY TECH", "PARTICLE", "RISK"],
         image: content.images[0].url,
       },
       {
-        id: "wager-cartels",
-        number: "08",
-        title: "Wager Cartels",
-        type: "Off-ledger money",
-        access: "Private stakes",
-        priority: "Danger",
-        body: "The money behind odds, private stakes, fixed races, debt pressure, and consequences no sponsor will acknowledge.",
-        detail: "Wager cartels price courage, fear, timing, and desperation. They can turn a private run into a career or a debt that outlives the clip.",
-        controls: ["Odds", "Debt", "Private stakes", "Fixed pressure"],
-        tension: "The sport pretends money follows performance. The cartels know money can design it.",
+        id: "lytewell",
+        number: "05",
+        title: "LYTE//WELL",
+        category: "Performance",
+        type: "Hydration / Recovery / Performance",
+        access: "Recovery data",
+        priority: "High",
+        publicFace: "Stay luminous.",
+        visualIdentity: "Ice blue, white, glass bottles, chrome caps, clean clinical sport ads.",
+        privateAgenda: "LYTE//WELL sells recovery, but collects exhaustion. Their real product is rider stress data.",
+        storyUse: "They offer Kellan a free recovery plan after his leaked run. It looks generous. It is actually data capture.",
+        signature: "LYTE//WELL sells recovery. What it collects is exhaustion.",
+        body: "Hydration, recovery, performance wellness, G-Res recovery supplements, post-run treatment kits, and biometric optimization.",
+        detail: "The cleanest brands can be the most invasive. LYTE//WELL turns fatigue into sponsor intelligence.",
+        controls: ["Recovery plans", "Stress data", "Supplements", "Biometrics"],
+        tension: "A free recovery plan is rarely free.",
+        tags: ["PERFORMANCE", "RECOVERY", "DATA"],
+        image: content.images[3].url,
+      },
+      {
+        id: "sole-zero",
+        number: "06",
+        title: "SOLE//ZERO",
+        category: "Fashion Houses",
+        type: "Footwear / Streetwear / Grip Systems",
+        access: "Street credibility",
+        priority: "Selective",
+        publicFace: "Feel the line.",
+        visualIdentity: "Black soles, chrome tread, neon underglow, aggressive silhouettes, sneaker-culture drops.",
+        privateAgenda: "SOLE//ZERO wants to own the moment before a rider becomes officially valuable.",
+        storyUse: "They are one of the first brands that could make Kellan feel real to the culture without making him feel fully owned by the league.",
+        signature: "SOLE//ZERO does not sponsor champions first. It sponsors the moment before everyone else knows.",
+        body: "Pressure-responsive riding shoes, magnetic grip soles, limited rider collabs, and the bridge between street credibility and official sport.",
+        detail: "SOLE//ZERO lives at the edge where a Spot becomes a market and a rider becomes a silhouette people copy.",
+        controls: ["Grip systems", "Drops", "Streetwear", "Rider collabs"],
+        tension: "They buy first belief before the official ladder can name it.",
+        tags: ["FOOTWEAR", "STREETWEAR", "GRIP"],
+        image: content.images[1].url,
+      },
+      {
+        id: "saint-axis",
+        number: "07",
+        title: "SAINT AXIS",
+        category: "Manufacturers",
+        type: "G-Skins / Bodysuits / Rider Armor",
+        access: "Official rider bodies",
+        priority: "Volume Zero",
+        publicFace: "The body is the first machine.",
+        visualIdentity: "Pearl, black, chrome seams, anatomical lines, elegant armor, almost religious styling.",
+        privateAgenda: "SAINT AXIS wants to make the rider's body certifiable: dressed, measured, corrected, and made camera-ready.",
+        storyUse: "Official riders look immaculate because of SAINT AXIS. Lowline riders wear mixed parts, old suits, and custom repairs.",
+        signature: "SAINT AXIS does not clothe riders. It edits them.",
+        body: "G-Skins, rider bodysuits, compression armor, posture tech, crash layers, and official league suits.",
+        detail: "Kellan's raw output makes the official suit philosophy look incomplete. SAINT AXIS is beauty, control, and correction in one shell.",
+        controls: ["G-Skins", "Posture tech", "Crash layers", "League suits"],
+        tension: "A clean body on camera can hide a very controlled rider.",
+        tags: ["G-SKINS", "ARMOR", "BODY"],
+        primary: true,
         image: content.images[2].url,
       },
       {
-        id: "off-ledger-networks",
+        id: "lumenvault",
+        number: "08",
+        title: "LUMENVAULT",
+        category: "Infrastructure",
+        type: "Lighting / Broadcast Visual Systems",
+        access: "Spectacle control",
+        priority: "High",
+        publicFace: "Make motion visible.",
+        visualIdentity: "Amber, electric white, prism lensing, glowing track edges, giant light rigs.",
+        privateAgenda: "LUMENVAULT controls what the audience can see, and what they cannot. In G//LYDE, lighting is legitimacy.",
+        storyUse: "Kellan's leaked run becomes iconic partly because a broken LUMENVAULT sign catches the Line perfectly.",
+        signature: "LUMENVAULT does not follow the spectacle. It decides where the spectacle begins.",
+        body: "Track lighting, route illumination, broadcast light systems, rider spotlights, holographic signage, and arena spectacle.",
+        detail: "If the city cannot see the line, it cannot worship it. LUMENVAULT makes visibility feel natural.",
+        controls: ["Lighting", "Route illumination", "Signage", "Spectacle"],
+        tension: "A broken sign can become a stolen campaign.",
+        tags: ["LIGHTING", "BROADCAST", "SPECTACLE"],
+        image: content.images[0].url,
+      },
+      {
+        id: "macks",
         number: "09",
-        title: "Off Ledger Networks",
-        type: "Hidden economy",
-        access: "Black routes / private channels",
-        priority: "Black",
-        body: "Private channels, black routes, unlicensed races, hidden archives, and the economy beneath the visible sport.",
-        detail: "Off-ledger networks move when the official map closes. They remember unlicensed runs, leaked routes, hidden clips, and people the public record cannot admit exist.",
-        controls: ["Black routes", "Private channels", "Hidden archives", "Unlicensed races"],
-        tension: "Off Ledger does not mean without consequence. It means without protection.",
+        title: "MACK'S",
+        category: "Mass Culture",
+        type: "Food / Mass Culture",
+        access: "Everyday Spots",
+        priority: "Volume Zero",
+        publicFace: "Everybody eats after the run.",
+        visualIdentity: "Red, yellow, white, late-night counters, bright packaging, rider meal deals, collectible cups.",
+        privateAgenda: "MACK'S wants to own the everyday culture around G//LYDE, not just elite racing.",
+        storyUse: "Lowline riders actually eat there. Clips get filmed outside. Fans gather there. It can be Kellan's first mass-market sellout test.",
+        signature: "The Grand Prix has champagne lounges. The Lowlines have MACK'S at 2:17 AM.",
+        body: "Global fast food, youth culture, cheap meals, mass-market sponsorships, late-night Spots, and everyday life around the sport.",
+        detail: "MACK'S grounds the world. It is where the feed becomes ordinary life and ordinary life starts looking like the sport.",
+        controls: ["Youth leagues", "Late-night Spots", "Meal campaigns", "Mass attention"],
+        tension: "A rider can become real to everyone before he becomes official to anyone.",
+        tags: ["MASS CULTURE", "SPOTS", "VOLUME ZERO"],
+        primary: true,
         image: content.images[3].url,
+      },
+      {
+        id: "vellum-house",
+        number: "10",
+        title: "Vellum House",
+        category: "Fashion Houses",
+        type: "Luxury Fashion / Image Architecture",
+        access: "Image control",
+        priority: "Volume Zero",
+        publicFace: "Movement as inheritance.",
+        visualIdentity: "Ivory, black, chrome, translucent layers, ceremonial portraits, long coats, polished rider styling.",
+        privateAgenda: "VELLUM wants to turn riders into icons before they become inconvenient.",
+        storyUse: "VELLUM sees Kellan as visually powerful but socially unstable. They want to refine him, rename his narrative, and separate him from the Lowlines.",
+        signature: "VELLUM does not dress riders for the race. It dresses them for history.",
+        body: "Luxury fashion, rider styling, cultural campaigns, formal G-Skins, house uniforms, and image control.",
+        detail: "VELLUM does not sponsor talent. It sponsors image it can own.",
+        controls: ["Styling", "Campaigns", "House uniforms", "Narrative control"],
+        tension: "The more beautiful the offer, the more carefully it edits the rider.",
+        tags: ["FASHION", "IMAGE", "VOLUME ZERO"],
+        primary: true,
+        image: content.images[1].url,
+      },
+      {
+        id: "noir-maison",
+        number: "11",
+        title: "Noir Maison",
+        category: "Fashion Houses",
+        type: "Street-Luxury / Nightlife Fashion",
+        access: "Private events",
+        priority: "Selective",
+        publicFace: "Wear the night moving.",
+        visualIdentity: "Black leather, red thread, silver zips, hooded silhouettes, dark runway energy.",
+        privateAgenda: "NOIR MAISON profits from underground aesthetics while keeping real Lowline riders at arm's length until useful.",
+        storyUse: "They throw the kind of private events where riders, rich spectators, sponsors, and handlers collide.",
+        signature: "NOIR MAISON sells the night back to the people who survived it.",
+        body: "Street-luxury, rider fashion, nightlife style, Lowline capsules, club uniforms, and sponsor jackets.",
+        detail: "NOIR MAISON is the scent of a Lowline turned into a guest list.",
+        controls: ["Private events", "Lowline capsules", "Sponsor jackets", "Nightlife image"],
+        tension: "The underground becomes luxury once someone else controls the door.",
+        tags: ["NIGHTLIFE", "STREET LUXURY", "LOWLINE"],
+        image: content.images[0].url,
+      },
+      {
+        id: "kairo-form",
+        number: "12",
+        title: "KAIRO/FORM",
+        category: "Fashion Houses",
+        type: "Technical Fashion / Luxury Sportswear",
+        access: "Elite discipline",
+        priority: "Selective",
+        publicFace: "Form follows pressure.",
+        visualIdentity: "Slate, cream, pale green, restrained asymmetrical panels, subtle tech, sharp tailoring.",
+        privateAgenda: "KAIRO/FORM wants to own the look of discipline.",
+        storyUse: "A polished rival or city circuit prospect could be aligned with KAIRO/FORM. Kellan's raw style challenges their belief that discipline has one look.",
+        signature: "KAIRO/FORM believes elegance is what survives pressure.",
+        body: "Technical outerwear, compression layers, elite training apparel, travel uniforms, and serious rider aesthetics.",
+        detail: "KAIRO/FORM is restraint turned into a uniform. It makes control look expensive.",
+        controls: ["Technical outerwear", "Travel uniforms", "Training apparel", "Elite image"],
+        tension: "Raw style is a problem when the brand sells restraint.",
+        tags: ["TECHNICAL FASHION", "DISCIPLINE", "SPORTSWEAR"],
+        image: content.images[2].url,
+      },
+      {
+        id: "orbital-saint",
+        number: "13",
+        title: "Orbital Saint",
+        category: "Media Houses",
+        type: "Official Media House / Broadcast Rights",
+        access: "Official memory",
+        priority: "High",
+        publicFace: "The race, made eternal.",
+        visualIdentity: "White, gold, halo broadcast framing, clean camera language, official highlight packages.",
+        privateAgenda: "ORBITAL SAINT controls the public record. If they do not air it, the official world can pretend it did not happen.",
+        storyUse: "Kellan's leaked clip threatens them because it becomes more culturally powerful than their official coverage.",
+        signature: "ORBITAL SAINT does not report history. It renders it.",
+        body: "Official broadcasts, race documentaries, rider mythology, highlight rights, and public memory.",
+        detail: "Official memory is not the same as truth. ORBITAL SAINT knows the difference and sells the former.",
+        controls: ["Broadcast rights", "Documentaries", "Highlights", "Public record"],
+        tension: "A leaked clip can beat an official myth if the street believes it first.",
+        tags: ["MEDIA", "OFFICIAL", "MEMORY"],
+        image: content.images[3].url,
+      },
+      {
+        id: "gnet",
+        number: "14",
+        title: "G//NET",
+        category: "Media Houses",
+        type: "Underground Media / Clip Network",
+        access: "Raw visibility",
+        priority: "Volume Zero",
+        publicFace: "If it moved, someone caught it.",
+        visualIdentity: "Glitch green, black, compressed footage, watermarks, raw overlays, comment storms.",
+        privateAgenda: "G//NET gives Lowline riders visibility while turning their risk into content.",
+        storyUse: "Kellan's rise starts here. His leaked run lives on G//NET before the official world can frame it.",
+        signature: "The leagues make records. G//NET makes names.",
+        body: "Decentralized clip culture, leaks, rider edits, pirate feeds, rumors, rankings, and viral proof.",
+        detail: "G//NET rewards spectacle without caring who gets hurt. It is the fastest door and the least protective one.",
+        controls: ["Leaks", "Rider edits", "Pirate feeds", "Viral proof"],
+        tension: "Visibility arrives before protection.",
+        tags: ["G//NET", "CLIPS", "VOLUME ZERO"],
+        primary: true,
+        image: content.images[0].url,
+      },
+      {
+        id: "mono-arc",
+        number: "15",
+        title: "MONO//ARC",
+        category: "Media Houses",
+        type: "Telemetry / Scouting Analytics",
+        access: "Valuation reports",
+        priority: "Volume Zero",
+        publicFace: "Truth in motion.",
+        visualIdentity: "Black UI, white numbers, red anomaly markers, clean data walls.",
+        privateAgenda: "MONO//ARC wants to turn Gift into a tradable metric.",
+        storyUse: "They are the first serious institution to notice Kellan's clip is not just viral. His G-Res output on Lowline equipment becomes a data problem.",
+        signature: "MONO//ARC does not ask who won. It asks what the winner is worth.",
+        body: "G-Res scoring, prospect rankings, rider analytics, risk forecasts, sponsor valuation reports, and talent prediction.",
+        detail: "If they can quantify talent, sponsors can buy earlier and cheaper.",
+        controls: ["G-Res scoring", "Prospect rankings", "Risk forecasts", "Sponsor valuation"],
+        tension: "Gift becomes dangerous once a market can read it.",
+        tags: ["ANALYTICS", "G-RES", "VOLUME ZERO"],
+        primary: true,
+        image: content.images[2].url,
+      },
+      {
+        id: "riftworks",
+        number: "16",
+        title: "RIFTWORKS",
+        category: "Lowline / Garage",
+        type: "Garage / Lowline Board Culture",
+        access: "Unofficial tuning",
+        priority: "Volume Zero",
+        publicFace: "None officially. Known through the Lowlines.",
+        visualIdentity: "Black carbon, exposed wiring, sticker scars, mismatched panels, hand-cut grip, burned-in marks.",
+        privateAgenda: "RIFTWORKS does not want to be certified. It wants riders moving without asking permission.",
+        storyUse: "RIFTWORKS is Kellan's side of the world. His equipment may come through them, or his board may be tuned by someone connected to them.",
+        signature: "RIFTWORKS does not build perfect boards. It builds boards that answer.",
+        body: "Underground board tuning, garage builds, repairs, unofficial modifications, rider-first engineering.",
+        detail: "RIFTWORKS is proof that a board can be wrong on paper and right under pressure.",
+        controls: ["Board tuning", "Garage builds", "Repairs", "Unofficial mods"],
+        tension: "Certification wants clean answers. RIFTWORKS wants movement.",
+        tags: ["GARAGE", "LOWLINE", "VOLUME ZERO"],
+        primary: true,
+        image: content.images[1].url,
       },
     ];
+    const factionFilters = ["All", "Racing Houses", "Manufacturers", "Media Houses", "Fashion Houses", "Performance", "Infrastructure", "Mass Culture", "Lowline / Garage"];
+    const visibleDossiers = factionDossiers.filter((dossier) => factionFilter === "All" || dossier.category === factionFilter);
 
     return (
       <>
         <RouteHero page={{
           hero: {
-            eyebrow: "Classified factions // sport politics",
-            title: "FACTIONS CONTROL WHAT THE SPORT REFUSES TO SAY OUT LOUD.",
-            body: "G//LYDE is sold as speed, style, and sanctioned spectacle.\n\nBehind the feed, the world is shaped by sponsors, manufacturers, rider houses, street crews, routekeepers, media networks, officials, and off-ledger money. They decide who gets equipment, who gets seen, who gets protected, who gets invited, and who gets erased.\n\nTo ride is one thing.\n\nTo matter, you need alignment.",
+            eyebrow: "FACTIONS",
+            title: "TALENT GETS SEEN.\nTHEN IT GETS PRICED.",
+            body: "Behind every rider is a system trying to rank, dress, measure, sponsor, broadcast, protect, or own them.\nIn G//LYDE, the brands are not on the sidelines.\nThey are part of the sport.",
             image: content.images[2].url,
             ctas: [
-              { label: "Study the Network", href: "#power-map", kind: "primary" },
+              { label: "Study the Power Blocs", href: "#power-map", kind: "primary" },
               { label: "Open the Black Book", href: "/codex", kind: "secondary" },
-              { label: "Return to Archive", href: "/archive", kind: "secondary" },
             ],
           }
         }} />
@@ -1714,11 +1934,12 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
         <section id="power-map" className="section faction-map-section">
           <div className="section-head">
             <div>
-              <span className="label">Network overview</span>
-              <h2 className="display">A rider's career is built by forces the feed barely names.</h2>
+              <span className="label">The economy of access</span>
+              <h2 className="display"><span>THE CIRCUIT SELLS LEGENDS.</span><span>THE LOWLINES MAKE THEM REAL.</span></h2>
             </div>
-            <p>Every route has a visible line and a hidden owner. Every public myth has a private backing structure.</p>
+            <p>The official circuit wants clean records, clean bodies, and clean stories. The Lowlines produce everything it cannot manufacture: risk, hunger, style, clips, and riders with Gifts strong enough to make the machines look secondary.</p>
           </div>
+          <div className="faction-access-callout"><span>A Core can lift anyone.</span><b>A Gift decides how high.</b></div>
           <div className="power-lane-grid">
             {powerLanes.map((lane, index) => (
               <div className="power-lane-card" key={lane.title} style={{ "--lane-index": index } as CSSProperties}>
@@ -1733,34 +1954,54 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
         <section className="section faction-index-section">
           <div className="section-head">
             <div>
-              <span className="label">Faction dossiers</span>
-              <h2 className="display">Power centers beneath the sport.</h2>
+              <span className="label">Sponsors / Manufacturers / Power Blocs</span>
+              <h2 className="display">Brands are story engines.</h2>
             </div>
-            <p>Who backs the rider. Who watches the rider. Who owns the terms when the rider finally matters.</p>
+            <p>Sponsors are not decoration. They are the architecture of access.</p>
+          </div>
+          <div className="faction-filter-row">
+            {factionFilters.map((filter) => (
+              <button className={`filter-btn ${factionFilter === filter ? "active" : ""}`} key={filter} onClick={() => setFactionFilter(filter)}>
+                {filter}
+              </button>
+            ))}
           </div>
           <div className="faction-dossier-grid">
-            {factionDossiers.map((dossier) => (
-                <button className="faction-dossier-card" key={dossier.id} onClick={() => setSelectedDossier(dossier)}>
+            {visibleDossiers.map((dossier) => (
+                <button className={`faction-dossier-card ${dossier.primary ? "primary-dossier" : ""}`} key={dossier.id} onClick={() => setSelectedDossier(dossier)}>
                   <div className="faction-card-media">
                     <img src={dossier.image} alt="" />
-                    <span>{dossier.number} // {dossier.type}</span>
+                    <span>{dossier.number} // {dossier.category}</span>
                   </div>
                   <div className="faction-card-body">
-                    <span className="label">{dossier.access}</span>
+                    <span className="label">{dossier.type}</span>
                     <h3 className="display"><SplitDisplayTitle text={dossier.title} /></h3>
-                    <p>{dossier.body}</p>
+                    <p>{dossier.publicFace}</p>
                     <div className="faction-meta-grid">
-                      <div><span>CALLSIGN</span><b>{dossier.number}</b></div>
-                      <div><span>TYPE</span><b>{dossier.type}</b></div>
-                      <div><span>ACCESS</span><b>{dossier.access}</b></div>
-                      <div><span>PRIORITY</span><b>{dossier.priority}</b></div>
+                      <div><span>PUBLIC FACE</span><b>{dossier.publicFace}</b></div>
+                      <div><span>PRIVATE AGENDA</span><b>{dossier.privateAgenda}</b></div>
+                      <div><span>STORY USE</span><b>{dossier.storyUse}</b></div>
+                      <div><span>VISUAL ID</span><b>{dossier.visualIdentity}</b></div>
                     </div>
                     <div className="faction-meter" aria-label={`${dossier.title} pressure meter`}><span style={{ width: `${Math.min(96, 55 + Number(dossier.number) * 4)}%` }} /></div>
-                    <div className="faction-control-tags">{dossier.controls.slice(0, 3).map((chip) => <span key={chip}>{chip.toUpperCase()}</span>)}</div>
+                    <div className="faction-control-tags">{dossier.tags.slice(0, 3).map((chip) => <span key={chip}>{chip}</span>)}</div>
                   </div>
-                  <span className="btn card-cta">Study the Network →</span>
+                  <span className="btn card-cta">Open File →</span>
                 </button>
               ))}
+          </div>
+          <div className="faction-volume-zero">
+            <span className="label">Volume Zero pressure</span>
+            <h3 className="display"><span>KELLAN'S GIFT IS HIS.</span><span>THE WORLD CALLS IT AN ASSET.</span></h3>
+            <p>Kellan does not become dangerous because he owns the best board. He becomes dangerous because his Gift makes the Core answer above its class. Once the clip moves, every system sees him differently.</p>
+            <div>
+              {["G//NET sees a name.", "MONO//ARC sees a number.", "VECTOR ROYAL sees a prospect.", "VELLUM sees an image.", "MACK'S sees a face.", "RIFTWORKS sees proof.", "Kellan sees a door."].map((line) => <span key={line}>{line}</span>)}
+            </div>
+            <b>The problem is every door in G//LYDE opens into someone else's system.</b>
+            <CtaButtons ctas={[
+              { label: "Open the Archive", href: "/archive", kind: "primary" },
+              { label: "Enter The Lowlines", href: "/lowline", kind: "secondary" },
+            ]} />
           </div>
           <div className="faction-closing-callout">
             <span className="label">Closing file</span>
@@ -1782,13 +2023,13 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
     <>
       <RouteHero page={{
         hero: {
-          eyebrow: isCircuits ? "Routes & Tracks" : "Power blocs",
+          eyebrow: isCircuits ? "Routes & Cities" : "Power blocs",
           title: isCircuits ? "THE GRAND PRIX HAS TRACKS.\nTHE STREETS HAVE LOWLINES." : "G//NET MAKES YOU VISIBLE. THE INDEX PRICES YOU. THE BLACK BOOK REMEMBERS WHAT YOU OWE.",
           body: isCircuits ? "G//LYDE moves through sanctioned circuits, off-record routes, and public spots where riders gather, challenge, and get seen.\nEvery place has a line. Every line has a price." : "The institutions, houses, crews, manufacturers, sponsors, and unofficial systems that control movement, visibility, terms, and debt.",
           image: isCircuits ? content.images[3].url : content.images[2].url,
           ctas: isCircuits
             ? [
-                { label: "Open the Track Index", href: "#route-index", kind: "primary" },
+                { label: "Open the City Index", href: "#route-index", kind: "primary" },
                 { label: "Open the Route Index", href: "#route-index", kind: "secondary" },
               ]
             : [{ label: "Enter G// Garage", href: "/garage", kind: "primary" }],
@@ -1823,7 +2064,7 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
                   discipline: "G-Board",
                   events: [format.type],
                   image: content.images[3].url,
-                  tags: ["Routes & Tracks", format.type, "Board culture"],
+                  tags: ["Routes & Cities", format.type, "Board culture"],
                 } as Circuit)}
               >
                 <div className="route-format-top">
@@ -2083,7 +2324,7 @@ export function LowlineView() {
           image: content.images[1].url,
           ctas: [
             { label: "Open the Archive", href: "/archive", kind: "primary" },
-            { label: "Routes & Tracks", href: "/routes-cities", kind: "secondary" },
+            { label: "Routes & Cities", href: "/routes-cities", kind: "secondary" },
           ],
         }
       }} />
@@ -2466,6 +2707,82 @@ export function SupportView() {
         </div>
       </section>
       <section className="section alt"><div className="section-inner notice"><b>Support Notice</b><p>{content.support.supportNotice}</p></div></section>
+    </>
+  );
+}
+
+function GalleryLightbox({ item, onClose }: { item: GalleryItem; onClose: () => void }) {
+  return (
+    <div className="gallery-lightbox-backdrop" role="dialog" aria-modal="true" onClick={onClose}>
+      <article className="gallery-lightbox" onClick={(event) => event.stopPropagation()}>
+        <button className="reader-back-button drawer-close" onClick={onClose}>Close</button>
+        <img src={item.imageUpload} alt={item.title} />
+        <div className="gallery-lightbox-panel">
+          <span className="label">{item.category}</span>
+          <h2 className="display">{item.title}</h2>
+          <p>{item.caption}</p>
+          <div className="gallery-lightbox-meta">
+            {item.relatedCharacter && <span>Character <b>{item.relatedCharacter}</b></span>}
+            {item.relatedRouteTrackSpot && <span>Route / Spot <b>{item.relatedRouteTrackSpot}</b></span>}
+            {item.relatedSponsorManufacturer && <span>Sponsor / Maker <b>{item.relatedSponsorManufacturer}</b></span>}
+            {item.credit && <span>Credit <b>{item.credit}</b></span>}
+          </div>
+          <div className="cta-row">
+            {item.relatedArchiveFile && <Link className="btn primary" href={`/archive?file=${item.relatedArchiveFile}`}>Related Archive File →</Link>}
+            {item.relatedCharacter && <Link className="btn" href="/characters">Character File →</Link>}
+          </div>
+        </div>
+      </article>
+    </div>
+  );
+}
+
+export function GalleryView() {
+  const { content } = useSiteContent();
+  const [filter, setFilter] = useState("All");
+  const [showMore, setShowMore] = useState(false);
+  const [selected, setSelected] = useState<GalleryItem | null>(null);
+  const filters = ["All", "Riders", "Boards", "Tracks", "Lowlines", "Spots", "Sponsors", "Volume Zero"];
+  const published = (content.gallery ?? []).filter((item) => item.status === "published");
+  const featured = published.find((item) => item.featured) ?? published[0];
+  const filtered = published.filter((item) => filter === "All" || item.category === filter);
+  const visible = showMore ? filtered : filtered.slice(0, 8);
+
+  return (
+    <>
+      <section className="gallery-hero">
+        <img src={featured?.imageUpload ?? content.images[0].url} alt="" />
+        <div>
+          <span className="label">GALLERY</span>
+          <h1 className="display"><span>FRAMES FROM</span><span>G//LYDE: LOWLINE.</span></h1>
+          <p>Riders, boards, tracks, Lowline routes, Spots, and visual drops from the world before Volume Zero.</p>
+        </div>
+      </section>
+      <section className="section gallery-section">
+        <div className="gallery-filter-row">
+          {filters.map((item) => (
+            <button className={`filter-btn ${filter === item ? "active" : ""}`} key={item} onClick={() => { setFilter(item); setShowMore(false); }}>{item}</button>
+          ))}
+        </div>
+        <div className="gallery-wall">
+          {visible.map((item, index) => (
+            <button className={`gallery-frame frame-${index % 6}`} key={item.id} onClick={() => setSelected(item)}>
+              <img src={item.imageUpload} alt={item.title} />
+              <span className="gallery-frame-meta">
+                <b>{item.category.toUpperCase()}</b>
+                <strong>{item.title}</strong>
+                {(item.relatedRouteTrackSpot || item.relatedCharacter) && <em>{item.relatedRouteTrackSpot || item.relatedCharacter}</em>}
+              </span>
+            </button>
+          ))}
+        </div>
+        {filtered.length > 8 && (
+          <button className="gallery-more" onClick={() => setShowMore((value) => !value)}>
+            {showMore ? "Show Less" : "View More Frames"} →
+          </button>
+        )}
+      </section>
+      {selected && <GalleryLightbox item={selected} onClose={() => setSelected(null)} />}
     </>
   );
 }

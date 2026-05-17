@@ -12,6 +12,23 @@ export type ImageAsset = {
   caption: string;
 };
 
+export type GalleryItem = {
+  id: string;
+  title: string;
+  slug: string;
+  imageUpload: string;
+  category: "Riders" | "Boards" | "Tracks" | "Lowlines" | "Spots" | "Sponsors" | "Volume Zero";
+  caption: string;
+  tags: string[];
+  relatedCharacter: string;
+  relatedRouteTrackSpot: string;
+  relatedSponsorManufacturer: string;
+  relatedArchiveFile: string;
+  credit: string;
+  featured: boolean;
+  status: "draft" | "published" | "hidden";
+};
+
 export type PageBlock = {
   kicker: string;
   title: string;
@@ -258,6 +275,7 @@ export type SiteContent = {
   nav: Array<{ label: string; href: string }>;
   ctas: Cta[];
   images: ImageAsset[];
+  gallery: GalleryItem[];
   featureStrip: string[];
   homepage: HomepageContent;
   pages: Record<string, PageContent>;
@@ -304,7 +322,7 @@ export const siteContent: SiteContent = {
     domain: "glydeworld.com",
     universeLabel: "AN OVER//UNDER STORY",
     footerCopy:
-      "Anti-gravity board culture, Lowline records, rider files, board data, and signals before Volume Zero.",
+      "Anti-gravity board culture, Lowlines, rider files, board data, and signals before Volume Zero.",
     conceptArtNote:
       "Select visuals are concept development references for the evolving G//LYDE universe.",
     copyrightText: "© G//LYDE / AN OVER//UNDER STORY.",
@@ -324,7 +342,7 @@ export const siteContent: SiteContent = {
   footer: {
     tagline: "An Over//Under Story.",
     copy:
-      "Anti-gravity board culture, Lowline records, rider files, board data, and signals before Volume Zero.",
+      "Anti-gravity board culture, Lowlines, rider files, board data, and signals before Volume Zero.",
     columns: [
       {
         title: "Watch the Feed",
@@ -339,8 +357,9 @@ export const siteContent: SiteContent = {
         title: "Open the Files",
         links: [
           { label: "Archive", href: "/archive" },
+          { label: "Gallery", href: "/gallery" },
           { label: "Black Book", href: "/codex" },
-          { label: "Routes & Tracks", href: "/routes-cities" },
+          { label: "Routes & Cities", href: "/routes-cities" },
           { label: "Factions", href: "/factions" },
           { label: "Boards & Gear", href: "/movement-systems" },
         ],
@@ -390,8 +409,9 @@ export const siteContent: SiteContent = {
     { label: "Lowline", href: "/lowline" },
     { label: "Characters", href: "/characters" },
     { label: "Archive", href: "/archive" },
+    { label: "Gallery", href: "/gallery" },
     { label: "Black Book", href: "/codex" },
-    { label: "Routes & Tracks", href: "/routes-cities" },
+    { label: "Routes & Cities", href: "/routes-cities" },
     { label: "Factions", href: "/factions" },
     { label: "G// Garage", href: "/garage" },
     { label: "Support", href: "/support" },
@@ -430,6 +450,136 @@ export const siteContent: SiteContent = {
       url: asset("ref-daylight.jpg"),
       alt: "Bright futuristic racing environment for Eidolon",
       caption: "The first planet is Eidolon. The first city is Neo Noctis.",
+    },
+  ],
+  gallery: [
+    {
+      id: "kellan-pre-run",
+      title: "Kellan Roux // Pre-Run",
+      slug: "kellan-roux-pre-run",
+      imageUpload: asset("ref-night.jpg"),
+      category: "Riders",
+      caption: "A rider before the city knows what to call him.",
+      tags: ["Kellan Roux", "Neo Noctis", "Volume Zero"],
+      relatedCharacter: "kellan-roux",
+      relatedRouteTrackSpot: "neo-noctis",
+      relatedSponsorManufacturer: "",
+      relatedArchiveFile: "kellan-rooftop",
+      credit: "Concept development reference",
+      featured: true,
+      status: "published",
+    },
+    {
+      id: "macks-deck",
+      title: "Mack's Deck // 2:17 AM",
+      slug: "macks-deck-217",
+      imageUpload: asset("ref-metroascent.jpg"),
+      category: "Spots",
+      caption: "Public air, private attention, and a crowd waiting for a line worth copying.",
+      tags: ["Spot", "Eidolon V", "Lowline"],
+      relatedCharacter: "",
+      relatedRouteTrackSpot: "neo-noctis",
+      relatedSponsorManufacturer: "",
+      relatedArchiveFile: "lowline-runs",
+      credit: "Concept development reference",
+      featured: false,
+      status: "published",
+    },
+    {
+      id: "riftworks-board-lowline",
+      title: "Riftworks Board // Lowline Spec",
+      slug: "riftworks-board-lowline-spec",
+      imageUpload: asset("ref-catalog.jpg"),
+      category: "Boards",
+      caption: "Board culture starts where tuning, identity, and risk become the same object.",
+      tags: ["Boards", "Lowline Spec", "G-Core"],
+      relatedCharacter: "kellan-roux",
+      relatedRouteTrackSpot: "gate-8",
+      relatedSponsorManufacturer: "EX//LINE",
+      relatedArchiveFile: "gsync-click",
+      credit: "Concept development reference",
+      featured: false,
+      status: "published",
+    },
+    {
+      id: "vector-royal-track",
+      title: "Vector Royal Development Track",
+      slug: "vector-royal-development-track",
+      imageUpload: asset("ref-daylight.jpg"),
+      category: "Tracks",
+      caption: "A clean track always hides the pressure that paid for it.",
+      tags: ["Track", "Sponsor Circuit", "Volume Zero"],
+      relatedCharacter: "",
+      relatedRouteTrackSpot: "solar-harbor",
+      relatedSponsorManufacturer: "Axiom Performance",
+      relatedArchiveFile: "route-rights",
+      credit: "Concept development reference",
+      featured: false,
+      status: "published",
+    },
+    {
+      id: "gate-8-first-signal",
+      title: "Gate 8 // First Signal",
+      slug: "gate-8-first-signal",
+      imageUpload: asset("ref-city.jpg"),
+      category: "Lowlines",
+      caption: "No broadcast. No record. No protection. Then the feed caught what the officials missed.",
+      tags: ["Gate 8", "Off Ledger", "Lowline"],
+      relatedCharacter: "kellan-roux",
+      relatedRouteTrackSpot: "gate-8",
+      relatedSponsorManufacturer: "",
+      relatedArchiveFile: "gate-8",
+      credit: "Concept development reference",
+      featured: true,
+      status: "published",
+    },
+    {
+      id: "red-halo-hospitality",
+      title: "Red Halo // Circuit Hospitality",
+      slug: "red-halo-circuit-hospitality",
+      imageUpload: asset("ref-daylight.jpg"),
+      category: "Sponsors",
+      caption: "Sponsor culture turns speed into a room people want to be seen inside.",
+      tags: ["Sponsors", "Hospitality", "Circuit"],
+      relatedCharacter: "",
+      relatedRouteTrackSpot: "solar-harbor",
+      relatedSponsorManufacturer: "Red Halo",
+      relatedArchiveFile: "route-rights",
+      credit: "Concept development reference",
+      featured: false,
+      status: "published",
+    },
+    {
+      id: "rouxline-glass",
+      title: "The Rouxline // Glass Room",
+      slug: "rouxline-glass-room",
+      imageUpload: asset("ref-catalog.jpg"),
+      category: "Volume Zero",
+      caption: "A private room above the Lowline. A family name close to the sport's hidden economy.",
+      tags: ["Rouxline", "Volume Zero", "Uno Roux"],
+      relatedCharacter: "uno-roux",
+      relatedRouteTrackSpot: "neo-noctis",
+      relatedSponsorManufacturer: "",
+      relatedArchiveFile: "rouxline-chrome",
+      credit: "Concept development reference",
+      featured: false,
+      status: "published",
+    },
+    {
+      id: "night-board-wall",
+      title: "Board Wall // Night Spec",
+      slug: "board-wall-night-spec",
+      imageUpload: asset("ref-night.jpg"),
+      category: "Boards",
+      caption: "The board is the icon before the rider becomes the name.",
+      tags: ["Boards", "Night Spec", "Style"],
+      relatedCharacter: "kellan-roux",
+      relatedRouteTrackSpot: "neo-noctis",
+      relatedSponsorManufacturer: "Blackline Racing Gear",
+      relatedArchiveFile: "gsync-click",
+      credit: "Concept development reference",
+      featured: false,
+      status: "published",
     },
   ],
   featureStrip: [
@@ -800,7 +950,7 @@ export const siteContent: SiteContent = {
         body:
           "Speed, style, G-Sync, route intelligence, sponsor money, wager culture, and board control converge across official events, Lowline runs, route rights, sanctioned zones, and unsanctioned pressure.",
         image: asset("ref-night.jpg"),
-        ctas: [{ label: "View Routes & Tracks", href: "/routes-cities", kind: "primary" }],
+        ctas: [{ label: "View Routes & Cities", href: "/routes-cities", kind: "primary" }],
       },
       blocks: [
         {
