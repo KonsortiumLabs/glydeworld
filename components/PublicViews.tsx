@@ -227,6 +227,10 @@ export function PageView({ pageKey }: { pageKey: "gravsports" | "racing" | "neoN
       {
         title: "The Overcity",
         category: "Neo Noctis // Skyline layer",
+        fileType: "City layer",
+        accessLevel: "Public / sponsored",
+        routeZone: "Overcity",
+        fileStatus: "Broadcast clean",
         image: content.images[0].url,
         definition: "Sponsor towers, official events, broadcast decks, luxury suites, and the version of the sport sold in perfect light.",
         description: "The Overcity is where Neo Noctis performs itself. Grand Cup guests arrive here first. Sponsors buy glass, height, and proximity to the cameras. The official sport looks clean from this altitude because the debts are below the frame.",
@@ -236,6 +240,10 @@ export function PageView({ pageKey }: { pageKey: "gravsports" | "racing" | "neoN
       {
         title: "The Lowline",
         category: "Neo Noctis // Below the route map",
+        fileType: "District / pressure layer",
+        accessLevel: "Restricted / street",
+        routeZone: "Lowline",
+        fileStatus: "Terms active",
         image: content.images[1].url,
         definition: "Off-route races, hidden access, Black Book terms, street crews, mechanics, and people with nothing to lose.",
         description: "The Lowline is not simply underground. It is the part of Neo Noctis that keeps the official sport honest, dangerous, and hungry. Runs happen there because sanctioned routes cannot answer every ambition.",
@@ -244,19 +252,27 @@ export function PageView({ pageKey }: { pageKey: "gravsports" | "racing" | "neoN
       },
       {
         title: "The Rouxline",
-        category: "Neo Noctis // Lounge / garage / family asset",
+        category: "Neo Noctis // Private rider house",
+        fileType: "Rider house / salon",
+        accessLevel: "Selective / private",
+        routeZone: "Roux orbit",
+        fileStatus: "Watched",
         image: content.images[2].url,
-        definition: "Uno Roux's private lounge and rider house: part social room, part board room, part family territory.",
-        description: "The Rouxline is where Uno Roux keeps the room warm, the doors selective, and the family close to the sport's hidden economy. It sits close enough to the Lowline to hear the terms being written, and polished enough for sponsors to pretend they are only there for the view.",
-        whyItMatters: "It gives OFF LEDGER an intimate pressure point: family, sponsors, riders, and route whispers in the same room.",
-        tags: ["Uno Roux", "Kellan Roux", "Garage", "Access"],
+        definition: "Uno Roux's private rider house, board garage, salon, and high-stakes social territory.",
+        description: "The Rouxline is where deals, rivalries, route politics, and board culture pass through the same room. Uno keeps the doors selective, the room warm, and the family close enough to the sport's hidden economy to hear terms forming before they become public.",
+        whyItMatters: "It gives OFF LEDGER an intimate pressure point where private money, family pressure, route access, and Neo Noctis nightlife begin to overlap.",
+        tags: ["Uno Roux", "Kellan Roux", "Rider House", "Route Politics"],
       },
       {
         title: "Gate 8",
         category: "Neo Noctis // Private route access",
+        fileType: "Gate / route access",
+        accessLevel: "Private / off-map",
+        routeZone: "Roux orbit",
+        fileStatus: "Disputed",
         image: content.images[3].url,
-        definition: "A valuable gate and route-access point near the Roux family orbit.",
-        description: "Gate 8 matters because route access matters. It is one pressure point among many in Neo Noctis, a place where private runs, wager terms, and family position can become public market weather.",
+        definition: "A private route-access point tied to the Roux orbit, quiet arrivals, and off-map movement.",
+        description: "Gate 8 matters because controlled access matters. It can support private board runs, quiet arrivals, and off-map movement without turning the whole city into one door.",
         whyItMatters: "It shows how one route can make a rider visible without making the entire city depend on one door.",
         tags: ["Route Rights", "Off Ledger", "Wager Houses", "Gate 8"],
       },
@@ -287,22 +303,39 @@ export function PageView({ pageKey }: { pageKey: "gravsports" | "racing" | "neoN
             })}>
               <img src={content.images[0].url} alt={content.images[0].alt} />
               <div>
-                <span className="label">Open city file</span>
+                <span className="label">Featured dossier // Eidolon city file</span>
                 <h2 className="display">The city that made board culture feel like nightlife.</h2>
                 <p>Above, Neo Noctis sells glamour. Below, the Lowline sets the terms.</p>
-                <span className="btn">Open Neo Noctis File →</span>
+                <div className="city-cover-meta">
+                  <span>FILE TYPE <b>City dossier</b></span>
+                  <span>STATUS <b>Open</b></span>
+                  <span>ACCESS <b>Public</b></span>
+                </div>
+                <span className="btn dossier-cta">View Dossier →</span>
               </div>
             </button>
-            <div className="city-node-grid">
-              {cityFiles.map((file) => (
-                <button className="city-node-card clickable-card" onClick={() => setSelected({ ...file, ctas: [{ label: "Open Related Archive", href: "/archive", kind: "primary" }] })} key={file.title}>
-                  <img src={file.image} alt="" />
-                  <span className="label">{file.category}</span>
-                  <h3 className="display">{file.title}</h3>
-                  <p>{file.definition}</p>
-                  <span className="btn card-cta">Open File →</span>
-                </button>
-              ))}
+            <div className="city-dossier-index">
+              <div className="city-dossier-head">
+                <span className="label">NEO NOCTIS FILES</span>
+                <h3 className="display">Routes, crews, access points, and the city systems behind modern board culture.</h3>
+              </div>
+              <div className="city-node-grid">
+                {cityFiles.map((file) => (
+                  <button className="city-node-card clickable-card" onClick={() => setSelected({ ...file, ctas: [{ label: "View Archive", href: "/archive", kind: "primary" }] })} key={file.title}>
+                    <img src={file.image} alt="" />
+                    <div className="city-file-meta">
+                      <span>FILE TYPE <b>{file.fileType}</b></span>
+                      <span>ACCESS LEVEL <b>{file.accessLevel}</b></span>
+                      <span>ROUTE / DISTRICT <b>{file.routeZone}</b></span>
+                      <span>STATUS <b>{file.fileStatus}</b></span>
+                    </div>
+                    <span className="label">{file.category}</span>
+                    <h3 className="display">{file.title}</h3>
+                    <p>{file.definition}</p>
+                    <span className="btn card-cta">Preview File →</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </section>
