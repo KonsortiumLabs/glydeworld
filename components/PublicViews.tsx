@@ -1955,9 +1955,9 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
           <div className="section-head">
             <div>
               <span className="label">Sponsors / Manufacturers / Power Blocs</span>
-              <h2 className="display">Brands are story engines.</h2>
+              <h2 className="display"><span>Power centers</span><span>beneath the sport.</span></h2>
             </div>
-            <p>Sponsors are not decoration. They are the architecture of access.</p>
+            <p><span>Who backs the rider. Who watches the rider.</span><span>Who owns the terms when the rider finally matters.</span></p>
           </div>
           <div className="faction-filter-row">
             {factionFilters.map((filter) => (

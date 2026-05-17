@@ -2951,6 +2951,8 @@ img { max-width: 100%; display: block; }
   margin-inline: auto;
 }
 .faction-map-section h2 span,
+.faction-index-section .section-head h2 span,
+.faction-index-section .section-head p span,
 .faction-volume-zero h3 span {
   display: block;
 }
