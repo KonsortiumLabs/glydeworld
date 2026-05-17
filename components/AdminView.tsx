@@ -38,6 +38,7 @@ type TabKey =
   | "sponsors"
   | "codex"
   | "gcores"
+  | "sound"
   | "submissions"
   | "garage"
   | "support"
@@ -55,14 +56,15 @@ const tabs: Array<{ key: TabKey; label: string }> = [
   { key: "pages", label: "Pages" },
   { key: "characters", label: "Characters" },
   { key: "archive", label: "Archive" },
-  { key: "circuits", label: "Routes & Cities" },
+  { key: "circuits", label: "Routes & Tracks" },
   { key: "factions", label: "Factions" },
   { key: "manufacturers", label: "Manufacturers" },
   { key: "sponsors", label: "Sponsors" },
-  { key: "codex", label: "Codex" },
+  { key: "codex", label: "Black Book" },
   { key: "gcores", label: "Boards / Gear / G-Cores" },
+  { key: "sound", label: "Sound" },
   { key: "submissions", label: "Submissions" },
-  { key: "garage", label: "Garage" },
+  { key: "garage", label: "G// Garage" },
   { key: "support", label: "Support" },
   { key: "footer", label: "Footer" },
   { key: "images", label: "Images" },
@@ -415,13 +417,14 @@ export function AdminView() {
               {[
                 ["Characters", draft.characters.length],
                 ["Archive Drops", draft.archive.length],
-                ["Codex Files", draft.codex.length],
-                ["Routes & Cities", draft.circuits.length],
+                ["Black Book Files", draft.codex.length],
+                ["Routes & Tracks", draft.circuits.length],
+                ["Sound Signals", draft.sound.signalTracks.length + draft.sound.routeMixes.length + draft.sound.gnetAudio.length],
                 ["Factions", draft.factions.length],
                 ["G-Cores", draft.gCores.length],
                 ["Submissions", submissions.length],
               ].map(([label, value]) => (
-                <button className="cms-stat" key={label} onClick={() => setTab(label === "G-Cores" ? "gcores" : label === "Archive Drops" ? "archive" : label === "Codex Files" ? "codex" : label === "Submissions" ? "submissions" : label === "Routes & Cities" ? "circuits" : String(label).toLowerCase() as TabKey)}>
+                <button className="cms-stat" key={label} onClick={() => setTab(label === "G-Cores" ? "gcores" : label === "Archive Drops" ? "archive" : label === "Black Book Files" ? "codex" : label === "Submissions" ? "submissions" : label === "Routes & Tracks" ? "circuits" : label === "Sound Signals" ? "sound" : String(label).toLowerCase() as TabKey)}>
                   <span className="label">{label}</span>
                   <b className="display">{value}</b>
                 </button>
@@ -476,12 +479,13 @@ export function AdminView() {
           {tab === "pages" && <ContentEditor label="Pages" value={draft.pages} onChange={(value) => update(["pages"], value)} />}
           {tab === "characters" && <ContentEditor label="Characters" value={draft.characters} onChange={(value) => update(["characters"], value)} />}
           {tab === "archive" && <ContentEditor label="Archive entries" value={draft.archive} onChange={(value) => update(["archive"], value)} />}
-          {tab === "circuits" && <ContentEditor label="Routes & Cities" value={draft.circuits} onChange={(value) => update(["circuits"], value)} />}
+          {tab === "circuits" && <ContentEditor label="Routes & Tracks" value={draft.circuits} onChange={(value) => update(["circuits"], value)} />}
           {tab === "factions" && <ContentEditor label="Factions" value={draft.factions} onChange={(value) => update(["factions"], value)} />}
           {tab === "manufacturers" && <ContentEditor label="Manufacturers" value={draft.manufacturers} onChange={(value) => update(["manufacturers"], value)} />}
           {tab === "sponsors" && <ContentEditor label="Sponsors" value={draft.sponsors} onChange={(value) => update(["sponsors"], value)} />}
-          {tab === "codex" && <ContentEditor label="Codex terms" value={draft.codex} onChange={(value) => update(["codex"], value)} />}
+          {tab === "codex" && <ContentEditor label="Black Book terms" value={draft.codex} onChange={(value) => update(["codex"], value)} />}
           {tab === "gcores" && <ContentEditor label="Boards / gear / G-Core spec panels" value={draft.gCores} onChange={(value) => update(["gCores"], value)} />}
+          {tab === "sound" && <ContentEditor label="Sound: Signal Tracks, Route Mixes, and G//NET Audio" value={draft.sound} onChange={(value) => update(["sound"], value)} />}
           {tab === "submissions" && (
             <div className="submissions-admin">
               <div className="admin-actions compact">
@@ -550,7 +554,7 @@ export function AdminView() {
               </div>
             </div>
           )}
-          {tab === "garage" && <ContentEditor label="Garage content and submission links" value={draft.garage} onChange={(value) => update(["garage"], value)} />}
+          {tab === "garage" && <ContentEditor label="G// Garage content and submission links" value={draft.garage} onChange={(value) => update(["garage"], value)} />}
           {tab === "support" && <ContentEditor label="Support content and payment links" value={draft.support} onChange={(value) => update(["support"], value)} />}
           {tab === "footer" && <ContentEditor label="Footer tagline, columns, links, and social links" value={draft.footer} onChange={(value) => update(["footer"], value)} />}
 

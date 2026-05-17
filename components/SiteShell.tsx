@@ -26,7 +26,7 @@ export function SiteHeader() {
         <Link href="/" className="brand-block" onClick={() => setOpen(false)}>
           <Wordmark small />
           <span className="brand-meta mono">
-            <b>{content.settings.domain}</b>
+            <b>G//LYDE</b>
             <span>{content.settings.universeLabel}</span>
           </span>
         </Link>
@@ -41,7 +41,7 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Link className="nav-cta" href="/join">Join The World</Link>
+        <Link className="nav-cta" href="/join">Join Early List</Link>
         <button className="mobile-toggle mono" onClick={() => setOpen((value) => !value)}>
           {open ? "Close" : "Menu"}
         </button>
@@ -65,18 +65,18 @@ export function SiteFooter() {
     <footer className="footer">
       <div className="footer-cta">
         <div>
-          <span className="label">OFF-LEDGER ACCESS</span>
+          <span className="label">FINAL TRANSMISSION</span>
           <h2 className="display">
             <span className="split-display-title">
-              <span>The surface story is</span>
-              <span>not the whole sport.</span>
+              <span>The feed ends here.</span>
+              <span>The Lowlines do not.</span>
             </span>
           </h2>
-          <p>Character files, route notes, board records, faction dossiers, and off-ledger fragments from the Over//Under.</p>
+          <p>Rider files, route records, board data, faction notes, and Black Book entries are still surfacing before Volume Zero.</p>
         </div>
         <div className="cta-row">
           <Link className="btn primary" href="/archive">Open the Archive →</Link>
-          <Link className="btn" href="/join">Join the Early List →</Link>
+          <Link className="btn" href="/garage">Enter G// Garage →</Link>
         </div>
       </div>
       <div className="footer-inner">
@@ -96,7 +96,7 @@ export function SiteFooter() {
       <div className="footer-tape">
         <span>{content.settings.copyrightText}</span>
         <span>{content.settings.conceptArtNote}</span>
-        <span>Canon is curated. Submissions do not guarantee inclusion or ownership.</span>
+        <span>Canon is curated. Submissions do not guarantee inclusion, credit, or ownership.</span>
       </div>
     </footer>
   );

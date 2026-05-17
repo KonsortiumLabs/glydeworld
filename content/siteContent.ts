@@ -152,6 +152,21 @@ export type GCore = {
   relatedMachines: string[];
 };
 
+export type SoundEntry = {
+  id: string;
+  title: string;
+  artist: string;
+  audioEmbed: string;
+  coverArt: string;
+  mood: string;
+  relatedCharacter: string;
+  relatedRoute: string;
+  relatedChapter: string;
+  relatedArchiveFile: string;
+  tags: string[];
+  status: "draft" | "published" | "hidden";
+};
+
 export type GaragePath = {
   title: string;
   body: string;
@@ -254,6 +269,11 @@ export type SiteContent = {
   sponsors: BrandEntity[];
   codex: CodexTerm[];
   gCores: GCore[];
+  sound: {
+    signalTracks: SoundEntry[];
+    routeMixes: SoundEntry[];
+    gnetAudio: SoundEntry[];
+  };
   garage: {
     title: string;
     intro: string;
@@ -280,14 +300,14 @@ export const siteContent: SiteContent = {
   settings: {
     title: "G//LYDE",
     description:
-      "A premium IP portal for G//LYDE, a gravboard racing saga from the Over//Under.",
+      "A premium release portal for G//LYDE: LOWLINE, an Over//Under Story.",
     domain: "glydeworld.com",
-    universeLabel: "OVER//UNDER",
+    universeLabel: "AN OVER//UNDER STORY",
     footerCopy:
-      "G//LYDE is the public portal for riders, boards, routes, faction dossiers, off-ledger fragments, and signals before Volume 0.",
+      "Anti-gravity board culture, Lowline records, rider files, board data, and signals before Volume Zero.",
     conceptArtNote:
       "Select visuals are concept development references for the evolving G//LYDE universe.",
-    copyrightText: "© G//LYDE / Over//Under.",
+    copyrightText: "© G//LYDE / AN OVER//UNDER STORY.",
   },
   brand: {
     logoText: "G//LYDE",
@@ -302,47 +322,47 @@ export const siteContent: SiteContent = {
     accentColor: "#d4f23a",
   },
   footer: {
-    tagline: "Anti-gravity board culture from Over//Under.",
+    tagline: "An Over//Under Story.",
     copy:
-      "Riders. Boards. Routes. Factions. Signals before Volume 0.",
+      "Anti-gravity board culture, Lowline records, rider files, board data, and signals before Volume Zero.",
     columns: [
       {
-        title: "Enter",
+        title: "Watch the Feed",
         links: [
           { label: "Home", href: "/" },
           { label: "G//LYDE", href: "/glyde-racing" },
-          { label: "Neo Noctis", href: "/neo-noctis" },
-          { label: "Off-Ledger", href: "/off-ledger" },
-        ],
-      },
-      {
-        title: "Archive",
-        links: [
+          { label: "Lowline", href: "/lowline" },
           { label: "Characters", href: "/characters" },
-          { label: "Archive", href: "/archive" },
-          { label: "Codex", href: "/codex" },
-          { label: "Boards & Gear", href: "/movement-systems" },
-          { label: "Routes", href: "/routes-cities" },
-          { label: "Factions", href: "/factions" },
         ],
       },
       {
-        title: "Build",
+        title: "Open the Files",
         links: [
-          { label: "G// Garage", href: "/garage" },
-          { label: "Submit a Concept", href: "/garage" },
+          { label: "Archive", href: "/archive" },
+          { label: "Black Book", href: "/codex" },
+          { label: "Routes & Tracks", href: "/routes-cities" },
+          { label: "Factions", href: "/factions" },
+          { label: "Boards & Gear", href: "/movement-systems" },
+        ],
+      },
+      {
+        title: "Enter G// Garage",
+        links: [
+          { label: "Garage", href: "/garage" },
+          { label: "Submit a Signal", href: "/garage" },
           { label: "Support a Drop", href: "/support-a-drop" },
           { label: "Collaborate", href: "/collaborate" },
           { label: "Join Early List", href: "/join" },
         ],
       },
       {
-        title: "Connect",
+        title: "Transmissions",
         links: [
           { label: "Instagram", href: "/join" },
           { label: "X / Twitter", href: "/join" },
-          { label: "Email / Contact", href: "mailto:hello@glydeworld.com" },
+          { label: "Email", href: "mailto:hello@glydeworld.com" },
           { label: "Newsletter", href: "/join" },
+          { label: "Discord", href: "/join" },
         ],
       },
     ],
@@ -355,7 +375,7 @@ export const siteContent: SiteContent = {
   seo: {
     title: "G//LYDE | A Gravboard Saga",
     description:
-      "Enter G//LYDE, the public portal for a future-facing gravboard racing saga of riders, boards, Neo Noctis, Off-Ledger files, route rights, wagers, style, and speed.",
+      "Enter G//LYDE, the public portal for a future-facing gravboard racing saga of riders, boards, Neo Noctis, Off Ledger files, route rights, wagers, style, and speed.",
     ogTitle: "G//LYDE",
     ogDescription:
       "The world does not race on wheels anymore. Enter the story archive of G//LYDE, Neo Noctis, and the future of gravboard culture.",
@@ -367,20 +387,20 @@ export const siteContent: SiteContent = {
   nav: [
     { label: "Home", href: "/" },
     { label: "G//LYDE", href: "/glyde-racing" },
-    { label: "Neo Noctis", href: "/neo-noctis" },
+    { label: "Lowline", href: "/lowline" },
     { label: "Characters", href: "/characters" },
     { label: "Archive", href: "/archive" },
-    { label: "Codex", href: "/codex" },
-    { label: "Routes & Cities", href: "/routes-cities" },
+    { label: "Black Book", href: "/codex" },
+    { label: "Routes & Tracks", href: "/routes-cities" },
     { label: "Factions", href: "/factions" },
-    { label: "Garage", href: "/garage" },
+    { label: "G// Garage", href: "/garage" },
     { label: "Support", href: "/support" },
   ],
   ctas: [
-    { label: "Join the World", href: "/garage", kind: "primary" },
-    { label: "Submit a Rider", href: "/garage", kind: "submission" },
-    { label: "Read Off Ledger", href: "/archive", kind: "secondary" },
-    { label: "Support Volume 0", href: "/support", kind: "payment" },
+    { label: "Join Early List", href: "/join", kind: "primary" },
+    { label: "Submit a Signal", href: "/garage", kind: "submission" },
+    { label: "Open the First File", href: "/archive?category=off-ledger&file=gate-8", kind: "secondary" },
+    { label: "Support Volume Zero", href: "/support", kind: "payment" },
   ],
   images: [
     {
@@ -453,7 +473,7 @@ export const siteContent: SiteContent = {
         body: "Submit a rider, crew, route, sponsor, board, or story concept for curated review.",
         href: "/garage",
         image: asset("ref-catalog.jpg"),
-        tags: ["Garage", "Submissions", "Volume 0"],
+        tags: ["Garage", "Submissions", "Volume Zero"],
       },
     ],
     worldTeaser: {
@@ -567,7 +587,7 @@ export const siteContent: SiteContent = {
         "At The Rouxline, the party is only the surface. Below the polished rooms and private introductions, route access moves quietly through Neo Noctis. When a private run challenges the Roux family's position, the race is supposed to stay quiet. No broadcast. No record. No protection. Then the clip leaks. By morning, sponsors want the rider, Oddsmakers price the moment, manufacturers study the data, and Neo Noctis wants to know what the Roux family has been hiding.",
       image: asset("ref-night.jpg"),
       ctas: [
-        { label: "Read Off Ledger", href: "/archive", kind: "primary" },
+        { label: "Open First Signal", href: "/archive?category=off-ledger&file=gate-8", kind: "primary" },
         { label: "Open Gate 8 File", href: "/archive", kind: "secondary" },
       ],
       href: "/archive",
@@ -661,9 +681,9 @@ export const siteContent: SiteContent = {
       {
         eyebrow: "Back a drop",
         title: "Support a Drop",
-        body: "Help fund character files, concept visuals, story entries, and Volume 0 development.",
+        body: "Help fund character files, concept visuals, story entries, and Volume Zero development.",
         href: "/support",
-        tags: ["Archive", "Visuals", "Volume 0"],
+        tags: ["Archive", "Visuals", "Volume Zero"],
       },
       {
         eyebrow: "Brand file",
@@ -681,14 +701,14 @@ export const siteContent: SiteContent = {
       },
     ],
     supportCta: {
-      eyebrow: "Before Volume 0",
-      title: "Build with us before Volume 0 drops.",
+      eyebrow: "Before Volume Zero",
+      title: "Build with us before Volume Zero drops.",
       body:
         "G//LYDE is being developed through character files, illustrated drops, route lore, story entries, and curated community participation. Join early, support a drop, submit a concept, or collaborate on the world.",
       ctas: [
-        { label: "Join The World", href: "/join", kind: "primary" },
+        { label: "Join Early List", href: "/join", kind: "primary" },
         { label: "Support A Drop", href: "/support-a-drop", kind: "support" },
-        { label: "Open the Garage", href: "/garage", kind: "secondary" },
+        { label: "Enter G// Garage", href: "/garage", kind: "secondary" },
       ],
     },
     canonNotice:
@@ -702,15 +722,15 @@ export const siteContent: SiteContent = {
       seoDescription:
         "Enter G//LYDE, a story portal for riders, boards, Neo Noctis, Off Ledger files, route rights, wagers, style, and speed.",
       hero: {
-        eyebrow: "G//LYDE // A gravboard saga from the OVER//UNDER universe",
+        eyebrow: "G//LYDE // An Over//Under Story",
         title: "THE WORLD DOES NOT RACE ON WHEELS ANYMORE.",
         body:
           "G//LYDE is a gravboard racing saga set in a future where movement is status, boards are identity, and one impossible line can turn a rider into a market event. In Neo Noctis, speed sells. Style is mechanical. Every route has a price.",
         image: asset("ref-metroascent.jpg"),
         ctas: [
           { label: "Enter Neo Noctis", href: "/neo-noctis", kind: "primary" },
-          { label: "Read Off Ledger", href: "/archive", kind: "secondary" },
-          { label: "Build in the Garage", href: "/garage", kind: "support" },
+          { label: "Open the First File", href: "/archive?category=off-ledger&file=gate-8", kind: "secondary" },
+          { label: "Enter G// Garage", href: "/garage", kind: "support" },
         ],
       },
       blocks: [
@@ -780,7 +800,7 @@ export const siteContent: SiteContent = {
         body:
           "Speed, style, G-Sync, route intelligence, sponsor money, wager culture, and board control converge across official events, Lowline runs, route rights, sanctioned zones, and unsanctioned pressure.",
         image: asset("ref-night.jpg"),
-        ctas: [{ label: "View Routes & Cities", href: "/routes-cities", kind: "primary" }],
+        ctas: [{ label: "View Routes & Tracks", href: "/routes-cities", kind: "primary" }],
       },
       blocks: [
         {
@@ -796,6 +816,13 @@ export const siteContent: SiteContent = {
           body:
             "Off Ledger does not mean without consequence. It means without protection. A contract can be a cage or a way out. Most riders do not know which until it closes.",
         },
+        {
+          kicker: "Sound culture",
+          title: "Riders have songs. Crews have sounds. Lowlines have mixes.",
+          body:
+            "G-Core powers the boards. G-Res measures rider sync. Music shapes the tempo, mood, identity, and atmosphere around the ride.",
+          points: ["Route Mixes", "Signal Tracks", "G//NET Audio"],
+        },
       ],
     },
     neoNoctis: {
@@ -810,7 +837,7 @@ export const siteContent: SiteContent = {
         body:
           "Neo Noctis is the Miami / Vegas / Monaco of Eidolon: coastal, vertical, luxurious, party-driven, wager-heavy, beautiful first, dangerous underneath.",
         image: asset("ref-metroascent.jpg"),
-        ctas: [{ label: "Read Off Ledger", href: "/archive", kind: "primary" }],
+        ctas: [{ label: "Open First Signal", href: "/archive?category=off-ledger&file=gate-8", kind: "primary" }],
       },
       blocks: [
         {
@@ -831,19 +858,19 @@ export const siteContent: SiteContent = {
     garage: {
       slug: "/garage",
       navLabel: "Garage",
-      seoTitle: "The Garage | Creator and Supporter Portal",
+      seoTitle: "G// Garage | Creator and Supporter Portal",
       seoDescription:
-        "The Garage is the early-access creator and supporter portal for curated G//LYDE participation.",
+        "G// Garage is the early-access creator and supporter portal for curated G//LYDE participation.",
       hero: {
-        eyebrow: "The Garage // G//LYDE intake",
+        eyebrow: "G// Garage // G//LYDE intake",
         title: "ENTER THE WORLD BEFORE THE FIRST VOLUME DROPS.",
         body:
-          "G//LYDE is being developed through character files, illustrated drops, route lore, story entries, and curated community participation. The Garage is the early-access portal for supporters, writers, artists, builders, brands, and worldmakers who want to help shape the edges before Volume 0.",
+          "G//LYDE is being developed through character files, illustrated drops, route lore, story entries, and curated community participation. G// Garage is the early-access portal for supporters, writers, artists, builders, brands, and worldmakers who want to help shape the edges before Volume Zero.",
         image: asset("ref-catalog.jpg"),
         ctas: [
-          { label: "Join The World", href: "/join", kind: "primary" },
+          { label: "Join Early List", href: "/join", kind: "primary" },
           { label: "Support A Drop", href: "/support-a-drop", kind: "support" },
-          { label: "Submit A Concept", href: "/garage", kind: "submission" },
+          { label: "Submit A Signal", href: "/garage", kind: "submission" },
         ],
       },
       blocks: [],
@@ -853,12 +880,12 @@ export const siteContent: SiteContent = {
       navLabel: "Support",
       seoTitle: "Support G//LYDE",
       seoDescription:
-        "Support G//LYDE, back Volume 0, fund visual development, submit concepts, and join the early list.",
+        "Support G//LYDE, back Volume Zero, fund visual development, submit concepts, and join the early list.",
       hero: {
         eyebrow: "Early backer signal",
-        title: "HELP BUILD THE WORLD BEFORE THE FIRST VOLUME DROPS.",
+        title: "HELP BUILD THE WORLD\nBEFORE VOLUME 0.",
         body:
-          "Support funds character files, visual development, archive entries, pitch materials, Volume 0, and the systems that let early creators help shape the edges of G//LYDE.",
+          "Support funds character files, visual development, archive entries, pitch materials,\nVolume 0, and the systems that let early creators help shape the edges of G//LYDE.",
         image: asset("ref-daylight.jpg"),
         ctas: [{ label: "Back Volume 0", href: "/support-a-drop", kind: "payment" }],
       },
@@ -1350,7 +1377,7 @@ export const siteContent: SiteContent = {
       whyItMatters: "It keeps the portal focused while leaving room for other worlds, branches, cities, and story lines to surface later.",
       usage: "G//LYDE is a gravboard saga from the OVER//UNDER universe.",
       tags: ["umbrella", "IP", "world layer"],
-      relatedTerms: ["G//LYDE", "Over//Under", "Volume 0"],
+      relatedTerms: ["G//LYDE", "Over//Under", "Volume Zero"],
       relatedArchiveIds: ["off-ledger-run"],
       relatedCharacterIds: [],
       relatedCircuitIds: [],
@@ -1362,7 +1389,7 @@ export const siteContent: SiteContent = {
       term: "G//LYDE",
       category: "World",
       definition: "The franchise branch inside OVER//UNDER that holds G//LYDE, Neo Noctis, and the board-racing story world.",
-      fullDescription: "G//LYDE is the lane where anti-gravity sport, route rights, style economies, G//NET feeds, and character files converge. It is built for story first, with archive drops and visual development shaping the world before Volume 0.",
+      fullDescription: "G//LYDE is the lane where anti-gravity sport, route rights, style economies, G//NET feeds, and character files converge. It is built for story first, with archive drops and visual development shaping the world before Volume Zero.",
       whyItMatters: "It gives the site a clear home: bigger than one race, smaller and sharper than the entire OVER//UNDER universe.",
       usage: "Archive files from G//LYDE usually begin with a route, a rider, or a clip somebody wanted buried.",
       tags: ["series branch", "story world", "gravity"],
@@ -1377,12 +1404,12 @@ export const siteContent: SiteContent = {
       id: "glyde-world",
       term: "G//LYDE",
       category: "World",
-      definition: "The public portal for character files, story drops, Codex entries, routes, and curated co-creation.",
-      fullDescription: "G//LYDE is the doorway into the branch. It publishes the files that make the universe legible: journals, G//NET clips, visual drops, route lore, Codex records, and Garage entry points for early supporters.",
-      whyItMatters: "The site is where the current equivalent of chapters lives before Volume 0 becomes the next formal release.",
+      definition: "The public portal for character files, story drops, Black Book entries, routes, and curated co-creation.",
+      fullDescription: "G//LYDE is the doorway into the branch. It publishes the files that make the universe legible: journals, G//NET clips, visual drops, route lore, Black Book records, and G// Garage entry points for early supporters.",
+      whyItMatters: "The site is where the current equivalent of chapters lives before Volume Zero becomes the next formal release.",
       usage: "Open G//LYDE when you need the story, the terms, and the route map in one place.",
       tags: ["portal", "archive", "Garage"],
-      relatedTerms: ["The Archive", "Volume 0", "The Garage"],
+      relatedTerms: ["The Archive", "Volume Zero", "G// Garage"],
       relatedArchiveIds: ["kellan-rooftop", "gate-8"],
       relatedCharacterIds: ["kellan-roux", "gio-roux", "uno-roux", "vey-sable"],
       relatedCircuitIds: ["neo-noctis", "gate-8"],
@@ -1437,14 +1464,14 @@ export const siteContent: SiteContent = {
     },
     {
       id: "volume-0",
-      term: "Volume 0",
+      term: "Volume Zero",
       category: "World",
       definition: "The planned first formal release point for the story-first G//LYDE universe.",
-      fullDescription: "Volume 0 is the development target the portal points toward: character files, visual drops, serialized archive entries, pitch materials, and story systems becoming a sharper release package.",
+      fullDescription: "Volume Zero is the development target the portal points toward: character files, visual drops, serialized archive entries, pitch materials, and story systems becoming a sharper release package.",
       whyItMatters: "It gives support and participation a clear purpose without promising uncontrolled canon or finished media before it exists.",
-      usage: "Build the world before Volume 0 drops.",
+      usage: "Build the world before Volume Zero drops.",
       tags: ["release", "development", "visual drops"],
-      relatedTerms: ["G//LYDE", "The Garage", "The Archive"],
+      relatedTerms: ["G//LYDE", "G// Garage", "The Archive"],
       relatedArchiveIds: ["off-ledger-run"],
       relatedCharacterIds: [],
       relatedCircuitIds: [],
@@ -1455,7 +1482,7 @@ export const siteContent: SiteContent = {
       term: "Eidolon",
       category: "World",
       definition: "The first planet introduced through G//LYDE.",
-      fullDescription: "Eidolon is the first planetary home of the story. Neo Noctis is its opening city, but not the whole planet. The Codex treats Eidolon as a platform for future routes, cities, sponsors, and off-world comparison.",
+      fullDescription: "Eidolon is the first planetary home of the story. Neo Noctis is its opening city, but not the whole planet. The Black Book treats Eidolon as a platform for future routes, cities, sponsors, and off-world comparison.",
       whyItMatters: "It keeps Neo Noctis iconic without making the whole universe feel trapped in one skyline.",
       usage: "Eidolon gets the first spotlight because Neo Noctis knows how to turn a race into weather.",
       tags: ["planet", "first setting", "world map"],
@@ -1907,6 +1934,51 @@ export const siteContent: SiteContent = {
       relatedCircuitIds: ["gate-8", "solar-harbor"],
       image: asset("ref-catalog.jpg"),
     },
+    {
+      id: "route-mixes",
+      term: "Route Mixes",
+      category: "Culture",
+      definition: "Music tied to a specific route, Lowline, Track, Spot, crew, rider, or chapter.",
+      fullDescription: "Route Mixes shape the temperature around a line. Crews use them, Spots carry them, and certain Lowlines become impossible to remember without the sound attached.",
+      whyItMatters: "Music is not the engine. It is the atmosphere riders move through.",
+      usage: "Every city has Lowlines. The good ones have mixes people recognize before the first board cuts through.",
+      tags: ["music", "culture", "routes"],
+      relatedTerms: ["Signal Tracks", "G//NET Audio", "Lowline Run"],
+      relatedArchiveIds: ["gnet-leak", "gate-8"],
+      relatedCharacterIds: ["kellan-roux"],
+      relatedCircuitIds: ["gate-8", "neo-noctis"],
+      image: asset("ref-night.jpg"),
+    },
+    {
+      id: "signal-tracks",
+      term: "Signal Tracks",
+      category: "Culture",
+      definition: "Official audio drops connected to characters, chapters, visual drops, or key story moments.",
+      fullDescription: "Signal Tracks are the cleanest audio releases around G//LYDE: character themes, chapter signals, visual drop tracks, and moments that need a sound before they need an explanation.",
+      whyItMatters: "A rider's sound can become part of their identity before the circuit knows what to do with them.",
+      usage: "The first Signal Track does not explain the run. It makes the run feel remembered.",
+      tags: ["music", "signal", "identity"],
+      relatedTerms: ["Route Mixes", "G//NET Audio", "G//NET"],
+      relatedArchiveIds: ["kellan-rooftop"],
+      relatedCharacterIds: ["kellan-roux"],
+      relatedCircuitIds: ["neo-noctis"],
+      image: asset("ref-catalog.jpg"),
+    },
+    {
+      id: "gnet-audio",
+      term: "G//NET Audio",
+      category: "Culture",
+      definition: "Leaked race audio, interviews, broadcast clips, route recordings, and mixes from the world.",
+      fullDescription: "G//NET Audio is what survives the feed: crowd noise, route recordings, interview fragments, broadcast music, leaked race audio, and the sound of a moment becoming public.",
+      whyItMatters: "G//NET makes riders visible. Audio makes the visibility feel lived in.",
+      usage: "A clip can leak without clean video. Sometimes the sound is enough.",
+      tags: ["music", "G//NET", "audio"],
+      relatedTerms: ["Route Mixes", "Signal Tracks", "G//NET"],
+      relatedArchiveIds: ["gnet-leak", "off-ledger-run"],
+      relatedCharacterIds: ["kellan-roux", "vey-sable"],
+      relatedCircuitIds: ["gate-8"],
+      image: asset("ref-city.jpg"),
+    },
   ],
   gCores: [
     {
@@ -1949,21 +2021,71 @@ export const siteContent: SiteContent = {
       relatedMachines: ["Gate systems"],
     },
   ],
+  sound: {
+    signalTracks: [
+      {
+        id: "first-signal",
+        title: "First Signal",
+        artist: "G//NET Audio Desk",
+        audioEmbed: "",
+        coverArt: asset("ref-night.jpg"),
+        mood: "Night pressure / leaked heat",
+        relatedCharacter: "kellan-roux",
+        relatedRoute: "gate-8",
+        relatedChapter: "G//LYDE: LOWLINE",
+        relatedArchiveFile: "gate-8",
+        tags: ["Signal Track", "Gate 8", "Off Ledger"],
+        status: "draft",
+      },
+    ],
+    routeMixes: [
+      {
+        id: "neo-noctis-lowline-mix",
+        title: "Neo Noctis Lowline Mix",
+        artist: "Rouxline room audio",
+        audioEmbed: "",
+        coverArt: asset("ref-metroascent.jpg"),
+        mood: "Chrome, heat, late arrivals",
+        relatedCharacter: "uno-roux",
+        relatedRoute: "neo-noctis",
+        relatedChapter: "Volume Zero",
+        relatedArchiveFile: "rouxline-chrome",
+        tags: ["Route Mix", "Neo Noctis", "Lowline"],
+        status: "draft",
+      },
+    ],
+    gnetAudio: [
+      {
+        id: "corrupted-sector-audio",
+        title: "Corrupted Clip, Sector Unknown",
+        artist: "G//NET leak",
+        audioEmbed: "",
+        coverArt: asset("ref-city.jpg"),
+        mood: "Broadcast fragment / crowd distortion",
+        relatedCharacter: "kellan-roux",
+        relatedRoute: "gate-8",
+        relatedChapter: "Off Ledger",
+        relatedArchiveFile: "gnet-leak",
+        tags: ["G//NET Audio", "Leak", "Signal"],
+        status: "draft",
+      },
+    ],
+  },
   garage: {
-    title: "The Garage",
+    title: "G// Garage",
     intro:
-      "The Garage is the early-access creator and supporter portal for G//LYDE. Join the world, support drops, submit concepts for curated review, collaborate, and help build before Volume 0.",
+      "G// Garage is the early-access creator and supporter layer for G//LYDE. Join the early list, support drops, submit signals for curated review, collaborate, and help build before Volume Zero.",
     prompt:
       "Bring a sharp idea with a clean hook: what pressure it adds, where it lives, who it changes, and why it belongs in a world where visibility is class.",
     paths: [
-      { title: "Join the World", body: "Free signup, Discord interest, updates, and early access signals.", linkLabel: "Join the Early List", href: "/join" },
+      { title: "Join Early List", body: "Free signup, Discord interest, updates, and early access signals.", linkLabel: "Join Early List", href: "/join" },
       { title: "Submit a Rider", body: "Character concept, discipline, affiliation, quote, tags, and why they fit G//LYDE.", linkLabel: "Submit Rider", href: "/submit-rider" },
       { title: "Submit a Crew", body: "Lowline crew, academy group, faction cell, sponsor squad, or route family.", linkLabel: "Submit Crew", href: "/submit-crew" },
       { title: "Submit a Sponsor", body: "In-world brand, manufacturer, fashion label, media company, or Wager House.", linkLabel: "Submit Sponsor", href: "/submit-sponsor" },
       { title: "Submit a Route", body: "City, route, gate, planet, Cup host, or Lowline pressure point.", linkLabel: "Submit Route", href: "/submit-circuit" },
       { title: "Submit a Board", body: "G-Board, rider gear, G-Core, tuning house, prototype, or route technology concept.", linkLabel: "Submit Board", href: "/submit-machine" },
       { title: "Submit a Story Entry", body: "Rider log, Off Ledger file, G//NET clip, Black Book note, or character scene.", linkLabel: "Submit Story", href: "/submit-story" },
-      { title: "Support a Drop", body: "Fund concept review, official-style files, illustrated cards, archive consideration, or Volume 0.", linkLabel: "Support", href: "/support-a-drop" },
+      { title: "Support a Drop", body: "Fund concept review, official-style files, illustrated cards, archive consideration, or Volume Zero.", linkLabel: "Support", href: "/support-a-drop" },
     ],
     canonNotice:
       "G//LYDE is a curated universe. Community submissions may inspire, influence, or be adapted into official archive entries, but submission does not guarantee inclusion, ownership, compensation, publication, or canon status. Accepted concepts may be edited, renamed, merged, expanded, or reinterpreted by the G//LYDE creative team to protect continuity and quality.",
@@ -1979,17 +2101,17 @@ export const siteContent: SiteContent = {
   support: {
     title: "Support G//LYDE",
     intro:
-      "A premium invitation to help fund visual development, archive entries, character illustrations, pitch materials, worldbuilding, and the first official Volume 0 release.",
+      "A premium invitation to help fund visual development, archive entries, character illustrations, pitch materials, worldbuilding, and the first official Volume Zero release.",
     cards: [
-      { title: "Join the Early List", body: "Get first signal when new archive drops, rider files, and Volume 0 updates go live.", linkLabel: "Join", href: "/join" },
-      { title: "Enter the Garage", body: "Submit a rider, crew, route, sponsor, board, or story concept for curated review.", linkLabel: "Enter", href: "/garage" },
-      { title: "Back Volume 0", body: "Help build the first official story package and pitch-ready world foundation.", linkLabel: "Back Volume 0", href: "/support-a-drop" },
+      { title: "Join the Early List", body: "Get first signal when new archive drops, rider files, and Volume Zero updates go live.", linkLabel: "Join", href: "/join" },
+      { title: "Enter G// Garage", body: "Submit a rider, crew, route, sponsor, board, or story concept for curated review.", linkLabel: "Enter", href: "/garage" },
+      { title: "Back Volume Zero", body: "Help build the first official story package and pitch-ready world foundation.", linkLabel: "Back Volume Zero", href: "/support-a-drop" },
       { title: "Sponsor a Drop", body: "Support a future illustrated archive drop, character file, or circuit report.", linkLabel: "Sponsor", href: "/support-a-drop" },
       { title: "Fund an Illustration", body: "Contribute directly to concept and character visual development.", linkLabel: "Fund", href: "/support-a-drop" },
       { title: "Collaborate", body: "Signal interest as an artist, writer, developer, producer, fashion partner, or sponsor.", linkLabel: "Collaborate", href: "/collaborate" },
     ],
     paymentLinks: [
-      { label: "Back Volume 0", href: "/support-a-drop", kind: "payment" },
+      { label: "Back Volume Zero", href: "/support-a-drop", kind: "payment" },
       { label: "Fund an Illustration", href: "/support-a-drop", kind: "payment" },
       { label: "Sponsor a Drop", href: "/support-a-drop", kind: "payment" },
     ],

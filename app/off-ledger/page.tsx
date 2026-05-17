@@ -1,5 +1,5 @@
-import { OffLedgerView } from "@/components/PublicViews";
+import { redirect } from "next/navigation";
 
 export default function OffLedgerPage() {
-  return <OffLedgerView />;
+  redirect("/archive?category=off-ledger");
 }

@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import type { CSSProperties } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ArchiveEntry, Character, CodexTerm, Circuit, Faction, GCore, PageContent } from "@/content/siteContent";
 import { useSiteContent } from "@/components/ContentProvider";
 
@@ -60,10 +61,10 @@ export function HomeView() {
       body: "Read character journals, Off Ledger files, G//NET clips, route notes, and illustrated story drops.",
     },
     {
-      title: "Codex",
+      title: "Black Book",
       href: "/codex",
       image: content.images[3].url,
-      body: "Learn the terms, machines, wagers, signals, and systems that shape the world.",
+      body: "Open the private index of terms, factions, sponsors, boards, rules, and off-record systems.",
     },
   ];
 
@@ -75,9 +76,9 @@ export function HomeView() {
           <div>
             <span><i className="live-dot" /> G//NET LIVE</span>
             <span>GLYDEWORLD.COM</span>
-            <span>A GRAVBOARD SAGA FROM THE OVER//UNDER UNIVERSE</span>
+            <span>AN OVER//UNDER STORY</span>
             <span>NEO NOCTIS // EIDOLON</span>
-            <span style={{ marginLeft: "auto", color: "var(--acid)" }}>OFF LEDGER // VOLUME 0</span>
+            <span style={{ marginLeft: "auto", color: "var(--acid)" }}>OFF LEDGER // VOLUME ZERO</span>
           </div>
         </div>
         <div className="hero-inner">
@@ -88,7 +89,7 @@ export function HomeView() {
             <p className="hero-copy">{page.hero.body}</p>
             <CtaButtons ctas={page.hero.ctas} />
             </div>
-            <Link href="/off-ledger" className="hero-poster-card story-card-link">
+            <Link href="/archive?category=off-ledger&file=gate-8" className="hero-poster-card story-card-link">
               <div className="feed-topline">
                 <span className="label"><i className="live-dot" /> OFF LEDGER</span>
                 <span className="feed-status">first file</span>
@@ -117,8 +118,8 @@ export function HomeView() {
           <div className="telemetry">
             <div><span className="label">First planet</span><b>Eidolon</b></div>
             <div><span className="label">First city</span><b>Neo Noctis</b></div>
-            <div><span className="label">First arc</span><b>OFF LEDGER</b></div>
-            <div><span className="label">World</span><b>OVER//UNDER</b></div>
+            <div><span className="label">Release</span><b>LOWLINE</b></div>
+            <div><span className="label">Credit</span><b>OVER//UNDER</b></div>
           </div>
         </div>
       </section>
@@ -207,8 +208,8 @@ export function HomeView() {
           <h2 className="display">{home.supportCta.title}</h2>
           <p>{home.supportCta.body}</p>
           <CtaButtons ctas={[
-            { label: "Join The World", href: "/join", kind: "primary" },
-            { label: "Submit A Concept", href: "/garage", kind: "submission" },
+            { label: "Join Early List", href: "/join", kind: "primary" },
+            { label: "Submit A Signal", href: "/garage", kind: "submission" },
             { label: "Support A Drop", href: "/support-a-drop", kind: "support" },
             { label: "Collaborate", href: "/collaborate", kind: "secondary" },
           ]} />
@@ -314,7 +315,7 @@ export function PageView({ pageKey }: { pageKey: "gravsports" | "racing" | "neoN
               description: "Neo Noctis is coastal, vertical, luxurious, hot, social, and dangerous underneath the beauty. Off-world visitors, models, inventors, brand owners, riders, Oddsmakers, sponsors, and G//NET personalities come here to watch, wager, party, and become part of the sport.",
               whyItMatters: "This is the first iconic setting because it makes the promise and the cost of G//LYDE visible in the same skyline.",
               tags: ["Eidolon", "Lowline", "Gate 8", "The Rouxline"],
-              ctas: [{ label: "Read Off Ledger", href: "/off-ledger", kind: "primary" }],
+              ctas: [{ label: "Open First Signal", href: "/archive?category=off-ledger&file=gate-8", kind: "primary" }],
             })}>
               <img src={content.images[0].url} alt={content.images[0].alt} />
               <div>
@@ -454,7 +455,7 @@ export function MovementSystemsView() {
           image: content.images[2].url,
           ctas: [
             { label: "Open G//LYDE", href: "/glyde-racing", kind: "primary" },
-            { label: "View Routes & Cities", href: "/routes-cities", kind: "secondary" },
+            { label: "View Routes & Tracks", href: "/routes-cities", kind: "secondary" },
           ],
         }
       }} />
@@ -516,9 +517,9 @@ export function MovementSystemsView() {
           <h2 className="display">The board is the icon. The rider is the name. The route is the price.</h2>
           <p>G-Suits remain rider gear. G-Rigs remain future expansion. The public face of G//LYDE starts with the board line everyone wants to replay.</p>
           <CtaButtons ctas={[
-            { label: "Open The Codex", href: "/codex", kind: "primary" },
+            { label: "Open the Black Book", href: "/codex", kind: "primary" },
             { label: "View Characters", href: "/characters", kind: "secondary" },
-            { label: "Build in the Garage", href: "/garage", kind: "submission" },
+            { label: "Enter G// Garage", href: "/garage", kind: "submission" },
           ]} />
         </div>
       </section>
@@ -809,7 +810,7 @@ function FileModal({
         {item.tags && <div className="detail-grid"><span className="label">Tags</span><div className="tag-row">{item.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div></div>}
         <div className="detail-grid">
           <span className="label">Next route</span>
-          <CtaButtons ctas={item.ctas ?? [{ label: "Open the Garage", href: "/garage", kind: "primary" }]} />
+          <CtaButtons ctas={item.ctas ?? [{ label: "Enter G// Garage", href: "/garage", kind: "primary" }]} />
         </div>
       </div>
     </div>
@@ -856,7 +857,7 @@ function ArchiveReader({
     : paragraphs.find((paragraph) => paragraph.length < 150 && paragraph.length > 30) ?? entry.excerpt;
   const whyFileMatters = entry.id === "rouxline-chrome"
     ? "The Rouxline is one of the first doors into OFF LEDGER: a place where family pressure, route access, private money, and Neo Noctis nightlife begin to overlap."
-    : "The Archive is how G//LYDE opens before Volume 0: story fragments, route lore, character pressure, visual drops, and files that make the sport feel lived in.";
+    : "The Archive is how G//LYDE opens before Volume Zero: story fragments, route lore, character pressure, visual drops, and files that make the sport feel lived in.";
   const selectArchive = (item: ArchiveEntry | null) => {
     if (!item) return;
     onSelectEntry?.(item);
@@ -907,8 +908,8 @@ function ArchiveReader({
             </div>
             <div className="archive-related-grid">
               <section>
-                <span className="label">Related Codex</span>
-                <div className="reader-chip-row">{relatedTerms.length ? relatedTerms.map((term) => <Link href="/codex" key={term.id}>{term.term}</Link>) : <span>No Codex links yet</span>}</div>
+                <span className="label">Related Black Book</span>
+                <div className="reader-chip-row">{relatedTerms.length ? relatedTerms.map((term) => <Link href="/codex" key={term.id}>{term.term}</Link>) : <span>No Black Book links yet</span>}</div>
               </section>
               <section>
                 <span className="label">Related Characters</span>
@@ -997,7 +998,7 @@ function CodexReader({
         <header className="codex-reader-hero">
           <img src={term.image} alt={term.term} />
           <div className="codex-reader-title">
-            <span className="label">Codex File // {term.category}</span>
+            <span className="label">Black Book File // {term.category}</span>
             <h2 className="display">{term.term}</h2>
             <p>{term.definition}</p>
           </div>
@@ -1006,7 +1007,7 @@ function CodexReader({
           <aside className="codex-reader-rail">
             <div><span className="label">Category</span><b>{term.category}</b></div>
             <div><span className="label">Related characters</span>{relatedCharacters.length ? relatedCharacters.map((character) => <b key={character.id}>{character.name}</b>) : <b>None yet</b>}</div>
-            <div><span className="label">Related routes / cities</span>{relatedRoutes.length ? relatedRoutes.map((route) => <b key={route.id}>{route.name}</b>) : <b>Unmapped</b>}</div>
+            <div><span className="label">Related routes / tracks</span>{relatedRoutes.length ? relatedRoutes.map((route) => <b key={route.id}>{route.name}</b>) : <b>Unmapped</b>}</div>
             <div><span className="label">Tags</span><div className="tag-row">{term.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div></div>
           </aside>
           <main className="codex-reader-body">
@@ -1047,7 +1048,7 @@ function CodexReader({
             <CtaButtons ctas={[
               { label: "Submit Related Lore", href: "/garage", kind: "submission" },
               { label: "Support A Visual Drop", href: "/support-a-drop", kind: "support" },
-              { label: "Open Routes & Cities", href: "/routes-cities", kind: "secondary" },
+              { label: "Open Routes & Tracks", href: "/routes-cities", kind: "secondary" },
             ]} />
           </main>
         </div>
@@ -1081,35 +1082,114 @@ function ArchiveCard({ entry, onOpen }: { entry: ArchiveEntry; onOpen?: (entry: 
 
 export function ArchiveView() {
   const { content } = useSiteContent();
-  const categories = useMemo(() => ["All", ...Array.from(new Set(content.archive.map((entry) => entry.category)))], [content.archive]);
-  const [category, setCategory] = useState("All");
+  const searchParams = useSearchParams();
+  const categoryFilters = [
+    { label: "All Files", value: "all" },
+    { label: "Rider Files", value: "rider" },
+    { label: "Route Records", value: "route" },
+    { label: "Visual Drops", value: "visual" },
+    { label: "Off-Ledger", value: "off-ledger" },
+    { label: "G//NET Clips", value: "gnet" },
+  ];
+  const [category, setCategory] = useState("all");
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<ArchiveEntry | null>(null);
+  const matchesArchiveCategory = (entry: ArchiveEntry, filter: string) => {
+    const haystack = `${entry.category} ${entry.title} ${entry.tags.join(" ")}`.toLowerCase();
+    if (filter === "all") return true;
+    if (filter === "rider") return haystack.includes("rider") || haystack.includes("character");
+    if (filter === "route") return haystack.includes("route") || haystack.includes("gate") || haystack.includes("lowline");
+    if (filter === "visual") return haystack.includes("visual") || haystack.includes("drop");
+    if (filter === "off-ledger") return haystack.includes("off ledger") || haystack.includes("off-ledger");
+    if (filter === "gnet") return haystack.includes("g//net") || haystack.includes("gnet");
+    return true;
+  };
   const entries = content.archive.filter((entry) => {
-    const matchesCategory = category === "All" || entry.category === category;
+    const matchesCategory = matchesArchiveCategory(entry, category);
     const text = `${entry.title} ${entry.category} ${entry.source} ${entry.location} ${entry.excerpt} ${entry.body} ${entry.tags.join(" ")}`.toLowerCase();
     return matchesCategory && text.includes(query.toLowerCase());
   });
-  const offLedgerEntries = content.archive.filter((entry) => ["kellan-rooftop", "rouxline-chrome", "gate-8", "off-ledger-run"].includes(entry.id));
-  const journalEntries = content.archive.filter((entry) => entry.category.toLowerCase().includes("rider") || entry.category.toLowerCase().includes("character")).slice(0, 4);
-  const visualEntries = content.archive.filter((entry) => entry.category.toLowerCase().includes("visual") || entry.tags.some((tag) => tag.toLowerCase().includes("visual"))).slice(0, 4);
+  const offLedgerEntries = content.archive.filter((entry) => ["gate-8", "off-ledger-run", "kellan-rooftop", "rouxline-chrome"].includes(entry.id));
+  const firstSignal = content.archive.find((entry) => entry.id === "gate-8") ?? offLedgerEntries[0];
+  const preVolumeFiles = [
+    {
+      label: "RIDER FILE",
+      id: "kellan-rooftop",
+      title: "KELLAN ROUX // ROOFTOP BEFORE THE RUN",
+      teaser: "The city looked expensive from above. From below, it looked hungry.",
+      meta: ["CITY: NEO NOCTIS", "TYPE: RIDER JOURNAL", "STATUS: OPEN"],
+    },
+    {
+      label: "RIDER FILE",
+      id: "uno-doors",
+      fallbackId: "rouxline-chrome",
+      title: "UNO ROUX // THE HANDLER WITH DOORS",
+      teaser: "He smiled like every contract had already forgiven him.",
+      meta: ["CITY: NEO NOCTIS", "TYPE: CHARACTER FILE", "STATUS: OPEN"],
+    },
+    {
+      label: "VISUAL DROP",
+      id: "gsync-click",
+      title: "G-SYNC AND THE CLICK",
+      teaser: "A first look at board pressure, rider timing, and the moment a line becomes visible.",
+      meta: ["TYPE: VISUAL DROP", "STATUS: CANON"],
+    },
+    {
+      label: "OFF-LEDGER FILE",
+      id: "gate-8",
+      title: "GATE 8 // FIRST SIGNAL",
+      teaser: "No broadcast. No record. No protection. Then the feed caught what the officials missed.",
+      meta: ["CITY: NEO NOCTIS", "PLANET: EIDOLON V", "STATUS: LEAKED"],
+    },
+    {
+      label: "BLACK BOOK NOTE",
+      id: "lowline-runs",
+      title: "LOWLINES",
+      teaser: "Unsanctioned routes outside the official system. Every city has them. Every rider knows the risk.",
+      meta: ["TYPE: BLACK BOOK", "STATUS: INDEXED"],
+    },
+  ].map((file) => ({ ...file, entry: content.archive.find((entry) => entry.id === file.id) ?? content.archive.find((entry) => entry.id === file.fallbackId) ?? content.archive[0] }));
+
+  useEffect(() => {
+    const requestedCategory = searchParams.get("category");
+    const requestedFile = searchParams.get("file");
+    if (requestedCategory === "off-ledger" || location.hash === "#off-ledger") {
+      setCategory("off-ledger");
+      requestAnimationFrame(() => document.getElementById("off-ledger")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    }
+    if (requestedFile) {
+      const file = content.archive.find((entry) => entry.id === requestedFile);
+      if (file) setSelected(file);
+    }
+  }, [content.archive, searchParams]);
 
   return (
     <>
       <RouteHero page={{
         hero: {
           eyebrow: "THE ARCHIVE",
-          title: "STORY FILES, CHARACTER JOURNALS, ROUTE NOTES, G//NET CLIPS, AND VISUAL DROPS FROM G//LYDE.",
-          body: "Before Volume 0, the world opens through files: fragments, journals, rumors, records, and illustrated entries that reveal the sport one route at a time.",
+          title: "THE FIRST FILES\nBEFORE VOLUME ZERO.",
+          body: "Rider files, route records, visual drops, and Off-Ledger fragments from the early world of G//LYDE.",
           image: content.images[0].url,
-          ctas: [{ label: "Start OFF LEDGER", href: "#reading-order", kind: "primary" }, { label: "Latest Files", href: "#entries", kind: "secondary" }],
+          ctas: [{ label: "Open First Signal", href: "#off-ledger", kind: "primary" }, { label: "View Latest Files", href: "#entries", kind: "secondary" }],
         }
       }} />
-      <section id="reading-order" className="section archive-hub-section">
+      <section id="off-ledger" className="section archive-hub-section">
         <div className="section-head">
-          <div><span className="label">Featured reading order</span><h2 className="display">OFF LEDGER opens the archive.</h2></div>
-          <p className="lead">Start with the first files: a rooftop, a private room, a route-access problem, and the leaked run that makes Neo Noctis pay attention.</p>
+          <div><span className="label">OFF-LEDGER</span><h2 className="display">FILES THAT NEVER REACHED THE FEED.</h2></div>
+          <p className="lead">Unverified route records, leaked clips, missing telemetry, private runs, and fragments the official circuit never claimed.</p>
         </div>
+        {firstSignal && (
+          <button className="archive-first-signal clickable-card" onClick={() => setSelected(firstSignal)}>
+            <img src={firstSignal.image} alt="" />
+            <div>
+              <span className="label">GATE 8 // FIRST SIGNAL</span>
+              <h3 className="display">THE RUN WAS SUPPOSED TO STAY QUIET.</h3>
+              <p>No broadcast. No record. No protection. Then the feed caught what the officials missed.</p>
+              <span className="btn primary">Open Gate 8 File →</span>
+            </div>
+          </button>
+        )}
         <div className="archive-reading-order">
           {offLedgerEntries.map((entry, index) => (
             <button className="archive-order-card clickable-card" onClick={() => setSelected(entry)} key={entry.id}>
@@ -1122,18 +1202,22 @@ export function ArchiveView() {
       </section>
       <section className="section archive-hub-section archive-secondary-section">
         <div className="section-head">
-          <div><span className="label">Journals and visual drops</span><h2 className="display">Read the world before it becomes Volume 0.</h2></div>
-          <p className="lead">Character pressure, route lore, visual references, Black Book notes, and G//NET fragments live here as official story files.</p>
+          <div>
+            <span className="label">PRE-VOLUME FILES</span>
+            <h2 className="display"><span>THE FILES THAT SURFACED</span><span>BEFORE VOLUME ZERO.</span></h2>
+          </div>
+          <p className="lead">Before the circuit knows what to call it, the Archive keeps the first records: riders, routes, boards, leaks, and signals from the edge of Volume Zero.</p>
         </div>
-        <div className="grid two">
-          <div>
-            <span className="label">Character journals</span>
-            <div className="archive-mini-list">{journalEntries.map((entry) => <button key={entry.id} onClick={() => setSelected(entry)}><b>{entry.title}</b><span>{entry.excerpt}</span></button>)}</div>
-          </div>
-          <div>
-            <span className="label">Visual drops</span>
-            <div className="archive-mini-list">{(visualEntries.length ? visualEntries : content.archive.slice(0, 4)).map((entry) => <button key={entry.id} onClick={() => setSelected(entry)}><b>{entry.title}</b><span>{entry.category} // {entry.status}</span></button>)}</div>
-          </div>
+        <div className="pre-volume-file-grid">
+          {preVolumeFiles.map((file) => (
+            <button className="pre-volume-file-card clickable-card" key={`${file.label}-${file.title}`} onClick={() => setSelected(file.entry)}>
+              <span className="label">{file.label}</span>
+              <h3 className="display">{file.title}</h3>
+              <p>{file.teaser}</p>
+              <div className="pre-volume-meta">{file.meta.map((item) => <span key={item}>{item}</span>)}</div>
+              <b>Open File →</b>
+            </button>
+          ))}
         </div>
       </section>
       <section id="entries" className="section archive-index-section">
@@ -1141,7 +1225,8 @@ export function ArchiveView() {
           <div><span className="label">Latest files</span><h2 className="display">Open the archive index.</h2></div>
           <label className="field archive-search"><span className="label">Search files</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Rouxline, Gate 8, Kellan, Lowline..." /></label>
         </div>
-        <div className="filters">{categories.map((item) => <button key={item} className={`filter-btn ${item === category ? "active" : ""}`} onClick={() => setCategory(item)}>{item}</button>)}</div>
+        <div className="filters">{categoryFilters.map((item) => <button key={item.value} className={`filter-btn ${item.value === category ? "active" : ""}`} onClick={() => setCategory(item.value)}>{item.label}</button>)}</div>
+        {category === "off-ledger" && <p className="archive-filter-note">Viewing Off-Ledger files first: leaked clips, private runs, route pressure, and records the official circuit never claimed.</p>}
         <div className="grid">{entries.map((entry) => <ArchiveCard key={entry.id} entry={entry} onOpen={setSelected} />)}</div>
       </section>
       {selected && (
@@ -1263,7 +1348,7 @@ function getFactionPowerMeta(faction: Faction): FactionPowerMeta {
       riderRelationship: "Records what can be enforced",
       strength: 80,
       alliedWith: ["G//LYDE Authority", "Handlers"],
-      tensionWith: ["The Black Book", "Off-Ledger Networks"],
+      tensionWith: ["The Black Book", "Off Ledger Networks"],
       controls: ["Contracts", "Route rights", "Recorded obligations"],
       seeks: "A world where every consequence has a line item.",
       exploits: "Riders desperate enough to sign before they understand.",
@@ -1468,6 +1553,26 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
     { title: "Money", body: "Sponsor contracts, private backers, wager pressure, debt terms, and consequences nobody puts in the release." },
   ];
   const factionFilters = ["All", "Institutions", "Houses", "Crews", "Sponsors", "Wager Systems", "Networks", "Off Ledger"];
+  const routeFormats = [
+    {
+      title: "Tracks",
+      code: "01",
+      type: "Sanctioned",
+      body: "Official racing environments built for regulation, broadcast, sponsorship, and sanctioned competition.",
+    },
+    {
+      title: "Lowline Routes",
+      code: "02",
+      type: "Off-record",
+      body: "Off-record routes outside the official system. Dangerous, local, contested, and rarely clean on the feed.",
+    },
+    {
+      title: "Spots",
+      code: "03",
+      type: "Public signal",
+      body: "Public riding zones where riders gather, trick, socialize, scout, challenge, and claim attention.",
+    },
+  ];
 
   if (!isCircuits) {
     const factionDossiers: FactionDossier[] = [
@@ -1578,7 +1683,7 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
       {
         id: "off-ledger-networks",
         number: "09",
-        title: "Off-Ledger Networks",
+        title: "Off Ledger Networks",
         type: "Hidden economy",
         access: "Black routes / private channels",
         priority: "Black",
@@ -1677,14 +1782,63 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
     <>
       <RouteHero page={{
         hero: {
-          eyebrow: isCircuits ? "Routes & Cities" : "Power blocs",
-          title: isCircuits ? "PLANET. CITY. DISTRICT. ROUTE. GATE. CIRCUIT. EVERY LINE HAS A PRICE." : "G//NET MAKES YOU VISIBLE. THE INDEX PRICES YOU. THE BLACK BOOK REMEMBERS WHAT YOU OWE.",
-          body: isCircuits ? "A city is not a circuit. Explore the places, gates, tracks, districts, and routes where board culture becomes status, risk, and story." : "The institutions, houses, crews, manufacturers, sponsors, and unofficial systems that control movement, visibility, terms, and debt.",
+          eyebrow: isCircuits ? "Routes & Tracks" : "Power blocs",
+          title: isCircuits ? "THE GRAND PRIX HAS TRACKS.\nTHE STREETS HAVE LOWLINES." : "G//NET MAKES YOU VISIBLE. THE INDEX PRICES YOU. THE BLACK BOOK REMEMBERS WHAT YOU OWE.",
+          body: isCircuits ? "G//LYDE moves through sanctioned circuits, off-record routes, and public spots where riders gather, challenge, and get seen.\nEvery place has a line. Every line has a price." : "The institutions, houses, crews, manufacturers, sponsors, and unofficial systems that control movement, visibility, terms, and debt.",
           image: isCircuits ? content.images[3].url : content.images[2].url,
-          ctas: [{ label: isCircuits ? "Submit a Route or City" : "Open the Garage", href: isCircuits ? "/submit-circuit" : "/garage", kind: "primary" }],
+          ctas: isCircuits
+            ? [
+                { label: "Open the Track Index", href: "#route-index", kind: "primary" },
+                { label: "Open the Route Index", href: "#route-index", kind: "secondary" },
+              ]
+            : [{ label: "Enter G// Garage", href: "/garage", kind: "primary" }],
         }
       }} />
-      <section className="section">
+      {isCircuits && (
+        <section className="section route-formats-section">
+          <div className="section-head">
+            <div>
+              <span className="label">Spatial files</span>
+              <h2 className="display">
+                <span>THE MAP IS NOT NEUTRAL.</span>
+                <span>EVERY PLACE HAS A LINE.</span>
+              </h2>
+            </div>
+            <p>Tracks crown champions. Lowline routes build reputations. Spots decide who gets watched before the feed ever finds them.</p>
+          </div>
+          <div className="route-format-grid">
+            {routeFormats.map((format) => (
+              <button
+                className={`route-format-card clickable-card ${format.title === "Lowline Routes" ? "featured" : ""}`}
+                key={format.title}
+                onClick={() => setSelected({
+                  id: format.title.toLowerCase().replaceAll(" ", "-"),
+                  name: format.title,
+                  planet: "Interplanetary",
+                  region: "Every city with a line",
+                  type: format.type,
+                  status: format.title === "Lowline Routes" ? "Off-record" : format.type,
+                  description: format.body,
+                  risk: format.title === "Tracks" ? "Broadcast pressure" : "Variable terms",
+                  discipline: "G-Board",
+                  events: [format.type],
+                  image: content.images[3].url,
+                  tags: ["Routes & Tracks", format.type, "Board culture"],
+                } as Circuit)}
+              >
+                <div className="route-format-top">
+                  <span>{format.code}</span>
+                  <b>{format.type}</b>
+                </div>
+                <h3 className="display"><SplitDisplayTitle text={format.title} /></h3>
+                <p>{format.body}</p>
+                <span className="route-format-cta">Preview Format →</span>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+      <section id={isCircuits ? "route-index" : undefined} className="section">
         <div className="grid">
           {items.map((item: any) => (
             <button className="card clickable-card" key={item.id} onClick={() => setSelected(item)}>
@@ -1711,7 +1865,7 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
             description: selected.description,
             whyItMatters: isCircuits ? `${(selected as Circuit).risk} // ${(selected as Circuit).discipline}` : (selected as Faction).agenda,
             tags: selected.tags,
-            ctas: [{ label: isCircuits ? "Submit a Route or City" : "Build in the Garage", href: isCircuits ? "/submit-circuit" : "/garage", kind: "primary" }],
+            ctas: [{ label: isCircuits ? "Submit a Route or City" : "Enter G// Garage", href: isCircuits ? "/submit-circuit" : "/garage", kind: "primary" }],
           }}
         />
       )}
@@ -1802,7 +1956,7 @@ export function CodexView() {
     <>
       <RouteHero page={{
         hero: {
-          eyebrow: "Codex",
+          eyebrow: "Black Book",
           title: "THE SPORT HAS LANGUAGE.\nTHE NET HAS MEMORY.",
           body: "Every term in G//LYDE carries weight: a rule, a risk, a rumor, a debt, a machine, a route, or a way to disappear.\nOpen the files. See what the cameras miss.",
           image: content.images[2].url,
@@ -1812,7 +1966,7 @@ export function CodexView() {
       <section className="section codex-page-section">
         <div className="codex-console">
           <div>
-            <span className="label">Operating manual // World bible // Database layer</span>
+            <span className="label">Black Book // World index // Hidden systems</span>
             <h2 className="display">Read the systems behind the story.</h2>
           </div>
           <p className="lead">Search the language of Neo Noctis, then open full files with examples, related characters, archive drops, routes, and linked terms.</p>
@@ -1832,7 +1986,7 @@ export function CodexView() {
         <div className="filters">
           {categories.map((item) => <button key={item} className={`filter-btn ${item === category ? "active" : ""}`} onClick={() => setCategory(item)}>{item}</button>)}
         </div>
-        <label className="field codex-search"><span className="label">Search Codex</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Neo Noctis, G-Board, Route Rights, The Click..." /></label>
+        <label className="field codex-search"><span className="label">Search Black Book</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Neo Noctis, G-Board, Route Rights, The Click..." /></label>
         <div className="codex-result-bar">
           <span>{terms.length} files</span>
           <span>{category === "All" ? "All categories" : category}</span>
@@ -1866,7 +2020,7 @@ export function GCoreView() {
           title: "THE ENGINE DOES NOT JUST MOVE THE MACHINE. IT LEARNS THE RIDER.",
           body: "G-Core files are product spec, rumor, and warning label at the same time.",
           image: content.images[2].url,
-          ctas: [{ label: "Open Codex", href: "/codex", kind: "primary" }],
+          ctas: [{ label: "Open the Black Book", href: "/codex", kind: "primary" }],
         }
       }} />
       <section className="section gcore-section">
@@ -1895,6 +2049,69 @@ export function GCoreView() {
         tags: [...selected.relatedMachines, selected.discipline],
         ctas: [{ label: "Submit a Machine", href: "/garage", kind: "submission" }],
       }} />}
+    </>
+  );
+}
+
+export function LowlineView() {
+  const { content } = useSiteContent();
+  const files = [
+    {
+      title: "Lowline",
+      type: "Universal slang",
+      body: "The name riders use for unsanctioned G//LYDE outside the official circuit. It is not one place. It is what happens when a city refuses to wait for permission.",
+    },
+    {
+      title: "A Lowline",
+      type: "Specific run",
+      body: "An off-record route, race, trial, or run. Sometimes a shortcut. Sometimes a challenge. Sometimes the only way a rider becomes visible.",
+    },
+    {
+      title: "Lowlines",
+      type: "Underground network",
+      body: "The wider network of routes across planets, cities, stations, rooftops, tunnels, luxury zones, industrial rings, and private gates.",
+    },
+  ];
+
+  return (
+    <>
+      <RouteHero page={{
+        hero: {
+          eyebrow: "G//LYDE: LOWLINE",
+          title: "THE GRAND PRIX MAKES CHAMPIONS.\nLOWLINES MAKE PROBLEMS.",
+          body: "He came up through Lowline.\nThey are running a Lowline under Gate 8 tonight. Every city has its Lowlines.",
+          image: content.images[1].url,
+          ctas: [
+            { label: "Open the Archive", href: "/archive", kind: "primary" },
+            { label: "Routes & Tracks", href: "/routes-cities", kind: "secondary" },
+          ],
+        }
+      }} />
+      <section className="section route-formats-section">
+        <div className="section-head">
+          <div>
+            <span className="label">Lowline file</span>
+            <h2 className="display">
+              <span>OFF-RECORD DOES NOT</span>
+              <span>MEAN UNWATCHED.</span>
+            </h2>
+          </div>
+          <p>Lowline is how G//LYDE moves when the official circuit ends and the city keeps going.</p>
+        </div>
+        <div className="route-format-grid">
+          {files.map((file, index) => (
+            <Link className={`route-format-card ${index === 0 ? "featured" : ""}`} href="/archive" key={file.title}>
+              <div className="route-format-top">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <b>{file.type}</b>
+              </div>
+              <h3 className="display"><SplitDisplayTitle text={file.title} /></h3>
+              <p>{file.body}</p>
+              <span className="route-format-cta">Open File →</span>
+            </Link>
+          ))}
+        </div>
+      </section>
     </>
   );
 }
@@ -1965,7 +2182,7 @@ const submissionCopy: Record<SubmissionKind, {
   join: {
     eyebrow: "Join the world",
     title: "Join the early list.",
-    body: "Get archive drops, rider files, Garage calls, and Volume 0 development signals as G//LYDE opens.",
+    body: "Get archive drops, rider files, G// Garage calls, and Volume Zero development signals as G//LYDE opens.",
     titleLabel: "How do you want to be listed?",
     descriptionLabel: "Tell us what you want updates about",
     roleLabel: "Reader / artist / writer / developer / backer / brand",
@@ -1982,10 +2199,10 @@ const submissionCopy: Record<SubmissionKind, {
   },
   support: {
     eyebrow: "Support intake",
-    title: "Support a visual drop, review, or Volume 0.",
+    title: "Support a visual drop, review, or Volume Zero.",
     body: "Use this to register serious support interest while paid checkout is being connected. The team can follow up with the correct support route.",
     titleLabel: "Support focus",
-    descriptionLabel: "What you want to support: visual drop, Volume 0, concept review, archive entry, sponsorship, or collaboration",
+    descriptionLabel: "What you want to support: visual drop, Volume Zero, concept review, archive entry, sponsorship, or collaboration",
     roleLabel: "Support type / budget range / preferred route",
     fitLabel: "What part of the world do you want to help make real?",
   },
@@ -2177,7 +2394,7 @@ export function GarageView() {
       <section className="section garage-process-section">
         <div className="section-head">
           <div><span className="label">Review flow</span><h2 className="display">What happens after you submit.</h2></div>
-          <p className="lead">The Garage is curated, not closed. Every submission becomes a clean review file, then moves through fit, continuity, follow-up, and possible adaptation.</p>
+          <p className="lead">G// Garage is curated, not closed. Every submission becomes a clean review file, then moves through fit, continuity, follow-up, and possible adaptation.</p>
         </div>
         <div className="review-flow-grid">
           {[
