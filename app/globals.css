@@ -1092,7 +1092,9 @@ img { max-width: 100%; display: block; }
     linear-gradient(180deg, #f8f5ec, #e9edf1);
 }
 .world-teaser-section .section-head,
-.world-teaser-section .signal-card-grid {
+.world-teaser-section .signal-card-grid,
+.world-teaser-section .compact-system-row,
+.world-teaser-section .inline-section-cta {
   max-width: 1480px;
   margin-inline: auto;
 }
@@ -1124,6 +1126,67 @@ img { max-width: 100%; display: block; }
 .signal-card:hover { transform: translateY(-5px); box-shadow: 0 26px 90px rgba(8,9,11,0.14); }
 .signal-card h3 { font-size: clamp(2rem, 3.1vw, 3.55rem); margin: 0.7rem 0; }
 .signal-card p { color: #333941; line-height: 1.6; }
+.compact-system-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+.compact-system-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
+  min-height: 150px;
+  border: 1px solid rgba(8,9,11,0.13);
+  border-radius: 24px;
+  padding: 1rem;
+  color: var(--bg);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.82), rgba(255,255,255,0.44)),
+    rgba(255,255,255,0.58);
+  box-shadow: 0 16px 55px rgba(8,9,11,0.07);
+  transition: transform 190ms ease, border-color 190ms ease, box-shadow 190ms ease;
+}
+.compact-system-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(8,9,11,0.28);
+  box-shadow: 0 24px 80px rgba(8,9,11,0.12);
+}
+.compact-system-card > span {
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 999px;
+  color: var(--bg);
+  background: var(--acid);
+  font-family: var(--font-condensed);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+}
+.compact-system-card b {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-family: var(--font-condensed);
+  font-size: clamp(1.6rem, 2.6vw, 2.6rem);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.compact-system-card p {
+  margin: 0;
+  color: #333941;
+  line-height: 1.45;
+}
+.compact-system-card small {
+  display: block;
+  margin-top: 0.75rem;
+  color: #6b7078;
+  font-family: var(--font-condensed);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
 
 .off-ledger-section {
   max-width: none;
@@ -1982,6 +2045,7 @@ img { max-width: 100%; display: block; }
   .telemetry { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .path-grid,
   .movement-grid,
+  .compact-system-row,
   .movement-deep-grid,
   .drops-grid,
   .garage-card-grid,
@@ -2201,6 +2265,7 @@ img { max-width: 100%; display: block; }
   }
   .signal-card-grid,
   .cast-grid,
+  .compact-system-row,
   .codex-featured-grid,
   .codex-grid,
   .world-gateway-grid,

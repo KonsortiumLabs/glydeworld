@@ -132,6 +132,19 @@ export function HomeView() {
             </Link>
           ))}
         </div>
+        <div className="compact-system-row">
+          {home.movementSystems.map((system, index) => (
+            <Link className="compact-system-card" href="/glyde" key={system.title}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <b>{system.title}</b>
+                <p>{system.body}</p>
+                <small>{system.tags?.join(" / ")}</small>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <Link className="inline-section-cta btn" href="/glyde">Open Riders / Boards / Routes →</Link>
       </section>
 
       <section className="section off-ledger-section">
@@ -151,35 +164,6 @@ export function HomeView() {
           </div>
         </Link>
       </section>
-
-      <section className="section movement-section">
-        <div className="section-inner">
-          <div className="section-head">
-            <div>
-              <span className="label">{page.blocks[1].kicker}</span>
-              <h2 className="display">{page.blocks[1].title}</h2>
-            </div>
-            <p className="lead">{page.blocks[1].body}</p>
-          </div>
-          <div className="movement-grid">
-            {home.movementSystems.map((system, index) => (
-              <Link className="movement-card" href={system.href} key={system.title}>
-                <div className="movement-image"><img src={system.image} alt="" /></div>
-                <div className="card-body">
-                  <span className="label">{system.eyebrow}</span>
-                  <h3 className="display">{system.title}</h3>
-                  <p className="muted">{system.body}</p>
-                  <div className="spec-strip">
-                    {system.tags?.map((tag) => <span key={tag}>{tag}</span>)}
-                  </div>
-                </div>
-                <span className="system-number">{String(index + 1).padStart(2, "0")}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="section enter-world-section">
         <div className="section-head">
           <div>
