@@ -1144,11 +1144,351 @@ export function ArchiveView() {
   );
 }
 
+type FactionPowerMeta = {
+  classification: string;
+  type: string;
+  influence: string;
+  control: string;
+  access: string;
+  territory: string;
+  riderRelationship: string;
+  strength: number;
+  alliedWith: string[];
+  tensionWith: string[];
+  controls: string[];
+  seeks: string;
+  exploits: string;
+  chips: string[];
+};
+
+function getFactionPowerMeta(faction: Faction): FactionPowerMeta {
+  const index: Record<string, FactionPowerMeta> = {
+    "glyde-authority": {
+      classification: "Institutions",
+      type: "Regulator",
+      influence: "Official surface",
+      control: "Licenses, certification, sanctioned events",
+      access: "Official",
+      territory: "Sponsor Circuit",
+      riderRelationship: "Grants legitimacy, restricts freedom",
+      strength: 82,
+      alliedWith: ["Grand Cup Committee", "The Index"],
+      tensionWith: ["Lowline Crews", "The Black Book"],
+      controls: ["Licenses", "Sanctioned circuits", "Equipment certification"],
+      seeks: "Order, sponsor safety, and a sport that can be sold cleanly.",
+      exploits: "Every rider's need to be recognized by the official surface.",
+      chips: ["LICENSES", "CERTIFICATION", "SANCTIONED"],
+    },
+    "grand-cup-committee": {
+      classification: "Institutions",
+      type: "Championship Control",
+      influence: "Prestige system",
+      control: "Qualification, mythology, host worlds",
+      access: "Elite",
+      territory: "Official circuit",
+      riderRelationship: "Turns talent into myth, but owns the stage",
+      strength: 88,
+      alliedWith: ["G//LYDE Authority", "Sponsors"],
+      tensionWith: ["G//NET", "Lowline Crews"],
+      controls: ["Host selection", "Cup qualification", "Broadcast prestige"],
+      seeks: "A clean ladder from local talent to interplanetary legend.",
+      exploits: "The dream every rider has of being impossible to ignore.",
+      chips: ["GRAND CUP", "HOST WORLDS", "PRESTIGE"],
+    },
+    "gnet": {
+      classification: "Networks",
+      type: "Broadcast / Social Racing Network",
+      influence: "Visibility",
+      control: "Clips, rankings, signal, public memory",
+      access: "Everywhere",
+      territory: "Any feed with a signal",
+      riderRelationship: "Makes you visible, then makes you valuable",
+      strength: 94,
+      alliedWith: ["The Index", "Sponsors"],
+      tensionWith: ["G//LYDE Authority", "The Ledger"],
+      controls: ["Attention", "Clip velocity", "Public memory"],
+      seeks: "The moment before anyone knows how to price it.",
+      exploits: "Riders who confuse being seen with being free.",
+      chips: ["SIGNAL", "CLIPS", "MEMORY"],
+    },
+    "the-index": {
+      classification: "Networks",
+      type: "Market Intelligence",
+      influence: "Value calculation",
+      control: "Rankings, sponsor projections, scouting",
+      access: "Corporate",
+      territory: "Sponsor decks / scouting rooms",
+      riderRelationship: "Turns motion into a number sponsors can buy",
+      strength: 86,
+      alliedWith: ["G//NET", "Sponsors"],
+      tensionWith: ["The Black Book", "Independent riders"],
+      controls: ["Market value", "Sponsor projections", "Scout language"],
+      seeks: "Proof that talent can be forecast before it becomes power.",
+      exploits: "The gap between what a rider is worth and what they know.",
+      chips: ["RANKINGS", "VALUE", "SCOUTING"],
+    },
+    "the-ledger": {
+      classification: "Institutions",
+      type: "Record System",
+      influence: "Official consequence",
+      control: "Contracts, route rights, obligations",
+      access: "Restricted",
+      territory: "Contracts / route claims",
+      riderRelationship: "Records what can be enforced",
+      strength: 80,
+      alliedWith: ["G//LYDE Authority", "Handlers"],
+      tensionWith: ["The Black Book", "Off-Ledger Networks"],
+      controls: ["Contracts", "Route rights", "Recorded obligations"],
+      seeks: "A world where every consequence has a line item.",
+      exploits: "Riders desperate enough to sign before they understand.",
+      chips: ["CONTRACTS", "ROUTE RIGHTS", "RECORD"],
+    },
+    "the-black-book": {
+      classification: "Wager Systems",
+      type: "Underground Memory",
+      influence: "Debt / private terms",
+      control: "Wagers, pressure, off-ledger matches",
+      access: "Black",
+      territory: "Lowline / private rooms",
+      riderRelationship: "Funds risk, collects consequences",
+      strength: 91,
+      alliedWith: ["Wager Houses", "Oddsmakers"],
+      tensionWith: ["The Ledger", "G//LYDE Authority"],
+      controls: ["Debt", "Private terms", "Unrecorded pressure"],
+      seeks: "Leverage that survives after the feed goes quiet.",
+      exploits: "Every run someone needed badly enough to accept the terms.",
+      chips: ["DEBT", "TERMS", "OFF LEDGER"],
+    },
+    "wager-houses": {
+      classification: "Houses",
+      type: "Private Betting Houses",
+      influence: "Money under pressure",
+      control: "Stakes, odds, private challenges",
+      access: "Selective",
+      territory: "Luxury rooms / Lowline doors",
+      riderRelationship: "Raises the prize and hides the cost",
+      strength: 84,
+      alliedWith: ["Oddsmakers", "The Black Book"],
+      tensionWith: ["G//LYDE Authority", "The Rouxline"],
+      controls: ["Private stakes", "Quiet challenges", "Risk pricing"],
+      seeks: "Races where the visible prize is smaller than the hidden value.",
+      exploits: "Ambition, debt, and the need to move fast tonight.",
+      chips: ["WAGERS", "HOUSES", "PRIVATE TERMS"],
+    },
+    oddsmakers: {
+      classification: "Wager Systems",
+      type: "Risk Pricers",
+      influence: "Terms / odds",
+      control: "Rider value, route risk, impossible outcomes",
+      access: "Selective",
+      territory: "Wherever a run can be priced",
+      riderRelationship: "Turns talent into leverage",
+      strength: 78,
+      alliedWith: ["Wager Houses", "The Black Book"],
+      tensionWith: ["Handlers", "Rouxline riders"],
+      controls: ["Odds", "Pressure", "Terms"],
+      seeks: "The number that makes a rider say yes.",
+      exploits: "The distance between confidence and desperation.",
+      chips: ["ODDS", "RISK", "VEY SABLE"],
+    },
+    handlers: {
+      classification: "Off Ledger",
+      type: "Access Logistics",
+      influence: "Doors / introductions",
+      control: "Meetings, route rights, quiet runs",
+      access: "Private",
+      territory: "Back rooms / route corridors",
+      riderRelationship: "Can protect a rider or package them for sale",
+      strength: 73,
+      alliedWith: ["The Ledger", "Private houses"],
+      tensionWith: ["Oddsmakers", "Street crews"],
+      controls: ["Introductions", "Private runs", "Quiet logistics"],
+      seeks: "Control over who gets in the room before the room is named.",
+      exploits: "Riders with talent, heat, and no clean door upward.",
+      chips: ["ACCESS", "DEALS", "ROOMS"],
+    },
+    "lowline-crews": {
+      classification: "Crews",
+      type: "Street Crews",
+      influence: "Local route memory",
+      control: "Territory, protection, route knowledge",
+      access: "Street",
+      territory: "The Lowline",
+      riderRelationship: "Protects local talent, tests outsiders",
+      strength: 76,
+      alliedWith: ["Mechanics", "Independent riders"],
+      tensionWith: ["G//LYDE Authority", "Wager Houses"],
+      controls: ["Local routes", "Street reputation", "Crew protection"],
+      seeks: "Freedom from systems that profit from their movement.",
+      exploits: "No one. The best crews survive by remembering who did.",
+      chips: ["LOWLINE", "CREWS", "ROUTE MEMORY"],
+    },
+  };
+
+  return index[faction.id] ?? {
+    classification: "Sponsors",
+    type: faction.role,
+    influence: "Special interest",
+    control: faction.agenda,
+    access: "Variable",
+    territory: "Neo Noctis",
+    riderRelationship: "Shapes opportunity around riders",
+    strength: 64,
+    alliedWith: ["Sponsors"],
+    tensionWith: ["Lowline Crews"],
+    controls: faction.tags,
+    seeks: faction.agenda,
+    exploits: "The space between visibility and ownership.",
+    chips: faction.tags.map((tag) => tag.toUpperCase()),
+  };
+}
+
+function FactionDrawer({ faction, meta, onClose }: { faction: Faction; meta: FactionPowerMeta; onClose: () => void }) {
+  return (
+    <div className="character-drawer-backdrop" role="dialog" aria-modal="true">
+      <article className="faction-drawer">
+        <button className="reader-back-button drawer-close" onClick={onClose}>Back to Power Map</button>
+        <div className="faction-drawer-hero">
+          <img src={faction.image} alt="" />
+          <div>
+            <span className="label">{meta.type} // {meta.influence}</span>
+            <h2 className="display"><SplitDisplayTitle text={faction.name} /></h2>
+            <p>{faction.description}</p>
+          </div>
+        </div>
+        <div className="faction-drawer-grid">
+          <main>
+            <span className="label">Power file</span>
+            <p className="lede">{faction.agenda}</p>
+            <div className="faction-relation-grid">
+              <div><span>Allied With</span><b>{meta.alliedWith.join(" / ")}</b></div>
+              <div><span>In Tension With</span><b>{meta.tensionWith.join(" / ")}</b></div>
+              <div><span>Controls</span><b>{meta.controls.join(" / ")}</b></div>
+              <div><span>Seeks</span><b>{meta.seeks}</b></div>
+              <div className="wide"><span>Exploits</span><b>{meta.exploits}</b></div>
+            </div>
+            <div className="faction-control-tags">{meta.chips.map((chip) => <span key={chip}>{chip}</span>)}</div>
+          </main>
+          <aside>
+            <div><span>TYPE</span><b>{meta.type}</b></div>
+            <div><span>CONTROL</span><b>{meta.control}</b></div>
+            <div><span>ACCESS LEVEL</span><b>{meta.access}</b></div>
+            <div><span>KNOWN TERRITORY</span><b>{meta.territory}</b></div>
+            <div><span>RELATIONSHIP TO RIDERS</span><b>{meta.riderRelationship}</b></div>
+            <CtaButtons ctas={[
+              { label: "Open Archive", href: "/archive", kind: "primary" },
+              { label: "Trace Routes", href: "/routes-cities", kind: "secondary" },
+              { label: "Submit Related Lore", href: "/garage", kind: "secondary" },
+            ]} />
+          </aside>
+        </div>
+      </article>
+    </div>
+  );
+}
+
 export function CollectionView({ type }: { type: "circuits" | "factions" }) {
   const { content } = useSiteContent();
   const [selected, setSelected] = useState<Circuit | Faction | null>(null);
+  const [factionFilter, setFactionFilter] = useState("All");
   const isCircuits = type === "circuits";
   const items = isCircuits ? content.circuits : content.factions;
+  const powerLanes = [
+    { title: "Official Control", body: "Licenses, sanctioned events, certification, and the surface story sponsors can stand beside." },
+    { title: "Broadcast / Visibility", body: "Feeds, clips, rankings, and the public memory that turns movement into market heat." },
+    { title: "Route Access", body: "Gates, corridors, introductions, and the private knowledge that makes a line possible." },
+    { title: "Wager Systems", body: "Odds, terms, private stakes, Black Book pressure, and consequences nobody advertises." },
+    { title: "House Influence", body: "Rooms, salons, rider houses, and the people who decide which names get invited inside." },
+    { title: "Street Crews", body: "Lowline families, local route memory, mechanics, protection, and reputation outside the polished circuit." },
+    { title: "Manufacturers", body: "Boards, G-Skins, recovered Core interfaces, telemetry, and style made mechanical." },
+    { title: "Off-Ledger Networks", body: "Quiet runs, unofficial access, private clips, and the economy beneath the visible sport." },
+  ];
+  const factionFilters = ["All", "Institutions", "Houses", "Crews", "Sponsors", "Wager Systems", "Networks", "Off Ledger"];
+
+  if (!isCircuits) {
+    const factions = content.factions.filter((faction) => factionFilter === "All" || getFactionPowerMeta(faction).classification === factionFilter);
+    const selectedFaction = selected as Faction | null;
+
+    return (
+      <>
+        <RouteHero page={{
+          hero: {
+            eyebrow: "Power Map // Access / Visibility / Debt",
+            title: "VISIBILITY HAS A PRICE. ACCESS HAS OWNERS.",
+            body: "The institutions, houses, crews, sponsors, and unofficial systems shaping movement, status, debt, and control across G//LYDE.",
+            image: content.images[2].url,
+            ctas: [{ label: "Open Power Map", href: "#power-map", kind: "primary" }],
+          }
+        }} />
+
+        <section id="power-map" className="section faction-map-section">
+          <div className="section-head">
+            <div>
+              <span className="label">Power map overview</span>
+              <h2 className="display">Who controls what the rider sees, owes, and reaches.</h2>
+            </div>
+            <p>G//LYDE is not only a sport. It is a stack of official doors, private rooms, street memory, feeds, gates, and prices.</p>
+          </div>
+          <div className="power-lane-grid">
+            {powerLanes.map((lane, index) => (
+              <div className="power-lane-card" key={lane.title} style={{ "--lane-index": index } as CSSProperties}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{lane.title}</h3>
+                <p>{lane.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="section faction-index-section">
+          <div className="section-head">
+            <div>
+              <span className="label">Faction types</span>
+              <h2 className="display">Open the systems behind access.</h2>
+            </div>
+            <p>Trace who grants legitimacy, who prices risk, who owns the room, and who keeps moving when the official map ends.</p>
+          </div>
+          <div className="faction-filter-row">
+            {factionFilters.map((filter) => (
+              <button key={filter} className={`filter-btn ${filter === factionFilter ? "active" : ""}`} onClick={() => setFactionFilter(filter)}>
+                {filter}
+              </button>
+            ))}
+          </div>
+          <div className="faction-dossier-grid">
+            {factions.map((faction) => {
+              const meta = getFactionPowerMeta(faction);
+              return (
+                <button className="faction-dossier-card" key={faction.id} onClick={() => setSelected(faction)}>
+                  <div className="faction-card-media">
+                    <img src={faction.image} alt="" />
+                    <span>{meta.classification}</span>
+                  </div>
+                  <div className="faction-card-body">
+                    <span className="label">{meta.type}</span>
+                    <h3 className="display"><SplitDisplayTitle text={faction.name} /></h3>
+                    <p>{faction.description}</p>
+                    <div className="faction-meta-grid">
+                      <div><span>INFLUENCE</span><b>{meta.influence}</b></div>
+                      <div><span>CONTROL</span><b>{meta.control}</b></div>
+                      <div><span>ACCESS</span><b>{meta.access}</b></div>
+                      <div><span>TERRITORY</span><b>{meta.territory}</b></div>
+                    </div>
+                    <div className="faction-meter" aria-label={`Influence strength ${meta.strength}%`}><span style={{ width: `${meta.strength}%` }} /></div>
+                    <div className="faction-control-tags">{meta.chips.slice(0, 3).map((chip) => <span key={chip}>{chip}</span>)}</div>
+                  </div>
+                  <span className="btn card-cta">Trace Influence →</span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        {selectedFaction && <FactionDrawer faction={selectedFaction} meta={getFactionPowerMeta(selectedFaction)} onClose={() => setSelected(null)} />}
+      </>
+    );
+  }
+
   return (
     <>
       <RouteHero page={{
