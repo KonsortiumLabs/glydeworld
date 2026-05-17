@@ -528,13 +528,15 @@ export function MovementSystemsView() {
 }
 
 function RouteHero({ page }: { page: Pick<PageContent, "hero"> }) {
+  const titleLines = page.hero.title.split("\n");
+  const bodyLines = page.hero.body.split("\n");
   return (
     <section className="route-hero">
       <img className="bg" src={page.hero.image} alt="" />
       <div className="route-hero-inner">
         <span className="label hero-kicker">{page.hero.eyebrow}</span>
-        <h1 className="display">{page.hero.title}</h1>
-        <p>{page.hero.body}</p>
+        <h1 className="display">{titleLines.map((line) => <span key={line}>{line}</span>)}</h1>
+        <p>{bodyLines.map((line) => <span key={line}>{line}</span>)}</p>
         <CtaButtons ctas={page.hero.ctas} />
       </div>
     </section>
@@ -1787,14 +1789,22 @@ export function CodexView() {
     const text = `${term.term} ${term.definition} ${term.fullDescription} ${term.whyItMatters} ${term.usage} ${term.tags.join(" ")} ${term.relatedTerms.join(" ")}`.toLowerCase();
     return matchesCategory && text.includes(query.toLowerCase());
   });
+  const splitTermTitle = (term: string) => {
+    const words = term.split(" ");
+    if (words.length === 1) return [term];
+    if (words.length === 2) return words;
+    if (words[0] === "THE") return [words[0], words.slice(1).join(" ")];
+    if (term.length > 18) return [words.slice(0, -1).join(" "), words.at(-1) ?? ""];
+    return [term];
+  };
 
   return (
     <>
       <RouteHero page={{
         hero: {
           eyebrow: "Codex",
-          title: "THE SPORT HAS LANGUAGE. THE CITY HAS MEMORY.",
-          body: "Every term in G//LYDE carries weight: a rule, a risk, a rumor, a debt, a machine, a route, or a way to disappear. Open the files. Learn what the cameras miss.",
+          title: "THE SPORT HAS LANGUAGE.\nTHE NET HAS MEMORY.",
+          body: "Every term in G//LYDE carries weight: a rule, a risk, a rumor, a debt, a machine, a route, or a way to disappear.\nOpen the files. See what the cameras miss.",
           image: content.images[2].url,
           ctas: [{ label: "Submit a Term", href: "/garage", kind: "submission" }],
         }
@@ -1813,7 +1823,7 @@ export function CodexView() {
               <img src={term.image} alt="" />
               <div>
                 <span className="label">{term.category} // Featured</span>
-                <h3 className="display">{term.term}</h3>
+                <h3 className="display codex-term-title">{splitTermTitle(term.term).map((line) => <span key={line}>{line}</span>)}</h3>
                 <p>{term.definition}</p>
               </div>
             </button>
@@ -1831,7 +1841,7 @@ export function CodexView() {
           {terms.map((term) => (
             <button className="codex-card clickable-card" onClick={() => setSelected(term)} key={term.id}>
               <span className="label">{term.category}</span>
-              <h3 className="display">{term.term}</h3>
+              <h3 className="display codex-term-title">{splitTermTitle(term.term).map((line) => <span key={line}>{line}</span>)}</h3>
               <p>{term.definition}</p>
               <small>{term.relatedArchiveIds.length} archive links // {(term.relatedCircuitIds ?? []).length} route links</small>
               <div className="tag-row">{term.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
