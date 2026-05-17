@@ -1053,11 +1053,12 @@ function ArchiveCard({ entry, onOpen }: { entry: ArchiveEntry; onOpen?: (entry: 
         <h3 className="display">{entry.title}</h3>
         <p className="muted">{entry.excerpt}</p>
         <div className="tag-row">{entry.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
+        <span className="btn card-cta">Read File →</span>
       </div>
     </>
   );
   if (onOpen) {
-    return <button className="card archive-card clickable-card" onClick={() => onOpen(entry)}>{inner}<span className="btn card-cta">Read File →</span></button>;
+    return <button className="card archive-card clickable-card" onClick={() => onOpen(entry)}>{inner}</button>;
   }
   return (
     <Link className="card archive-card" href="/archive">

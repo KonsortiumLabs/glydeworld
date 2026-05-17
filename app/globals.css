@@ -473,8 +473,64 @@ img { max-width: 100%; display: block; }
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
-.archive-card { border-radius: 24px; }
-.archive-card .card-img { aspect-ratio: 16 / 9; }
+.archive-card {
+  border-radius: 28px;
+  min-height: 500px;
+}
+.archive-card .card-img {
+  position: absolute;
+  inset: 0;
+  aspect-ratio: auto;
+  height: 100%;
+}
+.archive-card .card-img img {
+  transition: transform 520ms ease;
+  filter: saturate(1.05) contrast(1.04);
+}
+.archive-card:hover .card-img img {
+  transform: scale(1.05);
+}
+.archive-card .card-img::after {
+  background:
+    linear-gradient(180deg, rgba(8,9,11,0.12), rgba(8,9,11,0.54) 42%, rgba(8,9,11,0.96)),
+    linear-gradient(90deg, rgba(8,9,11,0.50), transparent 58%);
+}
+.archive-card .card-body {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  padding: 1.15rem;
+  color: var(--bone);
+}
+.archive-card .label,
+.archive-card .muted {
+  color: rgba(245,243,236,0.82);
+}
+.archive-card h3 {
+  color: var(--bone);
+  font-size: clamp(2.5rem, 4.6vw, 5rem);
+  line-height: 0.88;
+  text-shadow: 0 2px 18px rgba(0,0,0,0.55);
+}
+.archive-card p {
+  max-width: 32rem;
+  color: rgba(245,243,236,0.86);
+  text-shadow: 0 1px 12px rgba(0,0,0,0.45);
+}
+.archive-card .tag {
+  color: rgba(245,243,236,0.82);
+  border-color: rgba(245,243,236,0.20);
+  background: rgba(8,9,11,0.34);
+}
+.archive-card .card-cta {
+  margin: 1rem 0 0;
+  width: fit-content;
+  max-width: 100%;
+  color: var(--bone);
+  border-color: rgba(245,243,236,0.24);
+  background: rgba(8,9,11,0.44);
+  backdrop-filter: blur(10px);
+}
 .garage-home-section {
   background:
     radial-gradient(circle at 10% 0%, rgba(212,242,58,0.08), transparent 22rem),
@@ -2238,10 +2294,9 @@ img { max-width: 100%; display: block; }
 .drops-section .label { color: #62676f; }
 .drops-section .btn:not(.primary) { color: var(--bg); border-color: rgba(8,9,11,0.2); }
 .drops-section .card {
-  color: var(--bg);
   border: 1px solid rgba(8,9,11,0.12);
   border-radius: 30px;
-  background: rgba(255,255,255,0.72);
+  background: #08090b;
   box-shadow: 0 20px 80px rgba(8,9,11,0.08);
 }
 
