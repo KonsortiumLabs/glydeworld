@@ -1171,6 +1171,20 @@ type FactionPowerMeta = {
   chips: string[];
 };
 
+type FactionDossier = {
+  id: string;
+  number: string;
+  title: string;
+  type: string;
+  access: string;
+  priority: string;
+  body: string;
+  detail: string;
+  controls: string[];
+  tension: string;
+  image: string;
+};
+
 function getFactionPowerMeta(faction: Faction): FactionPowerMeta {
   const index: Record<string, FactionPowerMeta> = {
     "glyde-authority": {
@@ -1353,6 +1367,47 @@ function getFactionPowerMeta(faction: Faction): FactionPowerMeta {
   };
 }
 
+function FactionDossierDrawer({ dossier, onClose }: { dossier: FactionDossier; onClose: () => void }) {
+  return (
+    <div className="character-drawer-backdrop" role="dialog" aria-modal="true">
+      <article className="faction-drawer">
+        <button className="reader-back-button drawer-close" onClick={onClose}>Back to Network</button>
+        <div className="faction-drawer-hero">
+          <img src={dossier.image} alt="" />
+          <div>
+            <span className="label">{dossier.number} // {dossier.type} // {dossier.access}</span>
+            <h2 className="display"><SplitDisplayTitle text={dossier.title} /></h2>
+            <p>{dossier.body}</p>
+          </div>
+        </div>
+        <div className="faction-drawer-grid">
+          <main>
+            <span className="label">Classified read</span>
+            <p className="lede">{dossier.detail}</p>
+            <div className="faction-relation-grid">
+              <div><span>Controls</span><b>{dossier.controls.join(" / ")}</b></div>
+              <div><span>Access Level</span><b>{dossier.access}</b></div>
+              <div><span>Priority</span><b>{dossier.priority}</b></div>
+              <div><span>Pressure Point</span><b>{dossier.tension}</b></div>
+              <div className="wide"><span>Rider Consequence</span><b>Every alignment can become a door, a price, or a leash.</b></div>
+            </div>
+          </main>
+          <aside>
+            <div><span>FACTION TYPE</span><b>{dossier.type}</b></div>
+            <div><span>WHAT THEY SHAPE</span><b>{dossier.controls.join(", ")}</b></div>
+            <div><span>KNOWN TERRITORY</span><b>{dossier.access}</b></div>
+            <CtaButtons ctas={[
+              { label: "Study the Network", href: "/factions#power-map", kind: "primary" },
+              { label: "Open the Black Book", href: "/codex", kind: "secondary" },
+              { label: "Return to Archive", href: "/archive", kind: "secondary" },
+            ]} />
+          </aside>
+        </div>
+      </article>
+    </div>
+  );
+}
+
 function FactionDrawer({ faction, meta, onClose }: { faction: Faction; meta: FactionPowerMeta; onClose: () => void }) {
   return (
     <div className="character-drawer-backdrop" role="dialog" aria-modal="true">
@@ -1400,44 +1455,162 @@ function FactionDrawer({ faction, meta, onClose }: { faction: Faction; meta: Fac
 export function CollectionView({ type }: { type: "circuits" | "factions" }) {
   const { content } = useSiteContent();
   const [selected, setSelected] = useState<Circuit | Faction | null>(null);
+  const [selectedDossier, setSelectedDossier] = useState<FactionDossier | null>(null);
   const [factionFilter, setFactionFilter] = useState("All");
   const isCircuits = type === "circuits";
   const items = isCircuits ? content.circuits : content.factions;
   const powerLanes = [
-    { title: "Official Control", body: "Licenses, sanctioned events, certification, and the surface story sponsors can stand beside." },
-    { title: "Broadcast / Visibility", body: "Feeds, clips, rankings, and the public memory that turns movement into market heat." },
-    { title: "Route Access", body: "Gates, corridors, introductions, and the private knowledge that makes a line possible." },
-    { title: "Wager Systems", body: "Odds, terms, private stakes, Black Book pressure, and consequences nobody advertises." },
-    { title: "House Influence", body: "Rooms, salons, rider houses, and the people who decide which names get invited inside." },
-    { title: "Street Crews", body: "Lowline families, local route memory, mechanics, protection, and reputation outside the polished circuit." },
-    { title: "Manufacturers", body: "Boards, G-Skins, recovered Core interfaces, telemetry, and style made mechanical." },
-    { title: "Off-Ledger Networks", body: "Quiet runs, unofficial access, private clips, and the economy beneath the visible sport." },
+    { title: "Equipment", body: "Boards, G-Skins, recovered Core handling, telemetry, tuning rooms, and who gets the good build." },
+    { title: "Visibility", body: "Feeds, editors, rankings, clips, scandals, mythmaking, and who the city remembers." },
+    { title: "Access", body: "Rider houses, routekeepers, private gates, rooftop lines, and the rooms that open before a run." },
+    { title: "Money", body: "Sponsor contracts, private backers, wager pressure, debt terms, and consequences nobody puts in the release." },
   ];
   const factionFilters = ["All", "Institutions", "Houses", "Crews", "Sponsors", "Wager Systems", "Networks", "Off Ledger"];
 
   if (!isCircuits) {
-    const factions = content.factions.filter((faction) => factionFilter === "All" || getFactionPowerMeta(faction).classification === factionFilter);
-    const selectedFaction = selected as Faction | null;
+    const factionDossiers: FactionDossier[] = [
+      {
+        id: "sanctioning-bodies",
+        number: "01",
+        title: "Sanctioning Bodies",
+        type: "Officials",
+        access: "Public legitimacy",
+        priority: "Official",
+        body: "The official authorities behind licenses, events, rankings, penalties, and public legitimacy.",
+        detail: "They sell order. They decide what counts, which results matter, what gear passes inspection, and when a rider becomes too dangerous to keep visible.",
+        controls: ["Licenses", "Events", "Rankings", "Penalties"],
+        tension: "They need spectacle, but not the kind that exposes how the sport really moves.",
+        image: content.images[2].url,
+      },
+      {
+        id: "sponsor-houses",
+        number: "02",
+        title: "Sponsor Houses",
+        type: "Patron money",
+        access: "Contracts / image rights",
+        priority: "High",
+        body: "Fashion labels, beverage brands, tech patrons, luxury houses, and private backers turning riders into symbols.",
+        detail: "Sponsor houses buy more than visibility. They buy posture, language, color, public emotion, and the right to make a rider mean something profitable.",
+        controls: ["Contracts", "Brand identity", "Travel", "Public image"],
+        tension: "The deal that saves a rider can become the room they cannot leave.",
+        image: content.images[1].url,
+      },
+      {
+        id: "manufacturers",
+        number: "03",
+        title: "Manufacturers",
+        type: "Equipment power",
+        access: "Boards / G-Skins / telemetry",
+        priority: "High",
+        body: "Boardmakers, G-Skin houses, Core handlers, telemetry firms, and design labs shaping the equipment behind the sport.",
+        detail: "Manufacturers decide who rides clean, who rides loud, who gets prototype response, and who becomes test data without knowing it.",
+        controls: ["G-Boards", "G-Skins", "Telemetry", "Core interfaces"],
+        tension: "Recovered technology does not belong to the street, but the street keeps finding ways to adapt it.",
+        image: content.images[3].url,
+      },
+      {
+        id: "broadcast-houses",
+        number: "04",
+        title: "Broadcast Houses",
+        type: "Media power",
+        access: "Feeds / edits / memory",
+        priority: "High",
+        body: "The feeds, editors, stream networks, and media syndicates turning riders into icons or erasing them overnight.",
+        detail: "Broadcast houses do not only report the sport. They choose the angle, replay the mistake, bury the debt, and decide which rider becomes a face.",
+        controls: ["Clips", "Narratives", "Public memory", "Scandal velocity"],
+        tension: "G//NET can make a rider visible faster than anyone can protect them.",
+        image: content.images[0].url,
+      },
+      {
+        id: "routekeepers",
+        number: "05",
+        title: "Routekeepers",
+        type: "Access control",
+        access: "City lines / private gates",
+        priority: "Selective",
+        body: "Local operators who control corridors, rooftops, shortcuts, private gates, and the knowledge needed to survive a city line.",
+        detail: "Routekeepers know which door opens, which drop is watched, and which line has already been promised to someone else.",
+        controls: ["Corridors", "Rooftops", "Gates", "Shortcut memory"],
+        tension: "They rarely look powerful until the rider needs to move without being seen.",
+        image: content.images[2].url,
+      },
+      {
+        id: "rider-houses",
+        number: "06",
+        title: "Rider Houses",
+        type: "Talent systems",
+        access: "Training / styling / patron circles",
+        priority: "High",
+        body: "Elite training rooms, salons, academies, and patron circles where riders are recruited, styled, funded, and owned.",
+        detail: "A rider house can teach discipline, protect a name, hide a problem, or turn a person into property with better lighting.",
+        controls: ["Training", "Introductions", "Style language", "Private funding"],
+        tension: "Family, ambition, loyalty, and ownership blur fastest inside a beautiful room.",
+        image: content.images[1].url,
+      },
+      {
+        id: "street-crews",
+        number: "07",
+        title: "Street Crews",
+        type: "Lowline power",
+        access: "Neighborhood routes",
+        priority: "Essential",
+        body: "Lowline families, mechanics, runners, spotters, and neighborhood riders who protect reputation outside the polished circuit.",
+        detail: "Street crews carry the memory official broadcasts clean up. They know who earned the line, who bought it, and who should not be trusted near it.",
+        controls: ["Reputation", "Protection", "Repair", "Local route memory"],
+        tension: "The official sport harvests Lowline style while pretending the Lowline is a problem.",
+        image: content.images[0].url,
+      },
+      {
+        id: "wager-cartels",
+        number: "08",
+        title: "Wager Cartels",
+        type: "Off-ledger money",
+        access: "Private stakes",
+        priority: "Danger",
+        body: "The money behind odds, private stakes, fixed races, debt pressure, and consequences no sponsor will acknowledge.",
+        detail: "Wager cartels price courage, fear, timing, and desperation. They can turn a private run into a career or a debt that outlives the clip.",
+        controls: ["Odds", "Debt", "Private stakes", "Fixed pressure"],
+        tension: "The sport pretends money follows performance. The cartels know money can design it.",
+        image: content.images[2].url,
+      },
+      {
+        id: "off-ledger-networks",
+        number: "09",
+        title: "Off-Ledger Networks",
+        type: "Hidden economy",
+        access: "Black routes / private channels",
+        priority: "Black",
+        body: "Private channels, black routes, unlicensed races, hidden archives, and the economy beneath the visible sport.",
+        detail: "Off-ledger networks move when the official map closes. They remember unlicensed runs, leaked routes, hidden clips, and people the public record cannot admit exist.",
+        controls: ["Black routes", "Private channels", "Hidden archives", "Unlicensed races"],
+        tension: "Off Ledger does not mean without consequence. It means without protection.",
+        image: content.images[3].url,
+      },
+    ];
 
     return (
       <>
         <RouteHero page={{
           hero: {
-            eyebrow: "Power Map // Access / Visibility / Debt",
-            title: "VISIBILITY HAS A PRICE. ACCESS HAS OWNERS.",
-            body: "The institutions, houses, crews, sponsors, and unofficial systems shaping movement, status, debt, and control across G//LYDE.",
+            eyebrow: "Classified factions // sport politics",
+            title: "FACTIONS CONTROL WHAT THE SPORT REFUSES TO SAY OUT LOUD.",
+            body: "G//LYDE is sold as speed, style, and sanctioned spectacle.\n\nBehind the feed, the world is shaped by sponsors, manufacturers, rider houses, street crews, routekeepers, media networks, officials, and off-ledger money. They decide who gets equipment, who gets seen, who gets protected, who gets invited, and who gets erased.\n\nTo ride is one thing.\n\nTo matter, you need alignment.",
             image: content.images[2].url,
-            ctas: [{ label: "Open Power Map", href: "#power-map", kind: "primary" }],
+            ctas: [
+              { label: "Study the Network", href: "#power-map", kind: "primary" },
+              { label: "Open the Black Book", href: "/codex", kind: "secondary" },
+              { label: "Return to Archive", href: "/archive", kind: "secondary" },
+            ],
           }
         }} />
 
         <section id="power-map" className="section faction-map-section">
           <div className="section-head">
             <div>
-              <span className="label">Power map overview</span>
-              <h2 className="display">Who controls what the rider sees, owes, and reaches.</h2>
+              <span className="label">Network overview</span>
+              <h2 className="display">A rider's career is built by forces the feed barely names.</h2>
             </div>
-            <p>G//LYDE is not only a sport. It is a stack of official doors, private rooms, street memory, feeds, gates, and prices.</p>
+            <p>Every route has a visible line and a hidden owner. Every public myth has a private backing structure.</p>
           </div>
           <div className="power-lane-grid">
             {powerLanes.map((lane, index) => (
@@ -1453,48 +1626,47 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
         <section className="section faction-index-section">
           <div className="section-head">
             <div>
-              <span className="label">Faction types</span>
-              <h2 className="display">Open the systems behind access.</h2>
+              <span className="label">Faction dossiers</span>
+              <h2 className="display">Power centers beneath the sport.</h2>
             </div>
-            <p>Trace who grants legitimacy, who prices risk, who owns the room, and who keeps moving when the official map ends.</p>
-          </div>
-          <div className="faction-filter-row">
-            {factionFilters.map((filter) => (
-              <button key={filter} className={`filter-btn ${filter === factionFilter ? "active" : ""}`} onClick={() => setFactionFilter(filter)}>
-                {filter}
-              </button>
-            ))}
+            <p>Who backs the rider. Who watches the rider. Who owns the terms when the rider finally matters.</p>
           </div>
           <div className="faction-dossier-grid">
-            {factions.map((faction) => {
-              const meta = getFactionPowerMeta(faction);
-              return (
-                <button className="faction-dossier-card" key={faction.id} onClick={() => setSelected(faction)}>
+            {factionDossiers.map((dossier) => (
+                <button className="faction-dossier-card" key={dossier.id} onClick={() => setSelectedDossier(dossier)}>
                   <div className="faction-card-media">
-                    <img src={faction.image} alt="" />
-                    <span>{meta.classification}</span>
+                    <img src={dossier.image} alt="" />
+                    <span>{dossier.number} // {dossier.type}</span>
                   </div>
                   <div className="faction-card-body">
-                    <span className="label">{meta.type}</span>
-                    <h3 className="display"><SplitDisplayTitle text={faction.name} /></h3>
-                    <p>{faction.description}</p>
+                    <span className="label">{dossier.access}</span>
+                    <h3 className="display"><SplitDisplayTitle text={dossier.title} /></h3>
+                    <p>{dossier.body}</p>
                     <div className="faction-meta-grid">
-                      <div><span>INFLUENCE</span><b>{meta.influence}</b></div>
-                      <div><span>CONTROL</span><b>{meta.control}</b></div>
-                      <div><span>ACCESS</span><b>{meta.access}</b></div>
-                      <div><span>TERRITORY</span><b>{meta.territory}</b></div>
+                      <div><span>CALLSIGN</span><b>{dossier.number}</b></div>
+                      <div><span>TYPE</span><b>{dossier.type}</b></div>
+                      <div><span>ACCESS</span><b>{dossier.access}</b></div>
+                      <div><span>PRIORITY</span><b>{dossier.priority}</b></div>
                     </div>
-                    <div className="faction-meter" aria-label={`Influence strength ${meta.strength}%`}><span style={{ width: `${meta.strength}%` }} /></div>
-                    <div className="faction-control-tags">{meta.chips.slice(0, 3).map((chip) => <span key={chip}>{chip}</span>)}</div>
+                    <div className="faction-meter" aria-label={`${dossier.title} pressure meter`}><span style={{ width: `${Math.min(96, 55 + Number(dossier.number) * 4)}%` }} /></div>
+                    <div className="faction-control-tags">{dossier.controls.slice(0, 3).map((chip) => <span key={chip}>{chip.toUpperCase()}</span>)}</div>
                   </div>
-                  <span className="btn card-cta">Trace Influence →</span>
+                  <span className="btn card-cta">Study the Network →</span>
                 </button>
-              );
-            })}
+              ))}
+          </div>
+          <div className="faction-closing-callout">
+            <span className="label">Closing file</span>
+            <h3 className="display">EVERY RIDER IS BACKED, WATCHED, OR OWNED BY SOMEONE.</h3>
+            <p>The dangerous ones are claimed by more than one faction.</p>
+            <CtaButtons ctas={[
+              { label: "Open the Black Book", href: "/codex", kind: "primary" },
+              { label: "Return to Archive", href: "/archive", kind: "secondary" },
+            ]} />
           </div>
         </section>
 
-        {selectedFaction && <FactionDrawer faction={selectedFaction} meta={getFactionPowerMeta(selectedFaction)} onClose={() => setSelected(null)} />}
+        {selectedDossier && <FactionDossierDrawer dossier={selectedDossier} onClose={() => setSelectedDossier(null)} />}
       </>
     );
   }
