@@ -278,16 +278,16 @@ export const contentStorageKey = "glydeworld.siteContent.v4";
 
 export const siteContent: SiteContent = {
   settings: {
-    title: "G//LYDE WORLD",
+    title: "G//LYDE",
     description:
-      "A premium IP portal for G//LYDE GRAVITY, a gravboard racing saga from the OVER//UNDER universe.",
+      "A premium IP portal for G//LYDE, a gravboard racing saga from the Over//Under.",
     domain: "glydeworld.com",
     universeLabel: "OVER//UNDER",
     footerCopy:
-      "G//LYDE WORLD is the public portal for G//LYDE GRAVITY: character files, illustrated archive drops, route lore, visual development, and curated worldbuilding before Volume 0.",
+      "G//LYDE is the public portal for riders, boards, routes, faction dossiers, off-ledger fragments, and signals before Volume 0.",
     conceptArtNote:
       "Select visuals are concept development references for the evolving G//LYDE universe.",
-    copyrightText: "© G//LYDE WORLD / OVER//UNDER.",
+    copyrightText: "© G//LYDE / Over//Under.",
   },
   brand: {
     logoText: "G//LYDE",
@@ -302,17 +302,17 @@ export const siteContent: SiteContent = {
     accentColor: "#d4f23a",
   },
   footer: {
-    tagline: "A gravboard saga from the OVER//UNDER universe.",
+    tagline: "Anti-gravity board culture from Over//Under.",
     copy:
-      "The official portal for G//LYDE: character files, illustrated story drops, route lore, Codex entries, and curated worldbuilding before Volume 0.",
+      "Riders. Boards. Routes. Factions. Signals before Volume 0.",
     columns: [
       {
-        title: "World",
+        title: "Enter",
         links: [
           { label: "Home", href: "/" },
           { label: "G//LYDE", href: "/glyde-racing" },
           { label: "Neo Noctis", href: "/neo-noctis" },
-          { label: "Off Ledger", href: "/off-ledger" },
+          { label: "Off-Ledger", href: "/off-ledger" },
         ],
       },
       {
@@ -322,15 +322,14 @@ export const siteContent: SiteContent = {
           { label: "Archive", href: "/archive" },
           { label: "Codex", href: "/codex" },
           { label: "Boards & Gear", href: "/movement-systems" },
-          { label: "Routes & Cities", href: "/routes-cities" },
+          { label: "Routes", href: "/routes-cities" },
           { label: "Factions", href: "/factions" },
-          { label: "Machines", href: "/machines" },
         ],
       },
       {
         title: "Build",
         links: [
-          { label: "The Garage", href: "/garage" },
+          { label: "G// Garage", href: "/garage" },
           { label: "Submit a Concept", href: "/garage" },
           { label: "Support a Drop", href: "/support-a-drop" },
           { label: "Collaborate", href: "/collaborate" },
@@ -340,7 +339,6 @@ export const siteContent: SiteContent = {
       {
         title: "Connect",
         links: [
-          { label: "Discord", href: "/join" },
           { label: "Instagram", href: "/join" },
           { label: "X / Twitter", href: "/join" },
           { label: "Email / Contact", href: "mailto:hello@glydeworld.com" },
@@ -349,21 +347,20 @@ export const siteContent: SiteContent = {
       },
     ],
     socialLinks: [
-      { label: "Discord", href: "/join" },
       { label: "Instagram", href: "/join" },
       { label: "X / Twitter", href: "/join" },
       { label: "Newsletter", href: "/join" },
     ],
   },
   seo: {
-    title: "G//LYDE WORLD | A Gravboard Saga",
+    title: "G//LYDE | A Gravboard Saga",
     description:
-      "Enter G//LYDE WORLD, the public portal for a future-facing gravboard racing saga of riders, boards, Neo Noctis, Off Ledger files, route rights, wagers, style, and speed.",
-    ogTitle: "G//LYDE WORLD",
+      "Enter G//LYDE, the public portal for a future-facing gravboard racing saga of riders, boards, Neo Noctis, Off-Ledger files, route rights, wagers, style, and speed.",
+    ogTitle: "G//LYDE",
     ogDescription:
       "The world does not race on wheels anymore. Enter the story archive of G//LYDE, Neo Noctis, and the future of gravboard culture.",
     ogImage: "https://glydeworld.com/assets/ref-metroascent.jpg",
-    twitterTitle: "G//LYDE WORLD",
+    twitterTitle: "G//LYDE",
     twitterDescription: "Movement is status. Boards are identity. One impossible line can become a market event.",
     twitterImage: "https://glydeworld.com/assets/ref-night.jpg",
   },
@@ -565,7 +562,7 @@ export const siteContent: SiteContent = {
     },
     offLedger: {
       eyebrow: "OFF LEDGER",
-      title: "The first file from G//LYDE WORLD",
+      title: "The first file from G//LYDE",
       body:
         "At The Rouxline, the party is only the surface. Below the polished rooms and private introductions, route access moves quietly through Neo Noctis. When a private run challenges the Roux family's position, the race is supposed to stay quiet. No broadcast. No record. No protection. Then the clip leaks. By morning, sponsors want the rider, Oddsmakers price the moment, manufacturers study the data, and Neo Noctis wants to know what the Roux family has been hiding.",
       image: asset("ref-night.jpg"),
@@ -687,7 +684,7 @@ export const siteContent: SiteContent = {
       eyebrow: "Before Volume 0",
       title: "Build with us before Volume 0 drops.",
       body:
-        "G//LYDE WORLD is being developed through character files, illustrated drops, route lore, story entries, and curated community participation. Join early, support a drop, submit a concept, or collaborate on the world.",
+        "G//LYDE is being developed through character files, illustrated drops, route lore, story entries, and curated community participation. Join early, support a drop, submit a concept, or collaborate on the world.",
       ctas: [
         { label: "Join The World", href: "/join", kind: "primary" },
         { label: "Support A Drop", href: "/support-a-drop", kind: "support" },
@@ -701,11 +698,11 @@ export const siteContent: SiteContent = {
     home: {
       slug: "/",
       navLabel: "Home",
-      seoTitle: "G//LYDE WORLD | A Gravboard Saga",
+      seoTitle: "G//LYDE | A Gravboard Saga",
       seoDescription:
-        "Enter G//LYDE WORLD, a story portal for riders, boards, Neo Noctis, Off Ledger files, route rights, wagers, style, and speed.",
+        "Enter G//LYDE, a story portal for riders, boards, Neo Noctis, Off Ledger files, route rights, wagers, style, and speed.",
       hero: {
-        eyebrow: "G//LYDE WORLD // A gravboard saga from the OVER//UNDER universe",
+        eyebrow: "G//LYDE // A gravboard saga from the OVER//UNDER universe",
         title: "THE WORLD DOES NOT RACE ON WHEELS ANYMORE.",
         body:
           "G//LYDE is a gravboard racing saga set in a future where movement is status, boards are identity, and one impossible line can turn a rider into a market event. In Neo Noctis, speed sells. Style is mechanical. Every route has a price.",
@@ -743,9 +740,9 @@ export const siteContent: SiteContent = {
     gravsports: {
       slug: "/gravsports",
       navLabel: "Gravboard Culture",
-      seoTitle: "G//LYDE Gravboard Culture | G//LYDE WORLD",
+      seoTitle: "G//LYDE Gravboard Culture | G//LYDE",
       seoDescription:
-        "G//LYDE is the boards-first racing culture inside the wider G//LYDE GRAVITY branch of OVER//UNDER.",
+        "G//LYDE is the boards-first racing culture inside Over//Under.",
       hero: {
         eyebrow: "Boards first",
         title: "G//LYDE BEGINS WITH THE BOARD.",
@@ -836,12 +833,12 @@ export const siteContent: SiteContent = {
       navLabel: "Garage",
       seoTitle: "The Garage | Creator and Supporter Portal",
       seoDescription:
-        "The Garage is the early-access creator and supporter portal for curated G//LYDE WORLD participation.",
+        "The Garage is the early-access creator and supporter portal for curated G//LYDE participation.",
       hero: {
         eyebrow: "The Garage // G//LYDE intake",
         title: "ENTER THE WORLD BEFORE THE FIRST VOLUME DROPS.",
         body:
-          "G//LYDE WORLD is being developed through character files, illustrated drops, route lore, story entries, and curated community participation. The Garage is the early-access portal for supporters, writers, artists, builders, brands, and worldmakers who want to help shape the edges before Volume 0.",
+          "G//LYDE is being developed through character files, illustrated drops, route lore, story entries, and curated community participation. The Garage is the early-access portal for supporters, writers, artists, builders, brands, and worldmakers who want to help shape the edges before Volume 0.",
         image: asset("ref-catalog.jpg"),
         ctas: [
           { label: "Join The World", href: "/join", kind: "primary" },
@@ -854,14 +851,14 @@ export const siteContent: SiteContent = {
     support: {
       slug: "/support",
       navLabel: "Support",
-      seoTitle: "Support G//LYDE WORLD",
+      seoTitle: "Support G//LYDE",
       seoDescription:
-        "Support G//LYDE WORLD, back Volume 0, fund visual development, submit concepts, and join the early list.",
+        "Support G//LYDE, back Volume 0, fund visual development, submit concepts, and join the early list.",
       hero: {
         eyebrow: "Early backer signal",
         title: "HELP BUILD THE WORLD BEFORE THE FIRST VOLUME DROPS.",
         body:
-          "Support funds character files, visual development, archive entries, pitch materials, Volume 0, and the systems that let early creators help shape the edges of G//LYDE WORLD.",
+          "Support funds character files, visual development, archive entries, pitch materials, Volume 0, and the systems that let early creators help shape the edges of G//LYDE.",
         image: asset("ref-daylight.jpg"),
         ctas: [{ label: "Back Volume 0", href: "/support-a-drop", kind: "payment" }],
       },
@@ -1037,7 +1034,7 @@ export const siteContent: SiteContent = {
       status: "canon",
       publishDate: "2026-05-15",
       seoTitle: "Off Ledger - The Run That Shouldn't Have Counted",
-      seoDescription: "The first OFF LEDGER story hook for G//LYDE WORLD.",
+      seoDescription: "The first OFF LEDGER story hook for G//LYDE.",
     },
     {
       id: "gnet-leak",
@@ -1091,7 +1088,7 @@ export const siteContent: SiteContent = {
       status: "canon",
       publishDate: "2026-05-15",
       seoTitle: "What Are Lowline Runs?",
-      seoDescription: "A guide to Lowline Runs in G//LYDE WORLD.",
+      seoDescription: "A guide to Lowline Runs in G//LYDE.",
     },
     {
       id: "route-rights",
@@ -1109,7 +1106,7 @@ export const siteContent: SiteContent = {
       status: "canon",
       publishDate: "2026-05-15",
       seoTitle: "Why Route Rights Matter",
-      seoDescription: "An archive memo explaining route rights in G//LYDE WORLD.",
+      seoDescription: "An archive memo explaining route rights in G//LYDE.",
     },
   ],
   circuits: [
@@ -1348,12 +1345,12 @@ export const siteContent: SiteContent = {
       id: "over-under",
       term: "OVER//UNDER",
       category: "World",
-      definition: "The wider IP universe that G//LYDE GRAVITY belongs to.",
+      definition: "The wider IP universe that G//LYDE belongs to.",
       fullDescription: "OVER//UNDER is the umbrella world layer. G//LYDE does not explain the entire universe; it opens one branch through gravboard culture, Neo Noctis, and the first story files around OFF LEDGER.",
       whyItMatters: "It keeps the portal focused while leaving room for other worlds, branches, cities, and story lines to surface later.",
-      usage: "G//LYDE WORLD is a gravboard saga from the OVER//UNDER universe.",
+      usage: "G//LYDE is a gravboard saga from the OVER//UNDER universe.",
       tags: ["umbrella", "IP", "world layer"],
-      relatedTerms: ["G//LYDE GRAVITY", "G//LYDE WORLD", "Volume 0"],
+      relatedTerms: ["G//LYDE", "Over//Under", "Volume 0"],
       relatedArchiveIds: ["off-ledger-run"],
       relatedCharacterIds: [],
       relatedCircuitIds: [],
@@ -1362,14 +1359,14 @@ export const siteContent: SiteContent = {
     },
     {
       id: "glyde-gravity",
-      term: "G//LYDE GRAVITY",
+      term: "G//LYDE",
       category: "World",
       definition: "The franchise branch inside OVER//UNDER that holds G//LYDE, Neo Noctis, and the board-racing story world.",
-      fullDescription: "G//LYDE GRAVITY is the lane where anti-gravity sport, route rights, style economies, G//NET feeds, and character files converge. It is built for story first, with archive drops and visual development shaping the world before Volume 0.",
+      fullDescription: "G//LYDE is the lane where anti-gravity sport, route rights, style economies, G//NET feeds, and character files converge. It is built for story first, with archive drops and visual development shaping the world before Volume 0.",
       whyItMatters: "It gives the site a clear home: bigger than one race, smaller and sharper than the entire OVER//UNDER universe.",
-      usage: "Archive files from G//LYDE GRAVITY usually begin with a route, a rider, or a clip somebody wanted buried.",
+      usage: "Archive files from G//LYDE usually begin with a route, a rider, or a clip somebody wanted buried.",
       tags: ["series branch", "story world", "gravity"],
-      relatedTerms: ["OVER//UNDER", "G//LYDE WORLD", "G//LYDE"],
+      relatedTerms: ["OVER//UNDER", "G//LYDE", "The Archive"],
       relatedArchiveIds: ["off-ledger-run", "rouxline-chrome"],
       relatedCharacterIds: ["kellan-roux", "uno-roux"],
       relatedCircuitIds: ["neo-noctis"],
@@ -1378,12 +1375,12 @@ export const siteContent: SiteContent = {
     },
     {
       id: "glyde-world",
-      term: "G//LYDE WORLD",
+      term: "G//LYDE",
       category: "World",
       definition: "The public portal for character files, story drops, Codex entries, routes, and curated co-creation.",
-      fullDescription: "G//LYDE WORLD is the doorway into the branch. It publishes the files that make the universe legible: journals, G//NET clips, visual drops, route lore, Codex records, and Garage entry points for early supporters.",
+      fullDescription: "G//LYDE is the doorway into the branch. It publishes the files that make the universe legible: journals, G//NET clips, visual drops, route lore, Codex records, and Garage entry points for early supporters.",
       whyItMatters: "The site is where the current equivalent of chapters lives before Volume 0 becomes the next formal release.",
-      usage: "Open G//LYDE WORLD when you need the story, the terms, and the route map in one place.",
+      usage: "Open G//LYDE when you need the story, the terms, and the route map in one place.",
       tags: ["portal", "archive", "Garage"],
       relatedTerms: ["The Archive", "Volume 0", "The Garage"],
       relatedArchiveIds: ["kellan-rooftop", "gate-8"],
@@ -1426,7 +1423,7 @@ export const siteContent: SiteContent = {
       id: "off-ledger",
       term: "OFF LEDGER",
       category: "World",
-      definition: "The first story arc from G//LYDE WORLD.",
+      definition: "The first story arc from G//LYDE.",
       fullDescription: "OFF LEDGER begins around a private run, a family position, and a clip that should never have moved through G//NET. It is not a whole-world explanation. It is the first pressure point.",
       whyItMatters: "It gives the audience a story hook: a route dispute becomes public, and a family starts being priced by forces bigger than the room.",
       usage: "No broadcast. No record. No protection. Then the clip leaks.",
@@ -1447,7 +1444,7 @@ export const siteContent: SiteContent = {
       whyItMatters: "It gives support and participation a clear purpose without promising uncontrolled canon or finished media before it exists.",
       usage: "Build the world before Volume 0 drops.",
       tags: ["release", "development", "visual drops"],
-      relatedTerms: ["G//LYDE WORLD", "The Garage", "The Archive"],
+      relatedTerms: ["G//LYDE", "The Garage", "The Archive"],
       relatedArchiveIds: ["off-ledger-run"],
       relatedCharacterIds: [],
       relatedCircuitIds: [],
@@ -1457,7 +1454,7 @@ export const siteContent: SiteContent = {
       id: "eidolon",
       term: "Eidolon",
       category: "World",
-      definition: "The first planet introduced through G//LYDE WORLD.",
+      definition: "The first planet introduced through G//LYDE.",
       fullDescription: "Eidolon is the first planetary home of the story. Neo Noctis is its opening city, but not the whole planet. The Codex treats Eidolon as a platform for future routes, cities, sponsors, and off-world comparison.",
       whyItMatters: "It keeps Neo Noctis iconic without making the whole universe feel trapped in one skyline.",
       usage: "Eidolon gets the first spotlight because Neo Noctis knows how to turn a race into weather.",
@@ -1955,7 +1952,7 @@ export const siteContent: SiteContent = {
   garage: {
     title: "The Garage",
     intro:
-      "The Garage is the early-access creator and supporter portal for G//LYDE WORLD. Join the world, support drops, submit concepts for curated review, collaborate, and help build before Volume 0.",
+      "The Garage is the early-access creator and supporter portal for G//LYDE. Join the world, support drops, submit concepts for curated review, collaborate, and help build before Volume 0.",
     prompt:
       "Bring a sharp idea with a clean hook: what pressure it adds, where it lives, who it changes, and why it belongs in a world where visibility is class.",
     paths: [
@@ -1969,7 +1966,7 @@ export const siteContent: SiteContent = {
       { title: "Support a Drop", body: "Fund concept review, official-style files, illustrated cards, archive consideration, or Volume 0.", linkLabel: "Support", href: "/support-a-drop" },
     ],
     canonNotice:
-      "G//LYDE WORLD is a curated universe. Community submissions may inspire, influence, or be adapted into official archive entries, but submission does not guarantee inclusion, ownership, compensation, publication, or canon status. Accepted concepts may be edited, renamed, merged, expanded, or reinterpreted by the G//LYDE creative team to protect continuity and quality.",
+      "G//LYDE is a curated universe. Community submissions may inspire, influence, or be adapted into official archive entries, but submission does not guarantee inclusion, ownership, compensation, publication, or canon status. Accepted concepts may be edited, renamed, merged, expanded, or reinterpreted by the G//LYDE creative team to protect continuity and quality.",
     supportNotice:
       "Paid participation supports development, review, visual production, and worldbuilding. It does not guarantee canon inclusion unless explicitly agreed in writing.",
     submissionLinks: [
@@ -1980,7 +1977,7 @@ export const siteContent: SiteContent = {
     ],
   },
   support: {
-    title: "Support G//LYDE WORLD",
+    title: "Support G//LYDE",
     intro:
       "A premium invitation to help fund visual development, archive entries, character illustrations, pitch materials, worldbuilding, and the first official Volume 0 release.",
     cards: [

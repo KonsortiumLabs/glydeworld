@@ -65,23 +65,24 @@ export function SiteFooter() {
     <footer className="footer">
       <div className="footer-cta">
         <div>
-          <span className="label">G//LYDE WORLD</span>
+          <span className="label">OFF-LEDGER ACCESS</span>
           <h2 className="display">
             <span className="split-display-title">
-              <span>Enter before Volume 0</span>
-              <span>drops.</span>
+              <span>The surface story is</span>
+              <span>not the whole sport.</span>
             </span>
           </h2>
+          <p>Character files, route notes, board records, faction dossiers, and off-ledger fragments from the Over//Under.</p>
         </div>
         <div className="cta-row">
-          <Link className="btn primary" href="/join">Join The World →</Link>
-          <Link className="btn" href="/off-ledger">Read Off Ledger →</Link>
+          <Link className="btn primary" href="/archive">Open the Archive →</Link>
+          <Link className="btn" href="/join">Join the Early List →</Link>
         </div>
       </div>
       <div className="footer-inner">
         <div className="footer-brand">
           {footerLogo ? <img className="footer-logo" src={footerLogo} alt={content.brand.logoText} /> : <Wordmark />}
-          <h3>{content.settings.title}</h3>
+          <h3>G//LYDE</h3>
           <p className="label">{content.footer.tagline}</p>
           <p className="muted">{content.footer.copy}</p>
         </div>

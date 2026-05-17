@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: siteContent.seo.ogTitle,
     description: siteContent.seo.ogDescription,
     url: "https://glydeworld.com",
-    siteName: "G//LYDE WORLD",
+    siteName: "G//LYDE",
     images: [siteContent.seo.ogImage],
     type: "website",
   },

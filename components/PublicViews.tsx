@@ -854,7 +854,7 @@ function ArchiveReader({
     : paragraphs.find((paragraph) => paragraph.length < 150 && paragraph.length > 30) ?? entry.excerpt;
   const whyFileMatters = entry.id === "rouxline-chrome"
     ? "The Rouxline is one of the first doors into OFF LEDGER: a place where family pressure, route access, private money, and Neo Noctis nightlife begin to overlap."
-    : "The Archive is how G//LYDE WORLD opens before Volume 0: story fragments, route lore, character pressure, visual drops, and files that make the sport feel lived in.";
+    : "The Archive is how G//LYDE opens before Volume 0: story fragments, route lore, character pressure, visual drops, and files that make the sport feel lived in.";
   const selectArchive = (item: ArchiveEntry | null) => {
     if (!item) return;
     onSelectEntry?.(item);
@@ -1097,7 +1097,7 @@ export function ArchiveView() {
       <RouteHero page={{
         hero: {
           eyebrow: "THE ARCHIVE",
-          title: "STORY FILES, CHARACTER JOURNALS, ROUTE NOTES, G//NET CLIPS, AND VISUAL DROPS FROM G//LYDE WORLD.",
+          title: "STORY FILES, CHARACTER JOURNALS, ROUTE NOTES, G//NET CLIPS, AND VISUAL DROPS FROM G//LYDE.",
           body: "Before Volume 0, the world opens through files: fragments, journals, rumors, records, and illustrated entries that reveal the sport one route at a time.",
           image: content.images[0].url,
           ctas: [{ label: "Start OFF LEDGER", href: "#reading-order", kind: "primary" }, { label: "Latest Files", href: "#entries", kind: "secondary" }],
@@ -1738,7 +1738,7 @@ export function OffLedgerView() {
       <section className="section arc-section">
         <div className="section-head">
           <div><span className="label">Arc hub</span><h2 className="display">Gate 8 made the family valuable. The leak made them visible.</h2></div>
-          <p className="lead">OFF LEDGER is the first story arc from G//LYDE WORLD: Neo Noctis, The Rouxline, route rights, Oddsmaker pressure, and the moment a local run becomes market weather.</p>
+          <p className="lead">OFF LEDGER is the first story arc from G//LYDE: Neo Noctis, The Rouxline, route rights, Oddsmaker pressure, and the moment a local run becomes market weather.</p>
         </div>
         <div className="grid two">
           {["The Rouxline", "Gate 8", "Neo Noctis", "The Lowline"].map((title, index) => (
@@ -1955,7 +1955,7 @@ const submissionCopy: Record<SubmissionKind, {
   join: {
     eyebrow: "Join the world",
     title: "Join the early list.",
-    body: "Get archive drops, rider files, Garage calls, and Volume 0 development signals as G//LYDE WORLD opens.",
+    body: "Get archive drops, rider files, Garage calls, and Volume 0 development signals as G//LYDE opens.",
     titleLabel: "How do you want to be listed?",
     descriptionLabel: "Tell us what you want updates about",
     roleLabel: "Reader / artist / writer / developer / backer / brand",
@@ -1968,7 +1968,7 @@ const submissionCopy: Record<SubmissionKind, {
     titleLabel: "Collaboration focus",
     descriptionLabel: "What you do, links, availability, and what you want to build",
     roleLabel: "Role / studio / skillset",
-    fitLabel: "Why does this collaboration fit G//LYDE WORLD?",
+    fitLabel: "Why does this collaboration fit G//LYDE?",
   },
   support: {
     eyebrow: "Support intake",
@@ -2041,7 +2041,7 @@ export function SubmissionView({ kind }: { kind: SubmissionKind }) {
             <label className="field"><span className="label">{copy.fitLabel}</span><textarea required minLength={24} value={form.fitReason} onChange={(event) => set("fitReason", event.target.value)} /></label>
             <label className="consent-field">
               <input required type="checkbox" checked={form.consent} onChange={(event) => set("consent", event.target.checked)} />
-              <span>{isRiderSubmission ? "I understand this is a curated submission. Inclusion, publication, compensation, ownership, or canon status is not guaranteed." : "I understand G//LYDE WORLD is curated. Submission does not guarantee inclusion, ownership, compensation, publication, or canon status."}</span>
+              <span>{isRiderSubmission ? "I understand this is a curated submission. Inclusion, publication, compensation, ownership, or canon status is not guaranteed." : "I understand G//LYDE is curated. Submission does not guarantee inclusion, ownership, compensation, publication, or canon status."}</span>
             </label>
             <button className="btn primary submission-submit" disabled={state.status === "sending"} type="submit">{state.status === "sending" ? "Submitting..." : isRiderSubmission ? "Submit Rider File" : "Submit File"} →</button>
             {state.message && <div className={`form-status ${state.status}`}><b>{state.status === "sent" ? "Received" : state.status === "error" ? "Check the file" : "Working"}</b><p>{state.message}</p>{state.id && <span className="label">Reference: {state.id}</span>}</div>}

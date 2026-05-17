@@ -352,7 +352,7 @@ export function AdminView() {
             }
           }}
         >
-          <span className="label">G//LYDE CONTROL // G//LYDE WORLD</span>
+          <span className="label">G//LYDE CONTROL // G//LYDE</span>
           <h1 className="display" style={{ fontSize: "4rem", margin: "0.6rem 0" }}>World Console</h1>
           <p className="muted">Password-gated CMS for the public portal, archive, submissions, and visual development system.</p>
           <Field label="Password" value={password} onChange={setPassword} />
