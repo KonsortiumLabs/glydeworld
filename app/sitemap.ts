@@ -5,7 +5,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     ...siteContent.nav,
     { label: "Off Ledger", href: "/off-ledger" },
-    { label: "Movement Systems", href: "/movement-systems" },
+    { label: "Boards & Gear", href: "/movement-systems" },
+    { label: "Routes & Cities", href: "/routes-cities" },
     { label: "G-Core", href: "/g-core" },
     { label: "Machines", href: "/machines" },
     { label: "Join", href: "/join" },

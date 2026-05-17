@@ -272,17 +272,17 @@ export type SiteContent = {
 
 const asset = (file: string) => `/assets/${file}`;
 
-export const contentStorageKey = "glydeworld.siteContent.v2";
+export const contentStorageKey = "glydeworld.siteContent.v3";
 
 export const siteContent: SiteContent = {
   settings: {
     title: "G//LYDE WORLD",
     description:
-      "A premium living portal for OVER//UNDER, GRAVSPORTS, and G//LYDE Grav Racing.",
+      "A premium IP portal for G//LYDE GRAVITY, a gravboard racing saga from the OVER//UNDER universe.",
     domain: "glydeworld.com",
     universeLabel: "OVER//UNDER",
     footerCopy:
-      "G//LYDE WORLD is the first public portal into OVER//UNDER: a gravsports universe built for manga, anime, games, fashion, and interactive storytelling.",
+      "G//LYDE WORLD is the public portal for G//LYDE GRAVITY: character files, illustrated archive drops, route lore, visual development, and curated worldbuilding before Volume 0.",
     conceptArtNote:
       "Select visuals are concept development references for the evolving G//LYDE universe.",
     copyrightText: "© G//LYDE WORLD / OVER//UNDER.",
@@ -300,7 +300,7 @@ export const siteContent: SiteContent = {
     accentColor: "#d4f23a",
   },
   footer: {
-    tagline: "A gravsports saga from the OVER//UNDER universe.",
+    tagline: "A gravboard saga from the OVER//UNDER universe.",
     copy:
       "The official portal for G//LYDE: character files, illustrated story drops, route lore, Codex entries, and curated worldbuilding before Volume 0.",
     columns: [
@@ -308,8 +308,7 @@ export const siteContent: SiteContent = {
         title: "World",
         links: [
           { label: "Home", href: "/" },
-          { label: "Gravsports", href: "/gravsports" },
-          { label: "G//LYDE Racing", href: "/glyde-racing" },
+          { label: "G//LYDE", href: "/glyde-racing" },
           { label: "Neo Noctis", href: "/neo-noctis" },
           { label: "Off Ledger", href: "/off-ledger" },
         ],
@@ -320,8 +319,8 @@ export const siteContent: SiteContent = {
           { label: "Characters", href: "/characters" },
           { label: "Archive", href: "/archive" },
           { label: "Codex", href: "/codex" },
-          { label: "Movement Systems", href: "/movement-systems" },
-          { label: "Circuits", href: "/circuits" },
+          { label: "Boards & Gear", href: "/movement-systems" },
+          { label: "Routes & Cities", href: "/routes-cities" },
           { label: "Factions", href: "/factions" },
           { label: "Machines", href: "/machines" },
         ],
@@ -329,11 +328,11 @@ export const siteContent: SiteContent = {
       {
         title: "Build",
         links: [
-          { label: "The Garage", href: "/garage" },
+          { label: "GG / Garage", href: "/garage" },
           { label: "Submit a Concept", href: "/garage" },
-          { label: "Support a Drop", href: "/support" },
-          { label: "Collaborate", href: "/support" },
-          { label: "Join Early List", href: "/support" },
+          { label: "Support a Drop", href: "/support-a-drop" },
+          { label: "Collaborate", href: "/collaborate" },
+          { label: "Join Early List", href: "/join" },
         ],
       },
       {
@@ -355,28 +354,27 @@ export const siteContent: SiteContent = {
     ],
   },
   seo: {
-    title: "G//LYDE WORLD | The Peak of Gravsports",
+    title: "G//LYDE WORLD | A Gravboard Saga",
     description:
-      "Enter G//LYDE WORLD, a living gravsports universe of G-Suits, G-Boards, G-Rigs, Neo Noctis, Off Ledger runs, route rights, wagers, style, and speed.",
+      "Enter G//LYDE WORLD, the public portal for a future-facing gravboard racing saga of riders, boards, Neo Noctis, Off Ledger files, route rights, wagers, style, and speed.",
     ogTitle: "G//LYDE WORLD",
     ogDescription:
-      "The world does not race on wheels anymore. Enter the living archive of G//LYDE Grav Racing, Neo Noctis, and the future of gravsports.",
+      "The world does not race on wheels anymore. Enter the story archive of G//LYDE, Neo Noctis, and the future of gravboard culture.",
     ogImage: "https://glydeworld.com/assets/ref-metroascent.jpg",
     twitterTitle: "G//LYDE WORLD",
-    twitterDescription: "Gravsports made movement competitive. G//LYDE made it impossible to look away.",
+    twitterDescription: "Movement is status. Boards are identity. One impossible line can become a market event.",
     twitterImage: "https://glydeworld.com/assets/ref-night.jpg",
   },
   nav: [
     { label: "Home", href: "/" },
-    { label: "Gravsports", href: "/gravsports" },
-    { label: "G//LYDE Racing", href: "/glyde-racing" },
+    { label: "G//LYDE", href: "/glyde-racing" },
     { label: "Neo Noctis", href: "/neo-noctis" },
     { label: "Characters", href: "/characters" },
     { label: "Archive", href: "/archive" },
     { label: "Codex", href: "/codex" },
-    { label: "Circuits", href: "/circuits" },
+    { label: "Routes & Cities", href: "/routes-cities" },
     { label: "Factions", href: "/factions" },
-    { label: "The Garage", href: "/garage" },
+    { label: "GG", href: "/garage" },
     { label: "Support", href: "/support" },
   ],
   ctas: [
@@ -404,7 +402,7 @@ export const siteContent: SiteContent = {
       id: "gtech",
       title: "G-Tech Catalog",
       url: asset("ref-catalog.jpg"),
-      alt: "Technical catalog visual used for G-Suits, G-Boards, and G-Rigs",
+      alt: "Technical catalog visual used for G-Boards, rider gear, and board tuning",
       caption: "Style is mechanical.",
     },
     {
@@ -416,9 +414,9 @@ export const siteContent: SiteContent = {
     },
   ],
   featureStrip: [
-    "G-SUIT",
     "G-BOARD",
-    "G-RIG",
+    "RIDERS",
+    "ROUTES",
     "G//NET",
     "THE INDEX",
     "THE LEDGER",
@@ -437,10 +435,10 @@ export const siteContent: SiteContent = {
       {
         eyebrow: "01 // Onboard",
         title: "New to G//LYDE",
-        body: "Learn the sport, the city, and the systems before the Index starts pricing the riders.",
-        href: "/gravsports",
+        body: "Learn the boards, riders, city, and route economy before the Index starts pricing the feed.",
+        href: "/glyde-racing",
         image: asset("ref-daylight.jpg"),
-        tags: ["Gravsports", "G-Suit", "G-Board", "G-Rig"],
+        tags: ["Boards", "Riders", "Routes"],
       },
       {
         eyebrow: "02 // Story",
@@ -453,17 +451,17 @@ export const siteContent: SiteContent = {
       {
         eyebrow: "03 // Co-create",
         title: "Build With Us",
-        body: "Submit a rider, crew, circuit, sponsor, machine, or story concept for curated review.",
+        body: "Submit a rider, crew, route, sponsor, board, or story concept for curated review.",
         href: "/garage",
         image: asset("ref-catalog.jpg"),
-        tags: ["The Garage", "Submissions", "Volume 0"],
+        tags: ["GG", "Submissions", "Volume 0"],
       },
     ],
     worldTeaser: {
       eyebrow: "World teaser",
-      title: "A sport big enough to build gods. A city hungry enough to price them.",
+      title: "Gravboard culture made movement impossible to look away from.",
       body:
-        "G//LYDE is where athletes become celebrities, machines become status symbols, and route access can be worth more than real estate. Official leagues sell the dream. The Lowline writes the terms. G//NET turns one impossible clip into a career, a debt, or a target.",
+        "G//LYDE is where riders become celebrities, boards become status symbols, and route access can be worth more than real estate. Official leagues sell the dream. The Lowline writes the terms. G//NET turns one impossible clip into a career, a debt, or a target.",
       callouts: [
         {
           eyebrow: "Broadcast",
@@ -497,33 +495,33 @@ export const siteContent: SiteContent = {
     },
     movementSystems: [
       {
-        eyebrow: "Body discipline",
-        title: "G-Suit",
-        body: "Body-based gravsport. Foot-thrust, glide soles, wallrides, contact pressure, and raw athletic movement. G-Suit owns the nerve.",
-        href: "/movement-systems",
-        image: asset("ref-catalog.jpg"),
-        tags: ["Foot-thrust", "Wallrides", "Nerve"],
-      },
-      {
-        eyebrow: "Culture discipline",
-        title: "G-Board",
-        body: "The culture discipline. Style, Steez, tricks, Lost Lines, crowd impact, and route expression. G-Board owns the culture.",
+        eyebrow: "Names in the feed",
+        title: "Riders",
+        body: "The names the world watches: athletes, style icons, wagers, celebrities, local legends, and future ghosts in the feed.",
         href: "/movement-systems",
         image: asset("ref-night.jpg"),
-        tags: ["Steez", "Lost Lines", "Crowd"],
+        tags: ["Style", "Status", "Risk"],
       },
       {
-        eyebrow: "Machine discipline",
-        title: "G-Rig",
-        body: "The machine discipline. Speeders, one-rider rigs, elite engineering, sponsor money, and high-speed prestige. G-Rig owns the money.",
+        eyebrow: "The icon",
+        title: "G-Boards",
+        body: "Tuned anti-gravity boards built for speed, control, route expression, and risk. The board is the public symbol of G//LYDE.",
         href: "/movement-systems",
-        image: asset("ref-daylight.jpg"),
-        tags: ["Sector speed", "Sponsors", "Engineering"],
+        image: asset("ref-catalog.jpg"),
+        tags: ["Control", "Steez", "Identity"],
+      },
+      {
+        eyebrow: "Where reputations move",
+        title: "Routes",
+        body: "The city lines, gates, tracks, drops, rooftops, and Lowline paths where reputation is won, priced, or lost.",
+        href: "/movement-systems",
+        image: asset("ref-metroascent.jpg"),
+        tags: ["Gates", "Lowline", "Price"],
       },
     ],
     neoNoctis: {
       eyebrow: "Neo Noctis",
-      title: "The city that made gravsports feel like nightlife.",
+      title: "The city that made board culture feel like nightlife.",
       body:
         "Neo Noctis is Eidolon's race-week capital, where off-world visitors, models, inventors, brand owners, Oddsmakers, riders, and sponsors come to watch, wager, party, and become part of the sport. Above, Neo Noctis sells glamour. Below, the Lowline sets the terms.",
       tags: ["Eidolon", "Lowline", "Gate 8", "The Rouxline"],
@@ -548,7 +546,7 @@ export const siteContent: SiteContent = {
         {
           eyebrow: "Roux owned",
           title: "The Rouxline",
-          body: "A chrome lounge above the Lowline. Beautiful enough for celebrities. Useful enough for danger.",
+          body: "Uno Roux's private lounge and rider house: part social room, part board room, part family territory.",
           href: "/archive",
           image: asset("ref-catalog.jpg"),
           tags: ["Lounge", "Garage", "Family"],
@@ -556,7 +554,7 @@ export const siteContent: SiteContent = {
         {
           eyebrow: "Route access",
           title: "Gate 8",
-          body: "The private route point worth more than the building. The door everyone pretends not to want.",
+          body: "A valuable route access point close enough to start arguments without making the entire city revolve around it.",
           href: "/archive",
           image: asset("ref-daylight.jpg"),
           tags: ["Access", "Route rights", "Conflict"],
@@ -567,7 +565,7 @@ export const siteContent: SiteContent = {
       eyebrow: "OFF LEDGER",
       title: "The first file from G//LYDE WORLD",
       body:
-        "At The Rouxline, a chrome lounge above the Lowline, the party is only the surface. Below it sits Gate 8, a private route access point worth more than the building itself. When a private run challenges the Roux family's route rights, the race is supposed to stay quiet. No broadcast. No record. No protection. Then the clip leaks. By morning, sponsors want the rider, Oddsmakers price the moment, manufacturers study the data, and Neo Noctis wants to know what the Roux family has been hiding.",
+        "At The Rouxline, the party is only the surface. Below the polished rooms and private introductions, route access moves quietly through Neo Noctis. When a private run challenges the Roux family's position, the race is supposed to stay quiet. No broadcast. No record. No protection. Then the clip leaks. By morning, sponsors want the rider, Oddsmakers price the moment, manufacturers study the data, and Neo Noctis wants to know what the Roux family has been hiding.",
       image: asset("ref-night.jpg"),
       ctas: [
         { label: "Read Off Ledger", href: "/archive", kind: "primary" },
@@ -656,8 +654,8 @@ export const siteContent: SiteContent = {
       },
       {
         eyebrow: "Route pitch",
-        title: "Submit a Circuit",
-        body: "Pitch a route, gate, city, planet, track, or Grand Cup host concept.",
+        title: "Submit a Route",
+        body: "Pitch a city line, gate, district, track, planet, or Cup host concept.",
         href: "/garage",
         tags: ["Route", "Gate", "Planet"],
       },
@@ -685,13 +683,13 @@ export const siteContent: SiteContent = {
     ],
     supportCta: {
       eyebrow: "Before Volume 0",
-      title: "Help build the world before the first volume drops.",
+      title: "Build with us before Volume 0 drops.",
       body:
-        "Support funds character files, visual development, archive entries, pitch materials, Volume 0, and the systems that let early creators help shape the edges of G//LYDE WORLD.",
+        "G//LYDE WORLD is being developed through character files, illustrated drops, route lore, story entries, and curated community participation. Join early, support a drop, submit a concept, or collaborate on the world.",
       ctas: [
-        { label: "Join Early List", href: "/support", kind: "primary" },
-        { label: "Fund a Visual Drop", href: "/support", kind: "support" },
-        { label: "Enter The Garage", href: "/garage", kind: "secondary" },
+        { label: "Join The World", href: "/join", kind: "primary" },
+        { label: "Support A Drop", href: "/support-a-drop", kind: "support" },
+        { label: "Enter GG", href: "/garage", kind: "secondary" },
       ],
     },
     canonNotice:
@@ -701,35 +699,35 @@ export const siteContent: SiteContent = {
     home: {
       slug: "/",
       navLabel: "Home",
-      seoTitle: "G//LYDE WORLD | The Peak of Gravsports",
+      seoTitle: "G//LYDE WORLD | A Gravboard Saga",
       seoDescription:
-        "Enter G//LYDE WORLD, a living gravsports universe of G-Suits, G-Boards, G-Rigs, Neo Noctis, Off Ledger runs, route rights, wagers, style, and speed.",
+        "Enter G//LYDE WORLD, a story portal for riders, boards, Neo Noctis, Off Ledger files, route rights, wagers, style, and speed.",
       hero: {
-        eyebrow: "G//LYDE WORLD // A gravsports saga from the OVER//UNDER universe",
+        eyebrow: "G//LYDE WORLD // A gravboard saga from the OVER//UNDER universe",
         title: "THE WORLD DOES NOT RACE ON WHEELS ANYMORE.",
         body:
-          "Gravsports are the biggest spectacle in the known worlds. At the top is G//LYDE Grav Racing: a sport of G-Suits, G-Boards, G-Rigs, route rights, sponsor empires, and Lowline runs where one wager can change a life overnight. In Neo Noctis, speed is status. Style is mechanical. Every route has a price.",
+          "G//LYDE is a gravboard racing saga set in a future where movement is status, boards are identity, and one impossible line can turn a rider into a market event. In Neo Noctis, speed sells. Style is mechanical. Every route has a price.",
         image: asset("ref-metroascent.jpg"),
         ctas: [
           { label: "Enter Neo Noctis", href: "/neo-noctis", kind: "primary" },
           { label: "Read Off Ledger", href: "/archive", kind: "secondary" },
-          { label: "Build With Us", href: "/garage", kind: "support" },
+          { label: "Build in GG", href: "/garage", kind: "support" },
         ],
       },
       blocks: [
         {
           kicker: "What is G//LYDE?",
-          title: "GRAVSPORTS MADE MOVEMENT COMPETITIVE. G//LYDE MADE IT IMPOSSIBLE TO LOOK AWAY.",
+          title: "GRAVBOARD CULTURE MADE MOVEMENT IMPOSSIBLE TO LOOK AWAY FROM.",
           body:
-            "G//LYDE Grav Racing is the peak of gravsports: a world of G-Suits, G-Boards, G-Rigs, official circuits, Lowline Runs, route rights, sponsor empires, and wagers that can change a rider's life in one night. Official racing has rules. Lowline racing has terms.",
+            "G//LYDE is where riders become celebrities, boards become status symbols, and route access can be worth more than real estate. Official racing sells the dream. The Lowline writes the terms.",
           quote: "G//LYDE does not just reward talent. It prices it.",
         },
         {
-          kicker: "Three movement systems",
-          title: "THREE WAYS TO MOVE. ONE WAY TO BE REMEMBERED.",
+          kicker: "Riders / Boards / Routes",
+          title: "THE RIDER MAKES THE LINE. THE BOARD MAKES IT VISIBLE. THE ROUTE MAKES IT WORTH SOMETHING.",
           body:
-            "G//LYDE is fought across body, board, and machine. Each discipline has its own culture, economy, and danger.",
-          points: ["G-Suit: foot-thrust, wallrides, contact control.", "G-Board: Steez, Lost Lines, crowd impact.", "G-Rig: speed, sector dominance, engineering power."],
+            "Public-facing G//LYDE begins with boards: the icon, the risk, the style object, and the thing a city learns to price.",
+          points: ["Riders: style, status, risk.", "G-Boards: speed, control, identity.", "Routes: gates, rooftops, Lowline terms."],
         },
         {
           kicker: "First story arc",
@@ -742,56 +740,56 @@ export const siteContent: SiteContent = {
     },
     gravsports: {
       slug: "/gravsports",
-      navLabel: "Gravsports",
-      seoTitle: "Gravsports | G//LYDE WORLD",
+      navLabel: "Gravboard Culture",
+      seoTitle: "G//LYDE Gravboard Culture | G//LYDE WORLD",
       seoDescription:
-        "Gravsports are the biggest sport in the known worlds: G-Suits, G-Boards, G-Rigs, route rights, Lowline Runs, and Grand Cup events.",
+        "G//LYDE is the boards-first racing culture inside the wider G//LYDE GRAVITY branch of OVER//UNDER.",
       hero: {
-        eyebrow: "Sports category",
-        title: "GRAVSPORTS ARE THE BIGGEST SPORT IN THE KNOWN WORLDS.",
+        eyebrow: "Boards first",
+        title: "G//LYDE BEGINS WITH THE BOARD.",
         body:
-          "Competitions built around gravity systems, engineered movement, G-Suits, G-Boards, G-Rigs, anti-gravity tracks, route rights, and the constant question of who gets to be seen.",
+          "G//LYDE is the gravboard racing saga: riders, tuned anti-gravity boards, route rights, Lowline runs, sponsor pressure, and the constant question of who gets to be seen.",
         image: asset("ref-daylight.jpg"),
-        ctas: [{ label: "Explore G//LYDE Racing", href: "/glyde-racing", kind: "primary" }],
+        ctas: [{ label: "Explore G//LYDE", href: "/glyde-racing", kind: "primary" }],
       },
       blocks: [
         {
           kicker: "The ecosystem",
-          title: "Local riders feed planetary qualifiers. Planetary qualifiers feed the Grand Cup.",
+          title: "The board is the public icon. The rider is the market event.",
           body:
-            "G-Suit racing, G-Board racing, G-Rig racing, trick showcases, endurance routes, team events, street runs, mixed-class exhibitions, Lowline Runs, and Grand Cup events all live under gravsports.",
-          points: ["Thousands ride local.", "Hundreds qualify planetary.", "Twelve worlds host the Cup."],
+            "G-Suits exist as rider gear for safety, control, interface, impact protection, and style. G-Rigs and other gravsport extensions exist in the wider world, but the public face of this story starts with G-Boards.",
+          points: ["Riders build the name.", "Boards carry the identity.", "Routes set the price."],
         },
         {
-          kicker: "Movement systems",
-          title: "The leagues separate disciplines for fairness. The Lowline mixes them because fairness was never the point.",
+          kicker: "Culture logic",
+          title: "Official racing sells the dream. The Lowline writes the terms.",
           body:
-            "G-Suit is body-based nerve. G-Board is culture, Steez, and remembered lines. G-Rig is money, engineering, sponsorship, and sector dominance.",
-          quote: "G-Board owns the culture. G-Rig owns the money. G-Suit owns the nerve.",
+            "A clean line can make a rider visible. A dangerous line can make them valuable. G//NET decides what the world remembers.",
+          quote: "In Neo Noctis, speed sells. Style is mechanical. Every route has a price.",
         },
       ],
     },
     racing: {
       slug: "/glyde-racing",
-      navLabel: "G//LYDE Racing",
-      seoTitle: "G//LYDE Grav Racing | The Peak Discipline",
+      navLabel: "G//LYDE",
+      seoTitle: "G//LYDE | Gravboard Racing Saga",
       seoDescription:
-        "G//LYDE Grav Racing is the peak of gravsports, where route intelligence, G-Sync, Steez, sponsor money, and wager culture converge.",
+        "G//LYDE is a gravboard racing saga where route intelligence, G-Sync, Steez, sponsor pressure, and wager culture converge.",
       hero: {
-        eyebrow: "Flagship sport",
-        title: "G//LYDE GRAV RACING IS THE PEAK.",
+        eyebrow: "Gravboard saga",
+        title: "G//LYDE IS BOARDS, STATUS, AND IMPOSSIBLE LINES.",
         body:
-          "Speed, style, G-Sync, route intelligence, sponsor money, wager culture, and machine control converge across official races, Lowline Runs, route rights, sanctioned zones, unsanctioned zones, and Grand Cup pressure.",
+          "Speed, style, G-Sync, route intelligence, sponsor money, wager culture, and board control converge across official events, Lowline runs, route rights, sanctioned zones, and unsanctioned pressure.",
         image: asset("ref-night.jpg"),
-        ctas: [{ label: "View Circuits", href: "/circuits", kind: "primary" }],
+        ctas: [{ label: "View Routes & Cities", href: "/routes-cities", kind: "primary" }],
       },
       blocks: [
         {
           kicker: "Race logic",
           title: "Technique wins races. Steez changes how the world remembers them.",
           body:
-            "Circuit races reward placement and time. G-Board adds Steez and route execution. G-Suit adds contact control and movement discipline. G-Rig adds sector dominance and machine performance. Trick showcases price originality. Lowline terms decide everything.",
-          points: ["G-Sync", "The Click", "Resonance / G-Res", "Overdrive", "Steez", "Grand Cup"],
+            "Official board races reward placement, timing, route execution, and control. G//LYDE culture also remembers Steez: the line, the posture, the risk, the timing, and the moment a rider makes the city feel newly possible.",
+          points: ["G-Sync", "The Click", "Resonance / G-Res", "Overdrive", "Steez", "Lowline Runs"],
         },
         {
           kicker: "Official vs Lowline",
@@ -806,7 +804,7 @@ export const siteContent: SiteContent = {
       navLabel: "Neo Noctis",
       seoTitle: "Neo Noctis | Eidolon's Nightlife Grav Racing Capital",
       seoDescription:
-        "Neo Noctis is the first iconic G//LYDE setting: a coastal, vertical, luxurious city where gravsports became nightlife, status, and religion.",
+        "Neo Noctis is the first iconic G//LYDE setting: a coastal, vertical, luxurious city where board culture became nightlife, status, and wager pressure.",
       hero: {
         eyebrow: "Eidolon // First major city",
         title: "NEO NOCTIS SELLS GLAMOUR. THE LOWLINE SETS THE TERMS.",
@@ -820,33 +818,33 @@ export const siteContent: SiteContent = {
           kicker: "The city stack",
           title: "The Overcity broadcasts the dream. The Lowline writes the debt.",
           body:
-            "Eidolon is the first planet. Neo Noctis is its nightlife and wager capital. The Overcity holds towers, official events, sponsors, luxury, and broadcast decks. The Lowline holds off-route races, Black Book terms, street culture, and hidden access.",
+            "Eidolon is the first planet. Neo Noctis is its nightlife and wager capital. The Overcity holds towers, official events, sponsors, luxury, and broadcast decks. The Lowline holds off-route board runs, Black Book terms, street culture, and hidden access.",
           points: ["Eidolon", "Neo Noctis", "The Overcity", "The Lowline", "The Rouxline", "Gate 8"],
         },
         {
           kicker: "The Rouxline",
-          title: "The Rouxline was the lounge. Gate 8 was the reason people came.",
+          title: "The Rouxline keeps the room warm and the doors selective.",
           body:
-            "Uno Roux owns a chrome lounge, small nightclub, and private G//LYDE garage above the Lowline. The lounge is beautiful. Gate 8 is the real asset: private route access. In Neo Noctis, real estate was expensive. Access was priceless.",
+            "The Rouxline is Uno Roux's private lounge and rider house in Neo Noctis: part social room, part board room, part family territory. It sits close enough to the Lowline to hear the terms being written, and polished enough for sponsors to pretend they are only there for the view.",
         },
       ],
     },
     garage: {
       slug: "/garage",
-      navLabel: "The Garage",
-      seoTitle: "The Garage | G//LYDE Co-Creation Portal",
+      navLabel: "GG",
+      seoTitle: "GG / G//LYDE Garage | Creator and Supporter Portal",
       seoDescription:
-        "The Garage is the curated co-creation portal for riders, crews, sponsors, circuits, machines, and story concepts.",
+        "GG / G//LYDE Garage is the early-access creator and supporter portal for curated G//LYDE WORLD participation.",
       hero: {
-        eyebrow: "The Garage",
+        eyebrow: "GG // G//LYDE Garage",
         title: "ENTER THE WORLD BEFORE THE FIRST VOLUME DROPS.",
         body:
-          "G//LYDE WORLD is being built in public as a future manga, game, anime, fashion, and interactive universe. The Garage is the early-access portal for supporters, writers, artists, builders, brands, and worldmakers who want to help shape the edges of the sport.",
+          "G//LYDE WORLD is being developed through character files, illustrated drops, route lore, story entries, and curated community participation. GG is the early-access portal for supporters, writers, artists, builders, brands, and worldmakers who want to help shape the edges before Volume 0.",
         image: asset("ref-catalog.jpg"),
         ctas: [
-          { label: "Join The World", href: "/support", kind: "primary" },
-          { label: "Support A Drop", href: "/support", kind: "support" },
-          { label: "Submit A Rider", href: "#submission-paths", kind: "submission" },
+          { label: "Join The World", href: "/join", kind: "primary" },
+          { label: "Support A Drop", href: "/support-a-drop", kind: "support" },
+          { label: "Submit A Concept", href: "/garage", kind: "submission" },
         ],
       },
       blocks: [],
@@ -879,7 +877,7 @@ export const siteContent: SiteContent = {
       status: "Canon // OFF LEDGER",
       quote: "I don't need them to like me. I need them to remember.",
       bio:
-        "Kellan Roux is a known local rider with flair, logic, and a fear of being ordinary. He wants the main circuit, the money, the status, and the kind of legacy that turns family pressure into generational freedom. But visibility is not freedom. It is exposure.",
+        "Kellan Roux is a known local rider with flair, logic, and a fear of being ordinary. He wants the official board circuit, the money, the status, and the kind of legacy that turns family pressure into generational freedom. But visibility is not freedom. It is exposure.",
       tags: ["POV", "Rouxline", "G-Board", "Off Ledger"],
       image: asset("ref-night.jpg"),
       archiveIds: ["kellan-rooftop", "off-ledger-run"],
@@ -888,14 +886,14 @@ export const siteContent: SiteContent = {
       id: "gio-roux",
       name: "Gio Roux",
       role: "Older half-brother / route support",
-      discipline: "G-Rig / independent movement",
+      discipline: "Route support / independent movement",
       affiliation: "The Rouxline / independents / Lowline links",
       location: "Neo Noctis",
       status: "Canon",
       quote: "You keep chasing rooms. I keep looking for exits.",
       bio:
         "Five years older, smooth, funny, skeptical, and hard to own. Gio wants wealth, discovery, companionship, and freedom outside the systems that make riders visible.",
-      tags: ["Rouxline", "G-Rig", "Lowline", "Family"],
+      tags: ["Rouxline", "Routes", "Lowline", "Family"],
       image: asset("ref-daylight.jpg"),
       archiveIds: ["gate-8"],
     },
@@ -1078,12 +1076,12 @@ export const siteContent: SiteContent = {
     {
       id: "lowline-runs",
       title: "What Are Lowline Runs?",
-      category: "Circuit Reports",
+      category: "Route File",
       source: "Archive Desk",
       location: "Neo Noctis // Lowline",
       excerpt: "Official racing has rules. Lowline racing has terms.",
       body:
-        "Lowline Runs are unsanctioned, wager-driven, mixed-class routes below the official city image. The leagues separate disciplines for fairness. The Lowline mixes them because fairness was never the point.\n\nA sanctioned race tells you the category before the start. G-Suit. G-Board. G-Rig. Trick format. Circuit format. Clean rules. Clean exits. Clean blame.\n\nA Lowline Run tells you the terms. Who enters, what counts, who pays, who films, what route is legal for the next six minutes, and what happens if the run exposes something valuable.\n\nThe Lowline is not chaos. It has structure. It just does not owe that structure to the official sport.",
+        "Lowline Runs are unsanctioned, wager-driven routes below the official city image. The official sport sells categories, timing, safety, and clean exits. The Lowline sells terms.\n\nA sanctioned board race tells you the route, the rules, the timing window, and who can file a complaint. A Lowline Run tells you who enters, what counts, who pays, who films, what route is legal for the next six minutes, and what happens if the run exposes something valuable.\n\nThe Lowline is not chaos. It has structure. It just does not owe that structure to the official sport.",
       image: asset("ref-night.jpg"),
       tags: ["Lowline", "Runs", "Terms"],
       relatedCharacters: ["gio-roux"],
@@ -1148,10 +1146,10 @@ export const siteContent: SiteContent = {
       name: "Solar Harbor",
       planet: "Eidolon",
       region: "Coastal sponsor district",
-      type: "Official circuit",
+      type: "Official board circuit",
       status: "Official",
       risk: "Medium",
-      discipline: "G-Rig dominant",
+      discipline: "Board route / sponsor district",
       description: "Luxury towers, sponsor yachts, open-air lanes, and summer-circuit politics.",
       events: ["Grand Cup Qualifier"],
       image: asset("ref-daylight.jpg"),
@@ -1165,7 +1163,7 @@ export const siteContent: SiteContent = {
       type: "Endurance route",
       status: "Mixed",
       risk: "Severe",
-      discipline: "G-Suit / G-Rig",
+      discipline: "Board / mixed future expansion",
       description: "Heat distortion, collapsed highways, old factories, and bets nobody insures.",
       events: ["Ashfall Endurance"],
       image: asset("ref-catalog.jpg"),
@@ -1176,10 +1174,10 @@ export const siteContent: SiteContent = {
       name: "Skyport District",
       planet: "Eidolon",
       region: "Orbital transit hub",
-      type: "Official restricted circuit",
+      type: "Official restricted board route",
       status: "Official",
       risk: "High",
-      discipline: "G-Rig",
+      discipline: "Board route / future rig expansion",
       description: "Launch towers, cargo lanes, floating terminals, and high-risk overtakes.",
       events: ["Skyport Restricted"],
       image: asset("ref-daylight.jpg"),
@@ -1193,7 +1191,7 @@ export const siteContent: SiteContent = {
       type: "Grand Cup host",
       status: "Official",
       risk: "Severe",
-      discipline: "G-Suit endurance",
+      discipline: "Board endurance",
       description: "The most beautiful route in the calendar and the easiest to die on.",
       events: ["Grand Cup Host World"],
       image: asset("ref-daylight.jpg"),
@@ -1221,7 +1219,7 @@ export const siteContent: SiteContent = {
       type: "Exhibition route",
       status: "Rumored",
       risk: "Unknown",
-      discipline: "G-Rig",
+      discipline: "Board route / future rig expansion",
       description: "A whispered off-world exhibition course that appears in leaked images and vanishes before verification.",
       events: ["Orbital Exhibition"],
       image: asset("ref-night.jpg"),
@@ -1322,8 +1320,8 @@ export const siteContent: SiteContent = {
   ],
   manufacturers: [
     { id: "zenith", name: "Zenith Aerodynamics", category: "G-Board / aero", tagline: "Control the line.", description: "Premium board and aero systems manufacturer.", link: "/submit-sponsor" },
-    { id: "voltex", name: "Voltex Motion", category: "G-Suit", tagline: "Nerve made visible.", description: "Athletic G-Suit systems for contact-heavy movement.", link: "/submit-sponsor" },
-    { id: "halo", name: "Halo Rig", category: "G-Rig", tagline: "Built above fear.", description: "High-end G-Rig frames and stabilizers.", link: "/submit-sponsor" },
+    { id: "voltex", name: "Voltex Motion", category: "Rider gear", tagline: "Nerve made visible.", description: "Protective suit, board interface, and impact-control systems for riders.", link: "/submit-sponsor" },
+    { id: "halo", name: "Halo Rig", category: "Future expansion", tagline: "Built above fear.", description: "Background gravsport engineering house for future rig and vehicle extensions.", link: "/submit-sponsor" },
     { id: "axiom", name: "Axiom Performance", category: "Performance", tagline: "Speed, audited.", description: "Telemetry, race tuning, and Grand Cup infrastructure.", link: "/submit-sponsor" },
     { id: "prism", name: "Prism Visual Engineering", category: "Broadcast tech", tagline: "Every angle sells.", description: "G//NET camera systems, overlays, and broadcast capture.", link: "/submit-sponsor" },
     { id: "orochi", name: "Orochi Dynamics", category: "Prototype", tagline: "No line is final.", description: "Experimental G-Core behavior and banned prototypes.", link: "/submit-machine" },
@@ -1435,26 +1433,26 @@ export const siteContent: SiteContent = {
       name: "Aurora Core",
       color: "Glass blue",
       affinity: "Control / clean resonance",
-      riderType: "Precision riders and official circuit prospects",
+      riderType: "Precision riders and official board-circuit prospects",
       strengths: ["Stable G-Sync", "Clean route telemetry", "High certification rating"],
       weakness: "Overdrive ceiling is lower than outlaw cores.",
-      discipline: "G-Board / G-Suit",
+      discipline: "G-Board / rider gear",
       image: asset("ref-catalog.jpg"),
       relatedRiders: ["kellan-roux"],
-      relatedMachines: ["G-Board", "G-Suit"],
+      relatedMachines: ["G-Board", "Rider gear"],
     },
     {
       id: "redline-core",
       name: "Redline Core",
       color: "Signal red",
       affinity: "Burst speed / unstable sector dominance",
-      riderType: "Lowline runners and G-Rig pilots with bad ideas",
+      riderType: "Lowline runners and future rig specialists with bad ideas",
       strengths: ["Explosive launch", "Sector speed", "Crowd heat"],
       weakness: "Heat drift and sync spikes can punish hesitation.",
-      discipline: "G-Rig",
+      discipline: "Future rig expansion",
       image: asset("ref-night.jpg"),
       relatedRiders: ["gio-roux"],
-      relatedMachines: ["G-Rig"],
+      relatedMachines: ["Future rigs"],
     },
     {
       id: "noctis-core",
@@ -1471,9 +1469,9 @@ export const siteContent: SiteContent = {
     },
   ],
   garage: {
-    title: "The Garage",
+    title: "GG / G//LYDE Garage",
     intro:
-      "G//LYDE is being built as a living universe. The Garage is where early supporters, writers, artists, riders, builders, and worldmakers can submit characters, crews, sponsors, circuits, machines, and story concepts for potential adaptation into the official archive.",
+      "GG is the early-access creator and supporter portal for G//LYDE WORLD. Join the world, support drops, submit concepts for curated review, collaborate, and help build before Volume 0.",
     prompt:
       "Bring a sharp idea with a clean hook: what pressure it adds, where it lives, who it changes, and why it belongs in a world where visibility is class.",
     paths: [
@@ -1481,8 +1479,8 @@ export const siteContent: SiteContent = {
       { title: "Submit a Rider", body: "Character concept, discipline, affiliation, quote, tags, and why they fit G//LYDE.", linkLabel: "Submit Rider", href: "/submit-rider" },
       { title: "Submit a Crew", body: "Lowline crew, academy group, faction cell, sponsor squad, or route family.", linkLabel: "Submit Crew", href: "/submit-crew" },
       { title: "Submit a Sponsor", body: "In-world brand, manufacturer, fashion label, media company, or Wager House.", linkLabel: "Submit Sponsor", href: "/submit-sponsor" },
-      { title: "Submit a Circuit", body: "City, route, gate, planet, Grand Cup host, or Lowline pressure point.", linkLabel: "Submit Circuit", href: "/submit-circuit" },
-      { title: "Submit a Machine", body: "G-Suit, G-Board, G-Rig, G-Core, prototype, or route technology concept.", linkLabel: "Submit Machine", href: "/submit-machine" },
+      { title: "Submit a Route", body: "City, route, gate, planet, Cup host, or Lowline pressure point.", linkLabel: "Submit Route", href: "/submit-circuit" },
+      { title: "Submit a Board", body: "G-Board, rider gear, G-Core, tuning house, prototype, or route technology concept.", linkLabel: "Submit Board", href: "/submit-machine" },
       { title: "Submit a Story Entry", body: "Rider log, Off Ledger file, G//NET clip, Black Book note, or character scene.", linkLabel: "Submit Story", href: "/submit-story" },
       { title: "Support a Drop", body: "Fund concept review, official-style files, illustrated cards, archive consideration, or Volume 0.", linkLabel: "Support", href: "/support-a-drop" },
     ],
@@ -1503,7 +1501,7 @@ export const siteContent: SiteContent = {
       "A premium invitation to help fund visual development, archive entries, character illustrations, pitch materials, worldbuilding, and the first official Volume 0 release.",
     cards: [
       { title: "Join the Early List", body: "Get first signal when new archive drops, rider files, and Volume 0 updates go live.", linkLabel: "Join", href: "/join" },
-      { title: "Enter The Garage", body: "Submit a rider, crew, circuit, sponsor, machine, or story concept for curated review.", linkLabel: "Enter", href: "/garage" },
+      { title: "Enter GG", body: "Submit a rider, crew, route, sponsor, board, or story concept for curated review.", linkLabel: "Enter", href: "/garage" },
       { title: "Back Volume 0", body: "Help build the first official story package and pitch-ready world foundation.", linkLabel: "Back Volume 0", href: "/support-a-drop" },
       { title: "Sponsor a Drop", body: "Support a future illustrated archive drop, character file, or circuit report.", linkLabel: "Sponsor", href: "/support-a-drop" },
       { title: "Fund an Illustration", body: "Contribute directly to concept and character visual development.", linkLabel: "Fund", href: "/support-a-drop" },

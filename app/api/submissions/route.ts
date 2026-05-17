@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     ok: true,
     id: saved.id,
     status: saved.status,
-    message: "Submission received. The Garage will review it for fit, clarity, and continuity.",
+    message: "Submission received. GG will review it for fit, clarity, and continuity.",
   });
 }
 

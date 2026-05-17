@@ -30,7 +30,7 @@ export function HomeView() {
       title: "Neo Noctis",
       href: "/neo-noctis",
       image: content.images[0].url,
-      body: "The city where gravsports became nightlife, status, and religion.",
+      body: "The first iconic city: a race-week capital where sport, nightlife, status, and wagers collide.",
     },
     {
       title: "Characters",
@@ -60,7 +60,7 @@ export function HomeView() {
           <div>
             <span><i className="live-dot" /> G//NET LIVE</span>
             <span>GLYDEWORLD.COM</span>
-            <span>A GRAVSPORTS SAGA FROM THE OVER//UNDER UNIVERSE</span>
+            <span>A GRAVBOARD SAGA FROM THE OVER//UNDER UNIVERSE</span>
             <span>NEO NOCTIS // EIDOLON</span>
             <span style={{ marginLeft: "auto", color: "var(--acid)" }}>OFF LEDGER // VOLUME 0</span>
           </div>
@@ -73,10 +73,10 @@ export function HomeView() {
             <p className="hero-copy">{page.hero.body}</p>
             <CtaButtons ctas={page.hero.ctas} />
             </div>
-            <div className="hero-poster-card">
+            <Link href="/off-ledger" className="hero-poster-card story-card-link">
               <div className="feed-topline">
-                <span className="label"><i className="live-dot" /> G//NET mirror</span>
-                <span className="feed-status">unverified clip</span>
+                <span className="label"><i className="live-dot" /> OFF LEDGER</span>
+                <span className="feed-status">first file</span>
               </div>
               <div className="feed-visual">
                 <img src={content.images[1].url} alt="" />
@@ -88,16 +88,16 @@ export function HomeView() {
                 </div>
               </div>
               <div className="feed-copy">
-                <span className="label">Neo Noctis feed</span>
-                <b>OFF LEDGER CLIP DETECTED</b>
-                <p>Route-right challenge. Sponsor interest rising. Black Book terms unknown.</p>
+                <span className="label">Story file</span>
+                <b>THE RUN WAS SUPPOSED TO STAY QUIET.</b>
+                <p>No broadcast. No record. No protection. Then G//NET remembered it for everyone.</p>
               </div>
               <div className="feed-metrics">
-                <div><span className="label">Source</span><b>G//NET scrape</b></div>
-                <div><span className="label">Sector</span><b>Unknown</b></div>
-                <div><span className="label">Price</span><b>moving</b></div>
+                <div><span className="label">City</span><b>Neo Noctis</b></div>
+                <div><span className="label">Arc</span><b>Off Ledger</b></div>
+                <div><span className="label">File</span><b>Open</b></div>
               </div>
-            </div>
+            </Link>
           </div>
           <div className="telemetry">
             <div><span className="label">First planet</span><b>Eidolon</b></div>
@@ -208,10 +208,10 @@ export function HomeView() {
           <h2 className="display">{home.supportCta.title}</h2>
           <p>{home.supportCta.body}</p>
           <CtaButtons ctas={[
-            { label: "Join The World", href: "/support", kind: "primary" },
+            { label: "Join The World", href: "/join", kind: "primary" },
             { label: "Submit A Concept", href: "/garage", kind: "submission" },
-            { label: "Support A Drop", href: "/support", kind: "support" },
-            { label: "Collaborate", href: "/support", kind: "secondary" },
+            { label: "Support A Drop", href: "/support-a-drop", kind: "support" },
+            { label: "Collaborate", href: "/collaborate", kind: "secondary" },
           ]} />
           <details className="policy-note">
             <summary>Canon note</summary>
@@ -262,18 +262,18 @@ export function PageView({ pageKey }: { pageKey: "gravsports" | "racing" | "neoN
         title: "The Rouxline",
         category: "Neo Noctis // Lounge / garage / family asset",
         image: content.images[2].url,
-        definition: "A chrome lounge above the Lowline, beautiful enough for celebrities and useful enough for danger.",
-        description: "The Rouxline is a small nightclub, private garage, social room, and old access node. Uno Roux built it like a place to be seen. People who understand route rights know it is also a place to disappear into the city.",
-        whyItMatters: "The Rouxline was the lounge. Gate 8 was the reason people came.",
+        definition: "Uno Roux's private lounge and rider house: part social room, part board room, part family territory.",
+        description: "The Rouxline is where Uno Roux keeps the room warm, the doors selective, and the family close to the sport's hidden economy. It sits close enough to the Lowline to hear the terms being written, and polished enough for sponsors to pretend they are only there for the view.",
+        whyItMatters: "It gives OFF LEDGER an intimate pressure point: family, sponsors, riders, and route whispers in the same room.",
         tags: ["Uno Roux", "Kellan Roux", "Garage", "Access"],
       },
       {
         title: "Gate 8",
         category: "Neo Noctis // Private route access",
         image: content.images[3].url,
-        definition: "The private route point worth more than the building. The door everyone pretends not to want.",
-        description: "Gate 8 is route geometry, family leverage, and market pressure in one place. When a Wager House challenges it, they are not challenging a door. They are challenging who gets to control visibility.",
-        whyItMatters: "In Neo Noctis, real estate was expensive. Access was priceless.",
+        definition: "A valuable gate and route-access point near the Roux family orbit.",
+        description: "Gate 8 matters because route access matters. It is one pressure point among many in Neo Noctis, a place where private runs, wager terms, and family position can become public market weather.",
+        whyItMatters: "It shows how one route can make a rider visible without making the entire city depend on one door.",
         tags: ["Route Rights", "Off Ledger", "Wager Houses", "Gate 8"],
       },
     ];
@@ -295,7 +295,7 @@ export function PageView({ pageKey }: { pageKey: "gravsports" | "racing" | "neoN
               title: "Neo Noctis",
               category: "Eidolon // First major city",
               image: content.images[0].url,
-              definition: "The Miami / Vegas / Monaco of Eidolon, where gravsports became nightlife, status, and religion.",
+              definition: "The Miami / Vegas / Monaco of Eidolon, where gravboard culture became nightlife, status, and wager pressure.",
               description: "Neo Noctis is coastal, vertical, luxurious, hot, social, and dangerous underneath the beauty. Off-world visitors, models, inventors, brand owners, riders, Oddsmakers, sponsors, and G//NET personalities come here to watch, wager, party, and become part of the sport.",
               whyItMatters: "This is the first iconic setting because it makes the promise and the cost of G//LYDE visible in the same skyline.",
               tags: ["Eidolon", "Lowline", "Gate 8", "The Rouxline"],
@@ -304,7 +304,7 @@ export function PageView({ pageKey }: { pageKey: "gravsports" | "racing" | "neoN
               <img src={content.images[0].url} alt={content.images[0].alt} />
               <div>
                 <span className="label">Open city file</span>
-                <h2 className="display">The city that made gravsports feel like nightlife.</h2>
+                <h2 className="display">The city that made board culture feel like nightlife.</h2>
                 <p>Above, Neo Noctis sells glamour. Below, the Lowline sets the terms.</p>
                 <span className="btn">Open Neo Noctis File →</span>
               </div>
@@ -375,26 +375,26 @@ export function MovementSystemsView() {
   const systems = content.homepage.movementSystems.map((system) => {
     const title = system.title.toUpperCase();
     const details = {
-      "G-SUIT": {
-        category: "Body discipline // Gravsports",
-        definition: "A body-based gravsport built around G-Suits, foot-thrust, glide soles, wallrides, contact pressure, and raw athletic movement.",
-        description: "G-Suit riders turn their own bodies into the vehicle. They launch, brake, wallride, redirect, and absorb impact through suit control instead of standing on a board or sitting inside a rig. It is the most exposed discipline because the rider has the least separation from the route.",
-        whyItMatters: "G-Suit owns the nerve. It proves who can make gravity personal before the machines and sponsors start translating talent into market value.",
-        tags: ["Foot-thrust", "Glide soles", "Wallrides", "Contact control", "Raw movement"],
+      "RIDERS": {
+        category: "Character system // G//LYDE",
+        definition: "The names the world watches: athletes, style icons, wagers, celebrities, local legends, and future ghosts in the feed.",
+        description: "Riders are the emotional engine of G//LYDE. They carry family pressure, sponsor appetite, local reputation, style, fear, debt, and the need to become impossible to ignore. A rider is not only someone who races. A rider is a name the city can price.",
+        whyItMatters: "The site is built around character files and journals because the sport only matters when the people risking themselves feel real.",
+        tags: ["Character files", "Status", "Style", "Pressure", "G//NET"],
       },
-      "G-BOARD": {
-        category: "Culture discipline // Gravsports",
-        definition: "The style-led discipline of boards, Steez, tricks, Lost Lines, crowd impact, route expression, and remembered movement.",
-        description: "G-Board is where G//LYDE gets its cultural heat. A great board rider does not only clear a route. They make the route feel newly possible. Crowds remember the line, the posture, the risk, the sound, and the moment the rider decides to take a path nobody priced correctly.",
-        whyItMatters: "G-Board owns the culture. It is the discipline kids copy, G//NET clips fastest, and sponsors chase when technique becomes a look.",
-        tags: ["Steez", "Lost Lines", "Crowd impact", "Route expression", "Trick pressure"],
+      "G-BOARDS": {
+        category: "Board system // G//LYDE",
+        definition: "Tuned anti-gravity boards built for speed, control, route expression, and risk. The board is the icon.",
+        description: "G-Boards are the visual object people remember first: tuned decks, Core behavior, grip language, signal trails, boardwear, repair scars, sponsor finishes, and the impossible line between personal style and mechanical value.",
+        whyItMatters: "Boards make movement visible. They turn identity into silhouette, telemetry, fashion, and market signal.",
+        tags: ["Steez", "G-Sync", "Core tuning", "Boardwear", "Identity"],
       },
-      "G-RIG": {
-        category: "Machine discipline // Gravsports",
-        definition: "The high-money machine discipline of speeders, one-rider rigs, elite engineering, sponsor pressure, and sector dominance.",
-        description: "G-Rig is where engineering becomes status. Rigs can be bikes, speeders, single-rider craft, and prototype machines tuned around a rider's sync behavior. Official circuits love them because they are fast, measurable, expensive, and easy to package as spectacle.",
-        whyItMatters: "G-Rig owns the money. Manufacturers, sponsors, and Grand Cup teams use it to turn speed into empire.",
-        tags: ["Sector speed", "Engineering", "Sponsors", "Telemetry", "Prototype money"],
+      "ROUTES": {
+        category: "Route system // Neo Noctis",
+        definition: "The city lines, gates, tracks, drops, rooftops, and Lowline paths where reputation is won, priced, or lost.",
+        description: "Routes are permission, access, camera angles, risk, crowd memory, sponsor value, and Black Book terms. A route can be official, hidden, purchased, disputed, inherited, leaked, or taken for one night.",
+        whyItMatters: "Every route has a price. The route decides whether a move becomes a private risk, a public clip, or a market event.",
+        tags: ["Route rights", "Lowline", "Gates", "City lines", "Access"],
       },
     }[title] ?? {
       category: "Movement discipline",
@@ -406,23 +406,23 @@ export function MovementSystemsView() {
     return { ...system, ...details };
   });
   const comparisonRows = [
-    ["Core fantasy", "Your body becomes the route.", "Your line becomes culture.", "Your machine becomes status."],
-    ["What wins", "Control, nerve, contact discipline.", "Placement, Steez, execution, crowd memory.", "Sector dominance, speed, sync, engineering."],
-    ["Where it lives", "Training decks, wall routes, contact-heavy events.", "Lowline runs, showcases, broadcast clips.", "Official circuits, team garages, sponsor decks."],
-    ["What can go wrong", "Impact, overcorrection, suit lag.", "Lost line, crowd pressure, route misread.", "Core failure, sync drift, expensive mistakes."],
+    ["Core fantasy", "A name becomes impossible to ignore.", "A board turns identity into motion.", "A city line becomes valuable."],
+    ["What wins", "Nerve, style, judgment, timing.", "Control, Steez, tuning, sync.", "Access, risk, timing, terms."],
+    ["Where it lives", "Character files, feeds, contracts.", "Board rooms, rooftops, Lowline runs.", "Gates, rooftops, circuits, districts."],
+    ["What can go wrong", "Exposure, debt, being owned.", "Sync drift, board failure, bad line.", "Wrong terms, wrong witness, no protection."],
   ];
 
   return (
     <>
       <RouteHero page={{
         hero: {
-          eyebrow: "Movement systems // Body / Board / Machine",
-          title: "G-SUIT. G-BOARD. G-RIG. THREE WAYS TO ENTER THE SPORT.",
-          body: "Gravsports are not one machine or one style. G//LYDE is fought across body, board, and rig. Each discipline has its own culture, scoring logic, danger, and path into Neo Noctis.",
+          eyebrow: "Boards-first system // Riders / Boards / Routes",
+          title: "RIDERS. G-BOARDS. ROUTES. THE THREE THINGS THE WORLD PRICES FIRST.",
+          body: "Public-facing G//LYDE begins with boards: the rider, the board, and the route that turns a line into status. G-Suits are gear. G-Rigs and other extensions can grow later. The board is the icon now.",
           image: content.images[2].url,
           ctas: [
-            { label: "Explore Gravsports", href: "/gravsports", kind: "primary" },
-            { label: "Open G//LYDE Racing", href: "/glyde-racing", kind: "secondary" },
+            { label: "Open G//LYDE", href: "/glyde-racing", kind: "primary" },
+            { label: "View Routes & Cities", href: "/routes-cities", kind: "secondary" },
           ],
         }
       }} />
@@ -430,9 +430,9 @@ export function MovementSystemsView() {
         <div className="section-head">
           <div>
             <span className="label">System files</span>
-            <h2 className="display">Three ways to move. One way to be remembered.</h2>
+            <h2 className="display">Rider. Board. Route. That is the public signal.</h2>
           </div>
-          <p className="lead">Open each discipline for the rules, culture, risk, and story value behind the equipment. This is where G//LYDE stops being hoverboards and becomes an ecosystem.</p>
+          <p className="lead">Open each file for the rules, culture, risk, and story value behind the boards-first G//LYDE experience.</p>
         </div>
         <div className="movement-deep-grid">
           {systems.map((system, index) => (
@@ -469,7 +469,7 @@ export function MovementSystemsView() {
             <p className="lead">Official events separate body, board, and rig for fairness. Lowline Runs mix them because fairness was never the point.</p>
           </div>
           <div className="system-table">
-            <div className="system-table-row header"><span>Signal</span><span>G-Suit</span><span>G-Board</span><span>G-Rig</span></div>
+            <div className="system-table-row header"><span>Signal</span><span>Riders</span><span>G-Boards</span><span>Routes</span></div>
             {comparisonRows.map((row) => (
               <div className="system-table-row" key={row[0]}>
                 {row.map((cell) => <span key={cell}>{cell}</span>)}
@@ -481,12 +481,12 @@ export function MovementSystemsView() {
       <section className="section support-band movement-cta-band">
         <div className="support-panel">
           <span className="label">Why it matters</span>
-          <h2 className="display">G-Board owns the culture. G-Rig owns the money. G-Suit owns the nerve.</h2>
-          <p>The dream changes depending on what you ride. So does the danger, the sponsor interest, the crowd memory, and the price The Index puts beside your name.</p>
+          <h2 className="display">The board is the icon. The rider is the name. The route is the price.</h2>
+          <p>G-Suits remain rider gear. G-Rigs remain future expansion. The public face of G//LYDE starts with the board line everyone wants to replay.</p>
           <CtaButtons ctas={[
             { label: "Open The Codex", href: "/codex", kind: "primary" },
             { label: "View Characters", href: "/characters", kind: "secondary" },
-            { label: "Build In The Garage", href: "/garage", kind: "submission" },
+            { label: "Build In GG", href: "/garage", kind: "submission" },
           ]} />
         </div>
       </section>
@@ -602,7 +602,7 @@ function FileModal({
         {item.tags && <div className="detail-grid"><span className="label">Tags</span><div className="tag-row">{item.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div></div>}
         <div className="detail-grid">
           <span className="label">Next route</span>
-          <CtaButtons ctas={item.ctas ?? [{ label: "Enter The Garage", href: "/garage", kind: "primary" }]} />
+          <CtaButtons ctas={item.ctas ?? [{ label: "Enter GG", href: "/garage", kind: "primary" }]} />
         </div>
       </div>
     </div>
@@ -696,7 +696,7 @@ export function ArchiveView() {
         hero: {
           eyebrow: "THE ARCHIVE",
           title: "STORY DROPS, ROUTE FILES, BLACK BOOK NOTES, AND G//NET CLIPS.",
-          body: "The Archive is the story portal: Rider Logs, Off Ledger Files, G//NET Clips, Black Book Notes, Circuit Reports, Character Entries, Route Files, Sponsor Memos, Wager Notes, and Visual Drops.",
+          body: "The Archive is the story portal: character journals, Off Ledger files, G//NET clips, Black Book notes, route files, sponsor memos, interviews, community submissions, staff canon, and visual drops.",
           image: content.images[0].url,
           ctas: [{ label: "Read Off Ledger", href: "#entries", kind: "primary" }],
         }
@@ -724,11 +724,11 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
     <>
       <RouteHero page={{
         hero: {
-          eyebrow: isCircuits ? "Planetary routes" : "Power blocs",
-          title: isCircuits ? "THOUSANDS RIDE LOCAL. HUNDREDS QUALIFY PLANETARY. TWELVE WORLDS HOST THE CUP." : "G//NET MAKES YOU VISIBLE. THE INDEX PRICES YOU. THE BLACK BOOK REMEMBERS WHAT YOU OWE.",
-          body: isCircuits ? "Neo Noctis is the first key setting, but the world is interplanetary. Grand Cup hosts span multiple worlds." : "The institutions, houses, crews, manufacturers, sponsors, and unofficial systems that control movement, visibility, terms, and debt.",
+          eyebrow: isCircuits ? "Routes & Cities" : "Power blocs",
+          title: isCircuits ? "PLANET. CITY. DISTRICT. ROUTE. GATE. CIRCUIT. EVERY LINE HAS A PRICE." : "G//NET MAKES YOU VISIBLE. THE INDEX PRICES YOU. THE BLACK BOOK REMEMBERS WHAT YOU OWE.",
+          body: isCircuits ? "A city is not a circuit. Explore the places, gates, tracks, districts, and routes where board culture becomes status, risk, and story." : "The institutions, houses, crews, manufacturers, sponsors, and unofficial systems that control movement, visibility, terms, and debt.",
           image: isCircuits ? content.images[3].url : content.images[2].url,
-          ctas: [{ label: isCircuits ? "Submit a Circuit" : "Enter The Garage", href: "/garage", kind: "primary" }],
+          ctas: [{ label: isCircuits ? "Submit a Route or City" : "Enter GG", href: isCircuits ? "/submit-circuit" : "/garage", kind: "primary" }],
         }
       }} />
       <section className="section">
@@ -752,13 +752,13 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
           onClose={() => setSelected(null)}
           item={{
             title: "name" in selected ? selected.name : "",
-            category: isCircuits ? "Circuit / Location" : "Faction / Power bloc",
+            category: isCircuits ? "Route / City file" : "Faction / Power bloc",
             image: selected.image,
             definition: isCircuits ? `${(selected as Circuit).planet} // ${(selected as Circuit).status}` : (selected as Faction).role,
             description: selected.description,
             whyItMatters: isCircuits ? `${(selected as Circuit).risk} // ${(selected as Circuit).discipline}` : (selected as Faction).agenda,
             tags: selected.tags,
-            ctas: [{ label: isCircuits ? "Submit a Circuit" : "Build in The Garage", href: "/garage", kind: "primary" }],
+            ctas: [{ label: isCircuits ? "Submit a Route or City" : "Build in GG", href: isCircuits ? "/submit-circuit" : "/garage", kind: "primary" }],
           }}
         />
       )}
@@ -959,9 +959,9 @@ const submissionCopy: Record<SubmissionKind, {
   },
   circuit: {
     eyebrow: "Garage intake // Route file",
-    title: "Submit a circuit, city, route, planet, or gate.",
-    body: "Pitch an official circuit, Lowline route, private gate, city district, Grand Cup host, or off-world location.",
-    titleLabel: "Circuit / route / location name",
+    title: "Submit a route, city, planet, gate, or track.",
+    body: "Pitch an official board route, Lowline path, private gate, city district, Cup host, or off-world location.",
+    titleLabel: "Route / city / location name",
     descriptionLabel: "Location, route behavior, hazards, visual identity, crowd, and stakes",
     roleLabel: "Planet / city / discipline / status",
     fitLabel: "Why does this location matter to the sport?",
@@ -1037,7 +1037,7 @@ export function SubmissionView({ kind }: { kind: SubmissionKind }) {
           title: copy.title.toUpperCase(),
           body: copy.body,
           image: content.images[kind === "sponsor" ? 2 : kind === "circuit" ? 0 : kind === "machine" ? 3 : 1].url,
-          ctas: [{ label: "Back to The Garage", href: "/garage", kind: "secondary" }],
+          ctas: [{ label: "Back to GG", href: "/garage", kind: "secondary" }],
         }
       }} />
       <section className="section submission-section">
@@ -1046,7 +1046,7 @@ export function SubmissionView({ kind }: { kind: SubmissionKind }) {
             className="submission-form"
             onSubmit={async (event) => {
               event.preventDefault();
-              setState({ status: "sending", message: "Sending to The Garage..." });
+              setState({ status: "sending", message: "Sending to GG..." });
               const response = await fetch("/api/submissions", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -1074,13 +1074,13 @@ export function SubmissionView({ kind }: { kind: SubmissionKind }) {
               <input required type="checkbox" checked={form.consent} onChange={(event) => set("consent", event.target.checked)} />
               <span> I understand G//LYDE WORLD is curated. Submission does not guarantee inclusion, ownership, compensation, publication, or canon status.</span>
             </label>
-            <button className="btn primary" disabled={state.status === "sending"} type="submit">{state.status === "sending" ? "Submitting..." : "Submit To The Garage"} →</button>
+            <button className="btn primary" disabled={state.status === "sending"} type="submit">{state.status === "sending" ? "Submitting..." : "Submit To GG"} →</button>
             {state.message && <div className={`form-status ${state.status}`}><b>{state.status === "sent" ? "Received" : state.status === "error" ? "Check the file" : "Working"}</b><p>{state.message}</p>{state.id && <span className="label">Reference: {state.id}</span>}</div>}
           </form>
           <aside className="submission-side">
             <span className="label">What happens next</span>
             <h2 className="display">Curated review. Clean records. No fake door.</h2>
-            <p>Your submission is saved through the site backend for review in Admin. Strong concepts may be adapted, renamed, merged, expanded, or declined to protect continuity.</p>
+            <p>Your submission is saved through the site backend for review in GG CONTROL. Strong concepts may be adapted, renamed, merged, expanded, or declined to protect continuity.</p>
             <div className="submission-steps">
               <span>01 // Received</span>
               <span>02 // Reviewed for fit</span>
@@ -1101,7 +1101,7 @@ export function SubmissionView({ kind }: { kind: SubmissionKind }) {
 export function GarageView() {
   const { content } = useSiteContent();
   const page = content.pages.garage;
-  const openCalls = ["Neo Noctis Lowline Crews", "G//NET Personalities", "Rival Riders", "Wager House Concepts", "Sponsor Brands", "Gate 8 Rumors", "G-Rig Teams", "Off-World Circuits"];
+  const openCalls = ["Neo Noctis Lowline Crews", "G//NET Personalities", "Rival Riders", "Wager House Concepts", "Sponsor Brands", "Gate 8 Rumors", "Board Tuning Houses", "Off-World Routes"];
   return (
     <>
       <RouteHero page={page} />
@@ -1113,7 +1113,7 @@ export function GarageView() {
         <div className="garage-route-grid">
           {content.garage.paths.map((path) => (
             <Link className="garage-route-card" key={path.title} href={path.href}>
-              <span className="label">Garage route</span>
+              <span className="label">GG route</span>
               <h3 className="display">{path.title}</h3>
               <p>{path.body}</p>
               <span className="btn">{path.linkLabel} →</span>
@@ -1124,11 +1124,11 @@ export function GarageView() {
       <section className="section garage-process-section">
         <div className="section-head">
           <div><span className="label">Review flow</span><h2 className="display">What happens after you submit.</h2></div>
-          <p className="lead">The Garage is curated, not closed. Every submission becomes a clean review file, then moves through fit, continuity, follow-up, and possible adaptation.</p>
+          <p className="lead">GG is curated, not closed. Every submission becomes a clean review file, then moves through fit, continuity, follow-up, and possible adaptation.</p>
         </div>
         <div className="review-flow-grid">
           {[
-            ["01", "Received", "The submission is saved to the backend and appears in Admin for review."],
+            ["01", "Received", "The submission is saved to the backend and appears in GG CONTROL for review."],
             ["02", "Checked for fit", "We look for a clean hook, visual clarity, world pressure, and continuity."],
             ["03", "Follow-up", "Strong files may need refinement, questions, references, or a sharper route into the archive."],
             ["04", "Adapted or declined", "Accepted ideas may be edited, renamed, merged, expanded, or held for later."],
@@ -1144,7 +1144,7 @@ export function GarageView() {
       <section className="section garage-home-section">
         <div className="section-inner">
           <div className="section-head"><div><span className="label">Open calls</span><h2 className="display">What we are looking for now.</h2></div></div>
-          <div className="garage-card-grid">{openCalls.map((call) => <Link className="garage-card" href={call.includes("Circuit") ? "/submit-circuit" : call.includes("Sponsor") || call.includes("House") ? "/submit-sponsor" : call.includes("G-Rig") ? "/submit-machine" : "/submit-rider"} key={call}><span className="label">Open call</span><h3 className="display">{call}</h3><p>Bring a clean hook, a visual direction, and a reason it matters to Neo Noctis or the wider Cup.</p></Link>)}</div>
+          <div className="garage-card-grid">{openCalls.map((call) => <Link className="garage-card" href={call.includes("Route") ? "/submit-circuit" : call.includes("Sponsor") || call.includes("House") ? "/submit-sponsor" : call.includes("Board") ? "/submit-machine" : "/submit-rider"} key={call}><span className="label">Open call</span><h3 className="display">{call}</h3><p>Bring a clean hook, a visual direction, and a reason it matters to Neo Noctis or the wider board culture.</p></Link>)}</div>
           <details className="policy-note"><summary>Canon & support notice</summary><p>{content.garage.canonNotice}</p><p>{content.garage.supportNotice}</p></details>
         </div>
       </section>

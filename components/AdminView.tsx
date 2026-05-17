@@ -55,18 +55,18 @@ const tabs: Array<{ key: TabKey; label: string }> = [
   { key: "pages", label: "Pages" },
   { key: "characters", label: "Characters" },
   { key: "archive", label: "Archive" },
-  { key: "circuits", label: "Circuits" },
+  { key: "circuits", label: "Routes & Cities" },
   { key: "factions", label: "Factions" },
   { key: "manufacturers", label: "Manufacturers" },
   { key: "sponsors", label: "Sponsors" },
   { key: "codex", label: "Codex" },
-  { key: "gcores", label: "Machines / G-Cores" },
+  { key: "gcores", label: "Boards / Gear / G-Cores" },
   { key: "submissions", label: "Submissions" },
-  { key: "garage", label: "Garage" },
+  { key: "garage", label: "GG / Garage" },
   { key: "support", label: "Support" },
   { key: "footer", label: "Footer" },
   { key: "images", label: "Images" },
-  { key: "json", label: "Import / Export" },
+  { key: "json", label: "Backup" },
 ];
 
 function clone<T>(value: T): T {
@@ -197,9 +197,9 @@ export function AdminView() {
             }
           }}
         >
-          <span className="label">Admin // G//LYDE WORLD</span>
-          <h1 className="display" style={{ fontSize: "4rem", margin: "0.6rem 0" }}>Operating Console</h1>
-          <p className="muted">Prototype password gate. Content edits save to browser localStorage and can be exported as JSON.</p>
+          <span className="label">GG CONTROL // G//LYDE WORLD</span>
+          <h1 className="display" style={{ fontSize: "4rem", margin: "0.6rem 0" }}>World Console</h1>
+          <p className="muted">Password-gated CMS for the public portal, archive, submissions, and visual development system.</p>
           <Field label="Password" value={password} onChange={setPassword} />
           <button className="btn primary" type="submit">Unlock Admin →</button>
         </form>
@@ -209,9 +209,9 @@ export function AdminView() {
 
   return (
     <div className="admin-layout">
-      <span className="label">Admin // editable local prototype</span>
-      <h1 className="display" style={{ fontSize: "clamp(3rem, 8vw, 8rem)", margin: "0.5rem 0" }}>G//LYDE CONTENT</h1>
-      <p className="lead">localStorage edits are browser-local. Use Export JSON / Import JSON to preserve changes and migrate into a real CMS later.</p>
+      <span className="label">GG CONTROL // editable CMS</span>
+      <h1 className="display" style={{ fontSize: "clamp(3rem, 8vw, 8rem)", margin: "0.5rem 0" }}>G//LYDE CONTROL</h1>
+      <p className="lead">Manage the public IP portal, character files, archive drops, routes, boards, GG submissions, SEO, and footer. Backup JSON remains available for migration and safekeeping.</p>
 
       <div className="admin-actions">
         <button className="btn primary" onClick={() => setContent(draft)}>Save Changes</button>
@@ -261,19 +261,19 @@ export function AdminView() {
                 ["Characters", draft.characters.length],
                 ["Archive Drops", draft.archive.length],
                 ["Codex Files", draft.codex.length],
-                ["Circuits", draft.circuits.length],
+                ["Routes & Cities", draft.circuits.length],
                 ["Factions", draft.factions.length],
                 ["G-Cores", draft.gCores.length],
                 ["Submissions", submissions.length],
               ].map(([label, value]) => (
-                <button className="cms-stat" key={label} onClick={() => setTab(label === "G-Cores" ? "gcores" : label === "Archive Drops" ? "archive" : label === "Codex Files" ? "codex" : label === "Submissions" ? "submissions" : String(label).toLowerCase() as TabKey)}>
+                <button className="cms-stat" key={label} onClick={() => setTab(label === "G-Cores" ? "gcores" : label === "Archive Drops" ? "archive" : label === "Codex Files" ? "codex" : label === "Submissions" ? "submissions" : label === "Routes & Cities" ? "circuits" : String(label).toLowerCase() as TabKey)}>
                   <span className="label">{label}</span>
                   <b className="display">{value}</b>
                 </button>
               ))}
               <div className="notice cms-note">
                 <b>CMS mode</b>
-                <p>Use visual sections for common edits. JSON import/export remains as backup for full migrations.</p>
+                <p>Use the section editors for world management. Backup import/export is kept separate for migration and safekeeping.</p>
               </div>
             </div>
           )}
@@ -317,16 +317,16 @@ export function AdminView() {
             </>
           )}
 
-          {tab === "homepage" && <JsonEditor label="Homepage sections: Start Here, movement systems, Neo Noctis, Off Ledger, spotlight, latest drops, Garage, Support CTA" value={draft.homepage} onChange={(value) => update(["homepage"], value)} />}
+          {tab === "homepage" && <JsonEditor label="Homepage sections: hero, G//LYDE, Off Ledger, Riders / Boards / Routes, Enter the World, GG CTA" value={draft.homepage} onChange={(value) => update(["homepage"], value)} />}
           {tab === "pages" && <JsonEditor label="Pages: home, gravsports, racing, neoNoctis, garage, support" value={draft.pages} onChange={(value) => update(["pages"], value)} />}
           {tab === "characters" && <JsonEditor label="Characters" value={draft.characters} onChange={(value) => update(["characters"], value)} />}
           {tab === "archive" && <JsonEditor label="Archive entries" value={draft.archive} onChange={(value) => update(["archive"], value)} />}
-          {tab === "circuits" && <JsonEditor label="Circuits" value={draft.circuits} onChange={(value) => update(["circuits"], value)} />}
+          {tab === "circuits" && <JsonEditor label="Routes & Cities: planets, cities, districts, routes, gates, tracks, circuits, series" value={draft.circuits} onChange={(value) => update(["circuits"], value)} />}
           {tab === "factions" && <JsonEditor label="Factions" value={draft.factions} onChange={(value) => update(["factions"], value)} />}
           {tab === "manufacturers" && <JsonEditor label="Manufacturers" value={draft.manufacturers} onChange={(value) => update(["manufacturers"], value)} />}
           {tab === "sponsors" && <JsonEditor label="Sponsors" value={draft.sponsors} onChange={(value) => update(["sponsors"], value)} />}
           {tab === "codex" && <JsonEditor label="Codex terms" value={draft.codex} onChange={(value) => update(["codex"], value)} />}
-          {tab === "gcores" && <JsonEditor label="G-Core / machine spec panels" value={draft.gCores} onChange={(value) => update(["gCores"], value)} />}
+          {tab === "gcores" && <JsonEditor label="Boards / gear / G-Core spec panels" value={draft.gCores} onChange={(value) => update(["gCores"], value)} />}
           {tab === "submissions" && (
             <div className="submissions-admin">
               <div className="admin-actions compact">
@@ -395,7 +395,7 @@ export function AdminView() {
               </div>
             </div>
           )}
-          {tab === "garage" && <JsonEditor label="Garage content and submission links" value={draft.garage} onChange={(value) => update(["garage"], value)} />}
+          {tab === "garage" && <JsonEditor label="GG / G//LYDE Garage content and submission links" value={draft.garage} onChange={(value) => update(["garage"], value)} />}
           {tab === "support" && <JsonEditor label="Support content and payment links" value={draft.support} onChange={(value) => update(["support"], value)} />}
           {tab === "footer" && <JsonEditor label="Footer tagline, columns, links, and social links" value={draft.footer} onChange={(value) => update(["footer"], value)} />}
 

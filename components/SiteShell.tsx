@@ -41,7 +41,7 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Link className="nav-cta" href="/garage">Join The World</Link>
+        <Link className="nav-cta" href="/join">Join The World</Link>
         <button className="mobile-toggle mono" onClick={() => setOpen((value) => !value)}>
           {open ? "Close" : "Menu"}
         </button>
@@ -69,7 +69,7 @@ export function SiteFooter() {
           <h2 className="display">Enter before Volume 0 drops.</h2>
         </div>
         <div className="cta-row">
-          <Link className="btn primary" href="/garage">Join The World →</Link>
+          <Link className="btn primary" href="/join">Join The World →</Link>
           <Link className="btn" href="/off-ledger">Read Off Ledger →</Link>
         </div>
       </div>

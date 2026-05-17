@@ -1,5 +1,5 @@
-import { CollectionView } from "@/components/PublicViews";
+import { redirect } from "next/navigation";
 
 export default function CircuitsPage() {
-  return <CollectionView type="circuits" />;
+  redirect("/routes-cities");
 }
