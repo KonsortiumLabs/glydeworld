@@ -593,53 +593,149 @@ function FileModal({
   );
 }
 
-function ArchiveReader({ entry, onClose }: { entry: ArchiveEntry; onClose: () => void }) {
+function ArchiveReader({
+  entry,
+  entries,
+  onClose,
+  onSelectEntry,
+}: {
+  entry: ArchiveEntry;
+  entries?: ArchiveEntry[];
+  onClose: () => void;
+  onSelectEntry?: (entry: ArchiveEntry) => void;
+}) {
   const { content } = useSiteContent();
+  const allEntries = entries ?? content.archive;
+  const entryIndex = allEntries.findIndex((item) => item.id === entry.id);
+  const previousEntry = entryIndex > 0 ? allEntries[entryIndex - 1] : null;
+  const nextEntry = entryIndex >= 0 && entryIndex < allEntries.length - 1 ? allEntries[entryIndex + 1] : null;
   const relatedCharacters = entry.relatedCharacters
     .map((id) => content.characters.find((character) => character.id === id))
     .filter((character): character is Character => Boolean(character));
   const relatedFactions = entry.relatedFactions
     .map((id) => content.factions.find((faction) => faction.id === id))
     .filter((faction): faction is Faction => Boolean(faction));
+  const relatedTerms = content.codex.filter((term) => term.relatedArchiveIds.includes(entry.id)).slice(0, 8);
+  const relatedLocations = content.circuits.filter((route) => {
+    const text = `${entry.location} ${entry.tags.join(" ")} ${entry.body}`.toLowerCase();
+    return text.includes(route.name.toLowerCase()) || route.tags.some((tag) => text.includes(tag.toLowerCase()));
+  }).slice(0, 4);
+  const relatedEntries = content.archive
+    .filter((item) => item.id !== entry.id && (
+      item.relatedCharacters.some((id) => entry.relatedCharacters.includes(id)) ||
+      item.tags.some((tag) => entry.tags.includes(tag)) ||
+      item.relatedFactions.some((id) => entry.relatedFactions.includes(id))
+    ))
+    .slice(0, 3);
   const paragraphs = entry.body.split(/\n{2,}/).map((part) => part.trim()).filter(Boolean);
+  const pullQuote = entry.id === "rouxline-chrome"
+    ? "The public saw a lounge. The Lowline saw access."
+    : paragraphs.find((paragraph) => paragraph.length < 150 && paragraph.length > 30) ?? entry.excerpt;
+  const whyFileMatters = entry.id === "rouxline-chrome"
+    ? "The Rouxline is one of the first doors into OFF LEDGER: a place where family pressure, route access, private money, and Neo Noctis nightlife begin to overlap."
+    : "The Archive is how G//LYDE WORLD opens before Volume 0: story fragments, route lore, character pressure, visual drops, and files that make the sport feel lived in.";
+  const selectArchive = (item: ArchiveEntry | null) => {
+    if (!item) return;
+    onSelectEntry?.(item);
+  };
 
   return (
     <div className="modal-backdrop archive-reader-backdrop" onClick={onClose}>
       <article className="archive-reader" onClick={(event) => event.stopPropagation()}>
-        <button className="close reader-close" onClick={onClose}>x</button>
+        <div className="archive-reader-topbar">
+          <button className="btn reader-back-button" onClick={onClose}>Back to Archive</button>
+          <div className="archive-reader-meta-strip">
+            <span>{entry.category}</span>
+            <span>{entry.status}</span>
+            <span>{entry.publishDate}</span>
+            <span>{entry.source}</span>
+          </div>
+        </div>
         <header className="archive-reader-hero">
           <img src={entry.image} alt={entry.title} />
           <div className="archive-reader-title">
-            <span className="label">{entry.category} // {entry.status} // {entry.publishDate}</span>
+            <span className="label">G//LYDE Archive File</span>
             <h2 className="display">{entry.title}</h2>
             <p>{entry.excerpt}</p>
+            <div className="reader-chip-row">
+              {relatedCharacters.map((character) => <Link href="/characters" key={character.id}>{character.name}</Link>)}
+              {relatedLocations.map((route) => <Link href="/routes-cities" key={route.id}>{route.name}</Link>)}
+              {!relatedCharacters.length && <span>{entry.location}</span>}
+            </div>
           </div>
         </header>
         <div className="archive-reader-layout">
+          <main className="archive-reader-body">
+            <div className="archive-body-header">
+              <span className="label">Story file</span>
+              <div className="archive-file-code">FILE // {entry.id.toUpperCase()}</div>
+            </div>
+            {paragraphs.map((paragraph, index) => (
+              <p className={index === 0 ? "lede" : ""} key={`${entry.id}-${index}`}>{paragraph}</p>
+            ))}
+            <blockquote className="archive-pullquote">{pullQuote}</blockquote>
+            <div className="reader-callout">
+              <span className="label">Why this file exists</span>
+              <p>{whyFileMatters}</p>
+            </div>
+            <div className="reader-gallery">
+              <img src={entry.image} alt="" />
+              {relatedCharacters.slice(0, 2).map((character) => <img src={character.image} alt={character.name} key={character.id} />)}
+            </div>
+            <div className="archive-related-grid">
+              <section>
+                <span className="label">Related Codex</span>
+                <div className="reader-chip-row">{relatedTerms.length ? relatedTerms.map((term) => <Link href="/codex" key={term.id}>{term.term}</Link>) : <span>No Codex links yet</span>}</div>
+              </section>
+              <section>
+                <span className="label">Related Characters</span>
+                <div className="reader-chip-row">{relatedCharacters.length ? relatedCharacters.map((character) => <Link href="/characters" key={character.id}>{character.name}</Link>) : <span>Unassigned</span>}</div>
+              </section>
+              <section>
+                <span className="label">Related Locations</span>
+                <div className="reader-chip-row">{relatedLocations.length ? relatedLocations.map((route) => <Link href="/routes-cities" key={route.id}>{route.name}</Link>) : <span>{entry.location}</span>}</div>
+              </section>
+              <section>
+                <span className="label">Institutions</span>
+                <div className="reader-chip-row">{relatedFactions.length ? relatedFactions.map((faction) => <Link href="/factions" key={faction.id}>{faction.name}</Link>) : <span>Unassigned</span>}</div>
+              </section>
+            </div>
+            {relatedEntries.length > 0 && (
+              <section className="archive-related-files">
+                <span className="label">Related Archive Files</span>
+                <div className="related-file-grid">
+                  {relatedEntries.map((item) => (
+                    <button className="related-file-card clickable-card" onClick={() => selectArchive(item)} key={item.id}>
+                      <img src={item.image} alt="" />
+                      <div><span className="label">{item.category}</span><b>{item.title}</b><p>{item.excerpt}</p></div>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            )}
+            <div className="tag-row">{entry.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
+          </main>
           <aside className="archive-reader-rail">
             <div><span className="label">Source</span><b>{entry.source}</b></div>
             <div><span className="label">Location</span><b>{entry.location}</b></div>
             <div><span className="label">Canon status</span><b>{entry.status}</b></div>
-            <div><span className="label">Related characters</span>{relatedCharacters.length ? relatedCharacters.map((character) => <b key={character.id}>{character.name}</b>) : <b>Unassigned</b>}</div>
-            <div><span className="label">Related factions</span>{relatedFactions.length ? relatedFactions.map((faction) => <b key={faction.id}>{faction.name}</b>) : <b>Unassigned</b>}</div>
+            <div><span className="label">Category</span><b>{entry.category}</b></div>
+            <div><span className="label">Next actions</span><Link className="btn primary" href="/garage">Submit Related Lore →</Link><Link className="btn" href="/support-a-drop">Support A Visual Drop →</Link></div>
           </aside>
-          <main className="archive-reader-body">
-            <span className="label">Archive file</span>
-            {paragraphs.map((paragraph, index) => (
-              <p className={index === 0 ? "lede" : ""} key={`${entry.id}-${index}`}>{paragraph}</p>
-            ))}
-            <div className="reader-callout">
-              <span className="label">Why this file exists</span>
-              <p>The Archive is how G//LYDE WORLD opens before Volume 0: story fragments, route lore, character pressure, visual drops, and files that make the sport feel lived in.</p>
-            </div>
-            <div className="tag-row">{entry.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
-            <CtaButtons ctas={[
-              { label: "Submit Related Lore", href: "/garage", kind: "submission" },
-              { label: "Support A Visual Drop", href: "/support-a-drop", kind: "support" },
-              { label: "Open Archive", href: "/archive", kind: "secondary" },
-            ]} />
-          </main>
         </div>
+        <footer className="archive-reader-footer">
+          <button className="file-nav-card" disabled={!previousEntry} onClick={() => selectArchive(previousEntry)}>
+            <span className="label">Previous File</span>
+            <b>{previousEntry?.title ?? "Start of archive"}</b>
+          </button>
+          <button className="file-nav-card" disabled={!nextEntry} onClick={() => selectArchive(nextEntry)}>
+            <span className="label">Next File</span>
+            <b>{nextEntry?.title ?? "End of archive"}</b>
+          </button>
+          <Link className="btn primary" href="/garage">Submit Related Lore →</Link>
+          <Link className="btn" href="/support-a-drop">Support A Visual Drop →</Link>
+          <button className="btn" onClick={onClose}>Back to Archive</button>
+        </footer>
       </article>
     </div>
   );
@@ -763,21 +859,64 @@ export function ArchiveView() {
   const { content } = useSiteContent();
   const categories = useMemo(() => ["All", ...Array.from(new Set(content.archive.map((entry) => entry.category)))], [content.archive]);
   const [category, setCategory] = useState("All");
+  const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<ArchiveEntry | null>(null);
-  const entries = category === "All" ? content.archive : content.archive.filter((entry) => entry.category === category);
+  const entries = content.archive.filter((entry) => {
+    const matchesCategory = category === "All" || entry.category === category;
+    const text = `${entry.title} ${entry.category} ${entry.source} ${entry.location} ${entry.excerpt} ${entry.body} ${entry.tags.join(" ")}`.toLowerCase();
+    return matchesCategory && text.includes(query.toLowerCase());
+  });
+  const offLedgerEntries = content.archive.filter((entry) => ["kellan-rooftop", "rouxline-chrome", "gate-8", "off-ledger-run"].includes(entry.id));
+  const journalEntries = content.archive.filter((entry) => entry.category.toLowerCase().includes("rider") || entry.category.toLowerCase().includes("character")).slice(0, 4);
+  const visualEntries = content.archive.filter((entry) => entry.category.toLowerCase().includes("visual") || entry.tags.some((tag) => tag.toLowerCase().includes("visual"))).slice(0, 4);
 
   return (
     <>
       <RouteHero page={{
         hero: {
           eyebrow: "THE ARCHIVE",
-          title: "STORY DROPS, ROUTE FILES, BLACK BOOK NOTES, AND G//NET CLIPS.",
-          body: "The Archive is the story portal: character journals, Off Ledger files, G//NET clips, Black Book notes, route files, sponsor memos, interviews, community submissions, staff canon, and visual drops.",
+          title: "STORY FILES, CHARACTER JOURNALS, ROUTE NOTES, G//NET CLIPS, AND VISUAL DROPS FROM G//LYDE WORLD.",
+          body: "Before Volume 0, the world opens through files: fragments, journals, rumors, records, and illustrated entries that reveal the sport one route at a time.",
           image: content.images[0].url,
-          ctas: [{ label: "Read Off Ledger", href: "#entries", kind: "primary" }],
+          ctas: [{ label: "Start OFF LEDGER", href: "#reading-order", kind: "primary" }, { label: "Latest Files", href: "#entries", kind: "secondary" }],
         }
       }} />
-      <section id="entries" className="section">
+      <section id="reading-order" className="section archive-hub-section">
+        <div className="section-head">
+          <div><span className="label">Featured reading order</span><h2 className="display">OFF LEDGER opens the archive.</h2></div>
+          <p className="lead">Start with the first files: a rooftop, a private room, a route-access problem, and the leaked run that makes Neo Noctis pay attention.</p>
+        </div>
+        <div className="archive-reading-order">
+          {offLedgerEntries.map((entry, index) => (
+            <button className="archive-order-card clickable-card" onClick={() => setSelected(entry)} key={entry.id}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <img src={entry.image} alt="" />
+              <div><span className="label">{entry.category}</span><h3 className="display">{entry.title}</h3><p>{entry.excerpt}</p></div>
+            </button>
+          ))}
+        </div>
+      </section>
+      <section className="section archive-hub-section archive-secondary-section">
+        <div className="section-head">
+          <div><span className="label">Journals and visual drops</span><h2 className="display">Read the world before it becomes Volume 0.</h2></div>
+          <p className="lead">Character pressure, route lore, visual references, Black Book notes, and G//NET fragments live here as official story files.</p>
+        </div>
+        <div className="grid two">
+          <div>
+            <span className="label">Character journals</span>
+            <div className="archive-mini-list">{journalEntries.map((entry) => <button key={entry.id} onClick={() => setSelected(entry)}><b>{entry.title}</b><span>{entry.excerpt}</span></button>)}</div>
+          </div>
+          <div>
+            <span className="label">Visual drops</span>
+            <div className="archive-mini-list">{(visualEntries.length ? visualEntries : content.archive.slice(0, 4)).map((entry) => <button key={entry.id} onClick={() => setSelected(entry)}><b>{entry.title}</b><span>{entry.category} // {entry.status}</span></button>)}</div>
+          </div>
+        </div>
+      </section>
+      <section id="entries" className="section archive-index-section">
+        <div className="section-head">
+          <div><span className="label">Latest files</span><h2 className="display">Open the archive index.</h2></div>
+          <label className="field archive-search"><span className="label">Search files</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Rouxline, Gate 8, Kellan, Lowline..." /></label>
+        </div>
         <div className="filters">{categories.map((item) => <button key={item} className={`filter-btn ${item === category ? "active" : ""}`} onClick={() => setCategory(item)}>{item}</button>)}</div>
         <div className="grid">{entries.map((entry) => <ArchiveCard key={entry.id} entry={entry} onOpen={setSelected} />)}</div>
       </section>
@@ -785,6 +924,8 @@ export function ArchiveView() {
         <ArchiveReader
           onClose={() => setSelected(null)}
           entry={selected}
+          entries={content.archive}
+          onSelectEntry={setSelected}
         />
       )}
     </>
