@@ -47,6 +47,13 @@ img { max-width: 100%; display: block; }
   letter-spacing: -0.015em;
   line-height: 0.92;
 }
+.split-display-title {
+  display: grid;
+  gap: 0.18em;
+}
+.split-display-title span {
+  display: block;
+}
 .wordmark { display: inline-flex; align-items: baseline; }
 .wordmark span { color: var(--muted); letter-spacing: -0.07em; margin: 0 -0.03em; }
 .mono, .label {

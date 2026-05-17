@@ -20,6 +20,21 @@ function CtaButtons({ ctas }: { ctas: Array<{ label: string; href: string; kind:
   );
 }
 
+function SplitDisplayTitle({ text, className = "" }: { text: string; className?: string }) {
+  const parts = text
+    .split(/(?<=\.)\s+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  if (parts.length < 2) return <>{text}</>;
+
+  return (
+    <span className={`split-display-title ${className}`}>
+      {parts.map((part) => <span key={part}>{part}</span>)}
+    </span>
+  );
+}
+
 export function HomeView() {
   const { content } = useSiteContent();
   const page = content.pages.home;
@@ -363,7 +378,7 @@ export function PageView({ pageKey }: { pageKey: "gravsports" | "racing" | "neoN
             <article className="card" key={block.title}>
               <div className="card-body">
                 <span className="label">{block.kicker}</span>
-                <h3 className="display">{block.title}</h3>
+                <h3 className="display"><SplitDisplayTitle text={block.title} /></h3>
                 <p className="muted">{block.body}</p>
                 {block.quote && <p className="display" style={{ color: "var(--acid)", fontSize: "2rem" }}>"{block.quote}"</p>}
                 {block.points && <div className="tag-row">{block.points.map((point) => <span className="tag" key={point}>{point}</span>)}</div>}
