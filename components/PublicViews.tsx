@@ -526,62 +526,225 @@ function RouteHero({ page }: { page: Pick<PageContent, "hero"> }) {
   );
 }
 
+type CharacterMeta = {
+  status: string;
+  affiliation: string;
+  routeRole: string;
+  specialty: string;
+  access: string;
+  lastSeen: string;
+  knownRoute: string;
+  circuitPresence: string;
+  risk: string;
+  chips: string[];
+};
+
+function getCharacterMeta(character: Character): CharacterMeta {
+  if (character.id === "kellan-roux") return {
+    status: "Off Ledger",
+    affiliation: "Independent / Roux orbit",
+    routeRole: "Primary lens / local G-Board talent",
+    specialty: "Style under pressure",
+    access: "Rider file",
+    lastSeen: "Metro Core",
+    knownRoute: "Gate 8",
+    circuitPresence: "Off-ledger",
+    risk: "High",
+    chips: ["RIDER", "OFF LEDGER", "G-BOARD TALENT"],
+  };
+  if (character.id === "gio-roux") return {
+    status: "Canon",
+    affiliation: "Rouxline / Lowline",
+    routeRole: "Older half-brother / route support",
+    specialty: "Access, survival, route memory",
+    access: "Rouxline file",
+    lastSeen: "Lowline threshold",
+    knownRoute: "Gate 8",
+    circuitPresence: "Independent",
+    risk: "Medium-high",
+    chips: ["LOWLINE", "ROUXLINE", "ROUTE SUPPORT"],
+  };
+  if (character.id === "uno-roux") return {
+    status: "Canon",
+    affiliation: "The Rouxline",
+    routeRole: "Former high-level Handler / owner",
+    specialty: "Gate access, rider politics, private rooms",
+    access: "Handler file",
+    lastSeen: "The Rouxline",
+    knownRoute: "Private rooms",
+    circuitPresence: "Behind the room",
+    risk: "Controlled",
+    chips: ["HANDLER", "ROUXLINE", "ACCESS"],
+  };
+  if (character.id === "vey-sable") return {
+    status: "Canon",
+    affiliation: "Black Book / Wager House",
+    routeRole: "Oddsmaker",
+    specialty: "Pressure, odds, controlled chaos",
+    access: "Black Book file",
+    lastSeen: "Terms table",
+    knownRoute: "Disputed access",
+    circuitPresence: "Off-ledger",
+    risk: "Severe",
+    chips: ["ODDSMAKER", "BLACK BOOK", "OFF LEDGER"],
+  };
+  return {
+    status: character.status,
+    affiliation: character.affiliation,
+    routeRole: character.role,
+    specialty: character.discipline,
+    access: "Character file",
+    lastSeen: character.location,
+    knownRoute: "Unassigned",
+    circuitPresence: "Developing",
+    risk: "Unknown",
+    chips: character.tags.slice(0, 3).map((tag) => tag.toUpperCase()),
+  };
+}
+
 export function CharactersView() {
   const { content } = useSiteContent();
   const [selected, setSelected] = useState<Character | null>(null);
+  const [filter, setFilter] = useState("ALL");
+  const filters = ["ALL", "RIDERS", "ROUXLINE", "LOWLINE", "BLACK BOOK", "OFF LEDGER"];
+  const visibleCharacters = content.characters.filter((character) => {
+    if (filter === "ALL") return true;
+    const meta = getCharacterMeta(character);
+    const text = `${character.name} ${character.role} ${character.affiliation} ${character.status} ${character.tags.join(" ")} ${meta.chips.join(" ")}`.toUpperCase();
+    if (filter === "RIDERS") return text.includes("RIDER") || text.includes("G-BOARD");
+    return text.includes(filter);
+  });
 
   return (
     <>
-      <RouteHero page={{
-        hero: {
-          eyebrow: "Rider files // OFF LEDGER",
-          title: "FOLLOW THE RIDERS BEFORE THE INDEX OWNS THEM.",
-          body: "Clickable character files for Kellan Roux, Gio Roux, Uno Roux, Vey Sable, and future community-created riders, handlers, oddsmakers, mechanics, models, inventors, brand owners, G//NET personalities, sponsors, and crew members.",
-          image: content.images[1].url,
-          ctas: [{ label: "Submit a Rider", href: "/garage", kind: "primary" }],
-        }
-      }} />
-      <section className="section">
-        <div className="grid four">
-          {content.characters.map((character) => (
-            <button className="card" key={character.id} onClick={() => setSelected(character)} style={{ textAlign: "left", color: "inherit" }}>
-              <div className="card-img"><img src={character.image} alt={character.name} /></div>
-              <div className="card-body">
-                <span className="label">{character.status}</span>
-                <h3 className="display">{character.name}</h3>
-                <p className="muted">{character.role}</p>
-                <div className="tag-row">{character.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
-              </div>
-            </button>
-          ))}
+      <section className="route-hero character-roster-hero">
+        <img src={content.images[1].url} alt="" />
+        <div className="route-hero-inner character-roster-inner">
+          <span className="label">Character Files // G//LYDE Roster</span>
+          <h1 className="display">RIDERS, RIVALS & ROUTE GHOSTS</h1>
+          <p>The faces moving through G//LYDE's board culture, from polished circuit talent to off-ledger threats, route fixers, oddsmakers, and house operators.</p>
+          <div className="character-hero-actions">
+            <Link className="btn primary" href="/submit-rider">Submit Rider File →</Link>
+            <Link className="btn" href="/archive">Read Character Journals →</Link>
+          </div>
+          <div className="character-hero-meta">
+            <span>Roster <b>{content.characters.length}</b></span>
+            <span>First Arc <b>OFF LEDGER</b></span>
+            <span>City <b>Neo Noctis</b></span>
+          </div>
         </div>
       </section>
-      {selected && <CharacterModal character={selected} onClose={() => setSelected(null)} />}
+      <section className="section character-roster-section">
+        <div className="character-roster-toolbar">
+          <div>
+            <span className="label">Cast archive</span>
+            <h2 className="display">Open the rider files.</h2>
+          </div>
+          <div className="filters character-filters">
+            {filters.map((item) => <button className={`filter-btn ${item === filter ? "active" : ""}`} key={item} onClick={() => setFilter(item)}>{item}</button>)}
+          </div>
+        </div>
+        <div className="roster-grid">
+          {visibleCharacters.map((character) => {
+            const meta = getCharacterMeta(character);
+            return (
+              <button className="rider-file-card clickable-card" key={character.id} onClick={() => setSelected(character)}>
+                <div className="rider-file-image">
+                  <img src={character.image} alt={character.name} />
+                  <span>{meta.access}</span>
+                </div>
+                <div className="rider-file-copy">
+                  <div className="classification-row">{meta.chips.slice(0, 3).map((chip) => <span key={chip}>{chip}</span>)}</div>
+                  <h3 className="display">{character.name}</h3>
+                  <p>{character.quote}</p>
+                  <div className="rider-meta-grid">
+                    <span>STATUS <b>{meta.status}</b></span>
+                    <span>AFFILIATION <b>{meta.affiliation}</b></span>
+                    <span>ROUTE ROLE <b>{meta.routeRole}</b></span>
+                    <span>SPECIALTY <b>{meta.specialty}</b></span>
+                  </div>
+                  <div className="rider-signal-row">
+                    <span>Last Seen <b>{meta.lastSeen}</b></span>
+                    <span>Known Route <b>{meta.knownRoute}</b></span>
+                    <span>Risk <b>{meta.risk}</b></span>
+                  </div>
+                  <span className="btn card-cta">View Rider File →</span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+        <div className="roster-submit-band">
+          <div>
+            <span className="label">GG intake</span>
+            <h3 className="display">Have a rider, route fixer, crew face, or board-culture figure?</h3>
+          </div>
+          <Link className="btn primary" href="/submit-rider">Add to the Roster →</Link>
+        </div>
+      </section>
+      {selected && <CharacterModal character={selected} meta={getCharacterMeta(selected)} onClose={() => setSelected(null)} />}
     </>
   );
 }
 
-function CharacterModal({ character, onClose }: { character: Character; onClose: () => void }) {
+function CharacterModal({ character, meta, onClose }: { character: Character; meta: CharacterMeta; onClose: () => void }) {
+  const { content } = useSiteContent();
+  const archiveEntries = character.archiveIds
+    .map((id) => content.archive.find((entry) => entry.id === id))
+    .filter((entry): entry is ArchiveEntry => Boolean(entry));
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal" onClick={(event) => event.stopPropagation()}>
+    <div className="modal-backdrop character-drawer-backdrop" onClick={onClose}>
+      <article className="character-drawer" onClick={(event) => event.stopPropagation()}>
         <button className="close" onClick={onClose}>x</button>
-        <div className="modal-head">
+        <header className="character-drawer-hero">
           <img src={character.image} alt={character.name} />
-          <div className="modal-title">
-            <span className="label">{character.role}</span>
-            <h2 className="display" style={{ fontSize: "clamp(3rem, 7vw, 7rem)", margin: 0 }}>{character.name}</h2>
+          <div>
+            <span className="label">{meta.access} // {meta.status}</span>
+            <h2 className="display">{character.name}</h2>
+            <p>{character.quote}</p>
+            <div className="classification-row">{meta.chips.map((chip) => <span key={chip}>{chip}</span>)}</div>
           </div>
+        </header>
+        <div className="character-drawer-layout">
+          <main>
+            <span className="label">Character file</span>
+            <p className="lede">{character.bio}</p>
+            <div className="reader-callout">
+              <span className="label">World note</span>
+              <p>{character.name} matters because G//LYDE is built through people before systems: riders, handlers, route fixers, odds, family pressure, and the price of being seen.</p>
+            </div>
+            <div className="character-archive-links">
+              <span className="label">Related journals / files</span>
+              <div className="related-file-grid">
+                {archiveEntries.length ? archiveEntries.map((entry) => (
+                  <Link className="related-file-card" href="/archive" key={entry.id}>
+                    <img src={entry.image} alt="" />
+                    <div><span className="label">{entry.category}</span><b>{entry.title}</b><p>{entry.excerpt}</p></div>
+                  </Link>
+                )) : <p className="muted">No journal files assigned yet.</p>}
+              </div>
+            </div>
+            <CtaButtons ctas={[
+              { label: "Read Archive Files", href: "/archive", kind: "primary" },
+              { label: "Submit Related Lore", href: "/submit-story", kind: "submission" },
+            ]} />
+          </main>
+          <aside>
+            {[
+              ["STATUS", meta.status],
+              ["AFFILIATION", meta.affiliation],
+              ["ROUTE ROLE", meta.routeRole],
+              ["BOARD / SPECIALTY", meta.specialty],
+              ["ACCESS LEVEL", meta.access],
+              ["LAST SEEN", meta.lastSeen],
+              ["KNOWN ROUTE", meta.knownRoute],
+              ["CIRCUIT PRESENCE", meta.circuitPresence],
+              ["RISK LEVEL", meta.risk],
+              ["LOCATION", character.location],
+            ].map(([label, value]) => <div key={label}><span className="label">{label}</span><b>{value}</b></div>)}
+          </aside>
         </div>
-        <div className="detail-grid"><span className="label">Quote</span><p className="display" style={{ margin: 0, fontSize: "2rem", color: "var(--acid)" }}>"{character.quote}"</p></div>
-        {[
-          ["Discipline", character.discipline],
-          ["Affiliation", character.affiliation],
-          ["Location", character.location],
-          ["Status", character.status],
-          ["Bio", character.bio],
-        ].map(([label, value]) => <div className="detail-grid" key={label}><span className="label">{label}</span><span>{value}</span></div>)}
-      </div>
+      </article>
     </div>
   );
 }
