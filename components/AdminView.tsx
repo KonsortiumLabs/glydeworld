@@ -30,6 +30,9 @@ type TabKey =
   | "nav"
   | "homepage"
   | "pages"
+  | "story"
+  | "chapters"
+  | "journals"
   | "characters"
   | "archive"
   | "gallery"
@@ -39,6 +42,9 @@ type TabKey =
   | "sponsors"
   | "codex"
   | "gcores"
+  | "media"
+  | "tags"
+  | "relationships"
   | "sound"
   | "submissions"
   | "garage"
@@ -47,30 +53,52 @@ type TabKey =
   | "images"
   | "json";
 
-const tabs: Array<{ key: TabKey; label: string }> = [
-  { key: "dashboard", label: "Dashboard" },
-  { key: "settings", label: "Site Settings" },
-  { key: "brand", label: "Logo / Brand" },
-  { key: "seo", label: "SEO" },
-  { key: "nav", label: "Nav / CTAs" },
-  { key: "homepage", label: "Homepage" },
-  { key: "pages", label: "Pages" },
-  { key: "characters", label: "Characters" },
-  { key: "archive", label: "Archive" },
-  { key: "gallery", label: "Gallery" },
-  { key: "circuits", label: "Routes & Cities" },
-  { key: "factions", label: "Factions" },
-  { key: "manufacturers", label: "Manufacturers" },
-  { key: "sponsors", label: "Sponsors" },
-  { key: "codex", label: "Black Book" },
-  { key: "gcores", label: "Boards / Gear / G-Cores" },
-  { key: "sound", label: "Sound" },
-  { key: "submissions", label: "Submissions" },
-  { key: "garage", label: "G// Garage" },
-  { key: "support", label: "Support" },
-  { key: "footer", label: "Footer" },
-  { key: "images", label: "Images" },
-  { key: "json", label: "Backup" },
+const adminSections: Array<{ title: string; items: Array<{ key: TabKey; label: string }> }> = [
+  { title: "Dashboard", items: [
+    { key: "dashboard", label: "Overview" },
+  ] },
+  { title: "Story", items: [
+    { key: "story", label: "Publishing Queue" },
+    { key: "chapters", label: "Chapters / Volume Zero" },
+    { key: "journals", label: "Character Journals" },
+  ] },
+  { title: "Archive", items: [
+    { key: "archive", label: "All Files" },
+    { key: "gallery", label: "Gallery Images" },
+    { key: "codex", label: "Black Book" },
+  ] },
+  { title: "Characters", items: [
+    { key: "characters", label: "All Characters" },
+    { key: "relationships", label: "Relationships" },
+  ] },
+  { title: "World", items: [
+    { key: "circuits", label: "Routes & Cities" },
+    { key: "factions", label: "Factions" },
+    { key: "manufacturers", label: "Manufacturers" },
+    { key: "sponsors", label: "Sponsors" },
+    { key: "gcores", label: "Boards / Gear / G-Core" },
+    { key: "tags", label: "Global Tags" },
+  ] },
+  { title: "Media", items: [
+    { key: "media", label: "Image Library" },
+    { key: "images", label: "Reference Uploads" },
+    { key: "sound", label: "Sound" },
+  ] },
+  { title: "G// Garage", items: [
+    { key: "submissions", label: "Review Queue" },
+    { key: "garage", label: "Garage Page" },
+  ] },
+  { title: "Site", items: [
+    { key: "homepage", label: "Homepage" },
+    { key: "pages", label: "Pages" },
+    { key: "nav", label: "Navigation / CTAs" },
+    { key: "seo", label: "SEO" },
+    { key: "footer", label: "Footer" },
+    { key: "brand", label: "Brand System" },
+    { key: "settings", label: "Settings" },
+    { key: "support", label: "Support" },
+    { key: "json", label: "Backup" },
+  ] },
 ];
 
 function clone<T>(value: T): T {
@@ -368,12 +396,21 @@ export function AdminView() {
 
   return (
     <div className="admin-layout">
-      <span className="label">G//LYDE CONTROL // editable CMS</span>
-      <h1 className="display" style={{ fontSize: "clamp(3rem, 8vw, 8rem)", margin: "0.5rem 0" }}>G//LYDE CONTROL</h1>
-      <p className="lead">Manage the public IP portal, character files, archive drops, routes, boards, submissions, SEO, and footer. Backup JSON remains available for migration and safekeeping.</p>
+      <div className="admin-command-top">
+        <div>
+          <span className="label">G//LYDE: LOWLINE // IP CONTROL ROOM</span>
+          <h1 className="display">G//LYDE CONTROL</h1>
+          <p className="lead">Manage chapters, rider files, Archive drops, Black Book entries, Gallery images, sponsors, routes, tags, submissions, media, and global site copy.</p>
+        </div>
+        <label className="admin-search">
+          <span>Search control room</span>
+          <input placeholder="Kellan, Gate 8, MACK'S, G-Res..." />
+        </label>
+      </div>
 
       <div className="admin-actions">
         <button className="btn primary" onClick={() => setContent(draft)}>Save Changes</button>
+        <button onClick={() => setContent(draft)}>Publish Signal</button>
         <button onClick={() => setDraft(content)}>Revert Draft</button>
         <button onClick={() => { resetContent(); setDraft(siteContent); }}>Reset All</button>
         <button onClick={() => {
@@ -407,34 +444,68 @@ export function AdminView() {
 
       <div className="admin-grid">
         <nav className="admin-tabs">
-          {tabs.map((item) => (
-            <button key={item.key} className={tab === item.key ? "active" : ""} onClick={() => setTab(item.key)}>
-              {item.label}
-            </button>
+          {adminSections.map((section) => (
+            <div className="admin-nav-section" key={section.title}>
+              <span>{section.title}</span>
+              {section.items.map((item) => (
+                <button key={item.key} className={tab === item.key ? "active" : ""} onClick={() => setTab(item.key)}>
+                  {item.label}
+                </button>
+              ))}
+            </div>
           ))}
         </nav>
         <div className="admin-panel">
           {tab === "dashboard" && (
-            <div className="cms-dashboard">
-              {[
-                ["Characters", draft.characters.length],
-                ["Archive Drops", draft.archive.length],
-                ["Gallery Frames", draft.gallery.length],
-                ["Black Book Files", draft.codex.length],
-                ["Routes & Cities", draft.circuits.length],
-                ["Sound Signals", draft.sound.signalTracks.length + draft.sound.routeMixes.length + draft.sound.gnetAudio.length],
-                ["Factions", draft.factions.length],
-                ["G-Cores", draft.gCores.length],
-                ["Submissions", submissions.length],
-              ].map(([label, value]) => (
-                <button className="cms-stat" key={label} onClick={() => setTab(label === "G-Cores" ? "gcores" : label === "Archive Drops" ? "archive" : label === "Gallery Frames" ? "gallery" : label === "Black Book Files" ? "codex" : label === "Submissions" ? "submissions" : label === "Routes & Cities" ? "circuits" : label === "Sound Signals" ? "sound" : String(label).toLowerCase() as TabKey)}>
-                  <span className="label">{label}</span>
-                  <b className="display">{value}</b>
-                </button>
-              ))}
-              <div className="notice cms-note">
-                <b>CMS mode</b>
-              <p>Use the visual section editors for world management. Backup import/export is kept separate for migration and safekeeping.</p>
+            <div className="control-dashboard">
+              <div className="cms-dashboard">
+                {[
+                  ["Published Files", draft.archive.filter((item) => item.status?.toLowerCase?.() !== "draft").length, "archive"],
+                  ["Drafts", draft.archive.filter((item) => item.status?.toLowerCase?.() === "draft").length + draft.adminHub.chapters.filter((item) => String(item.status).toLowerCase() === "draft").length, "story"],
+                  ["Characters", draft.characters.length, "characters"],
+                  ["Chapters", draft.adminHub.chapters.length, "chapters"],
+                  ["Gallery Images", draft.gallery.length, "gallery"],
+                  ["Media Assets", draft.adminHub.mediaAssets.length + draft.images.length, "media"],
+                  ["Pending Submissions", submissions.length, "submissions"],
+                ].map(([label, value, target]) => (
+                  <button className="cms-stat" key={label} onClick={() => setTab(target as TabKey)}>
+                    <span className="label">{label}</span>
+                    <b className="display">{value}</b>
+                  </button>
+                ))}
+              </div>
+              <div className="admin-panel-grid">
+                <section className="admin-command-panel">
+                  <span className="label">Publishing Queue</span>
+                  <h3>Create and schedule the next signal.</h3>
+                  <p>Draft chapters, journal entries, Archive files, Gallery uploads, and Sound drops should move through status before publication.</p>
+                  <div className="admin-quick-actions">
+                    {[
+                      ["Create Character", "characters"],
+                      ["Create Archive File", "archive"],
+                      ["Create Chapter", "chapters"],
+                      ["Upload Gallery Image", "gallery"],
+                      ["Upload Media", "media"],
+                      ["Add Black Book Entry", "codex"],
+                      ["Add Route / City / Spot", "circuits"],
+                      ["Review Submissions", "submissions"],
+                    ].map(([label, target]) => <button key={label} onClick={() => setTab(target as TabKey)}>{label}</button>)}
+                  </div>
+                </section>
+                <section className="admin-command-panel">
+                  <span className="label">Recent Archive Files</span>
+                  {draft.archive.slice(0, 5).map((item) => <p key={item.id}><b>{item.title}</b><span>{item.category} // {item.status}</span></p>)}
+                </section>
+                <section className="admin-command-panel">
+                  <span className="label">Recent Character Updates</span>
+                  {draft.characters.slice(0, 5).map((item) => <p key={item.id}><b>{item.name}</b><span>{item.role} // {item.status}</span></p>)}
+                </section>
+                <section className="admin-command-panel">
+                  <span className="label">Missing Metadata Alerts</span>
+                  <p><b>{draft.archive.filter((item) => !item.seoTitle || !item.seoDescription).length}</b><span>Archive files need SEO metadata.</span></p>
+                  <p><b>{draft.gallery.filter((item) => !item.credit).length}</b><span>Gallery frames need credit/artist notes.</span></p>
+                  <p><b>{draft.characters.filter((item) => !item.image).length}</b><span>Characters need portrait images.</span></p>
+                </section>
               </div>
             </div>
           )}
@@ -480,6 +551,14 @@ export function AdminView() {
 
           {tab === "homepage" && <ContentEditor label="Homepage sections" value={draft.homepage} onChange={(value) => update(["homepage"], value)} />}
           {tab === "pages" && <ContentEditor label="Pages" value={draft.pages} onChange={(value) => update(["pages"], value)} />}
+          {tab === "story" && <ContentEditor label="Story control: publishing queue, Volume Zero, episodes, scenes, and timeline" value={{
+            chapters: draft.adminHub.chapters,
+            episodes: draft.adminHub.episodes,
+            scenes: draft.adminHub.scenes,
+            volumeZero: draft.adminHub.chapters.filter((item) => String(item.volumeArc ?? "").includes("LOWLINE") || String(item.volumeArc ?? "").includes("Volume Zero")),
+          }} onChange={(value) => update(["adminHub"], { ...draft.adminHub, ...(value as Record<string, unknown>) })} />}
+          {tab === "chapters" && <ContentEditor label="Chapters / graphic novel entries: pages, reading order, related files, and publish state" value={draft.adminHub.chapters} onChange={(value) => update(["adminHub", "chapters"], value)} />}
+          {tab === "journals" && <ContentEditor label="Character journals: first-person files, monologues, interviews, field notes, and Off-Ledger notes" value={draft.adminHub.characterJournals} onChange={(value) => update(["adminHub", "characterJournals"], value)} />}
           {tab === "characters" && <ContentEditor label="Characters" value={draft.characters} onChange={(value) => update(["characters"], value)} />}
           {tab === "archive" && <ContentEditor label="Archive entries" value={draft.archive} onChange={(value) => update(["archive"], value)} />}
           {tab === "gallery" && <ContentEditor label="Gallery: visual wall, image uploads, credits, and related files" value={draft.gallery} onChange={(value) => update(["gallery"], value)} />}
@@ -489,6 +568,9 @@ export function AdminView() {
           {tab === "sponsors" && <ContentEditor label="Sponsors" value={draft.sponsors} onChange={(value) => update(["sponsors"], value)} />}
           {tab === "codex" && <ContentEditor label="Black Book terms" value={draft.codex} onChange={(value) => update(["codex"], value)} />}
           {tab === "gcores" && <ContentEditor label="Boards / gear / G-Core spec panels" value={draft.gCores} onChange={(value) => update(["gCores"], value)} />}
+          {tab === "media" && <ContentEditor label="Media library: image uploads, character art, board art, route art, key visuals, and references" value={draft.adminHub.mediaAssets} onChange={(value) => update(["adminHub", "mediaAssets"], value)} />}
+          {tab === "tags" && <ContentEditor label="Global tags: reusable labels, categories, accents, and cleanup metadata" value={draft.adminHub.tags} onChange={(value) => update(["adminHub", "tags"], value)} />}
+          {tab === "relationships" && <ContentEditor label="Related content graph: characters, files, chapters, Black Book terms, sponsors, routes, Gallery images, and tags" value={draft.adminHub.relationships} onChange={(value) => update(["adminHub", "relationships"], value)} />}
           {tab === "sound" && <ContentEditor label="Sound: Signal Tracks, Route Mixes, and G//NET Audio" value={draft.sound} onChange={(value) => update(["sound"], value)} />}
           {tab === "submissions" && (
             <div className="submissions-admin">

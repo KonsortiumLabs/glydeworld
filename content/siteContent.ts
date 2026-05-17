@@ -287,6 +287,22 @@ export type SiteContent = {
   sponsors: BrandEntity[];
   codex: CodexTerm[];
   gCores: GCore[];
+  adminHub: {
+    chapters: Array<Record<string, unknown>>;
+    episodes: Array<Record<string, unknown>>;
+    scenes: Array<Record<string, unknown>>;
+    characterJournals: Array<Record<string, unknown>>;
+    tags: Array<Record<string, unknown>>;
+    mediaAssets: Array<Record<string, unknown>>;
+    sponsorsManufacturers: Array<Record<string, unknown>>;
+    relationships: Array<Record<string, unknown>>;
+    routesAndSpots: {
+      tracks: Array<Record<string, unknown>>;
+      lowlineRoutes: Array<Record<string, unknown>>;
+      spots: Array<Record<string, unknown>>;
+      citiesPlanets: Array<Record<string, unknown>>;
+    };
+  };
   sound: {
     signalTracks: SoundEntry[];
     routeMixes: SoundEntry[];
@@ -2171,6 +2187,93 @@ export const siteContent: SiteContent = {
       relatedMachines: ["Gate systems"],
     },
   ],
+  adminHub: {
+    chapters: [
+      {
+        title: "Volume Zero // First Signal",
+        slug: "volume-zero-first-signal",
+        chapterNumber: "00",
+        volumeArc: "G//LYDE: LOWLINE",
+        status: "Draft",
+        shortLogline: "The first leaked file that makes Neo Noctis notice Kellan Roux.",
+        synopsis: "A pre-release chapter shell for page uploads, panel ordering, related characters, Black Book terms, and Archive links.",
+        bodyScriptProse: "",
+        panelImagesPageImages: [],
+        coverImage: asset("ref-night.jpg"),
+        readingOrder: 1,
+        relatedCharacters: ["kellan-roux", "gio-roux", "uno-roux"],
+        relatedRoutesTracksSpots: ["gate-8", "neo-noctis"],
+        relatedBlackBookTerms: ["G-Core", "G-Res", "Lowlines"],
+        relatedArchiveFiles: ["gate-8"],
+        relatedGalleryImages: ["kellan-pre-run", "gate-8-first-signal"],
+        tags: ["Volume Zero", "First Signal", "Off-Ledger"],
+        publishDate: "",
+        seoTitle: "Volume Zero // First Signal",
+        seoDescription: "Draft chapter shell for G//LYDE: LOWLINE.",
+      },
+    ],
+    episodes: [],
+    scenes: [],
+    characterJournals: [
+      {
+        title: "Kellan Roux // Pre-Run Note",
+        slug: "kellan-pre-run-note",
+        relatedCharacter: "kellan-roux",
+        entryType: "Journal",
+        volumeArc: "G//LYDE: LOWLINE",
+        timelinePlacement: "Before Gate 8",
+        location: "Neo Noctis",
+        bodyContent: "The city looked expensive from above. From below, it looked hungry.",
+        excerpt: "A rider note before the first signal.",
+        tags: ["Kellan Roux", "Lowlines", "Gate 8"],
+        relatedCharacters: ["kellan-roux"],
+        relatedArchiveFiles: ["kellan-rooftop"],
+        relatedBlackBookTerms: ["G-Res", "Gift"],
+        relatedRoutesTracksSpots: ["gate-8"],
+        relatedGalleryImages: ["kellan-pre-run"],
+        publishDate: "",
+        status: "Draft",
+        featuredImage: asset("ref-night.jpg"),
+        seoTitle: "",
+        seoDescription: "",
+      },
+    ],
+    tags: [
+      { tagName: "Volume Zero", slug: "volume-zero", category: "Story", description: "First release arc.", colorAccent: "#d4f23a", relatedContentCount: 0 },
+      { tagName: "Lowlines", slug: "lowlines", category: "Location", description: "Underground run network and culture.", colorAccent: "#46e6d4", relatedContentCount: 0 },
+      { tagName: "G-Res", slug: "g-res", category: "Technology", description: "Resonance, rider-to-Core sync/output.", colorAccent: "#ffffff", relatedContentCount: 0 },
+      { tagName: "Gift", slug: "gift", category: "Canon", description: "Natural rider ability to make a Core answer above class.", colorAccent: "#ff4d43", relatedContentCount: 0 },
+      { tagName: "MACK'S", slug: "macks", category: "Faction", description: "Mass-culture food brand and late-night Spots anchor.", colorAccent: "#ffd447", relatedContentCount: 0 },
+    ],
+    mediaAssets: [
+      {
+        title: "Kellan Pre-Run Key Visual",
+        slug: "kellan-pre-run-key-visual",
+        mediaType: "Image",
+        upload: asset("ref-night.jpg"),
+        creditArtist: "Concept development reference",
+        category: "Key Visuals",
+        status: "Published",
+        tags: ["Kellan Roux", "Volume Zero"],
+        relatedContent: ["kellan-roux", "kellan-pre-run"],
+      },
+    ],
+    sponsorsManufacturers: [],
+    relationships: [
+      {
+        source: "kellan-roux",
+        relationshipType: "Related Archive Files",
+        targets: ["kellan-rooftop", "gate-8"],
+        notes: "Primary early files for Kellan's Volume Zero pressure.",
+      },
+    ],
+    routesAndSpots: {
+      tracks: [],
+      lowlineRoutes: [],
+      spots: [],
+      citiesPlanets: [],
+    },
+  },
   sound: {
     signalTracks: [
       {
