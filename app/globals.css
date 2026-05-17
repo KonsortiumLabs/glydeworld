@@ -540,8 +540,8 @@ img { max-width: 100%; display: block; }
 .garage-intro {
   max-width: 860px;
   color: var(--chrome);
-  line-height: 1.7;
-  margin: -0.5rem 0 1.4rem;
+  line-height: 1.6;
+  margin: 0.8rem 0 0.8rem;
 }
 .garage-card-grid {
   display: grid;
@@ -572,6 +572,9 @@ img { max-width: 100%; display: block; }
 .classified-call-card h3 {
   font-size: clamp(2.1rem, 3.4vw, 4rem);
   line-height: 0.94;
+}
+.classified-call-card p span {
+  display: block;
 }
 .classified-call-meta,
 .classified-call-footer {
@@ -604,9 +607,10 @@ img { max-width: 100%; display: block; }
 }
 .garage-intake-note {
   max-width: 760px;
-  margin: -0.8rem 0 1.4rem;
-  color: var(--bone);
+  margin: 0 0 1.8rem;
+  color: #11151a;
   font-size: 1.04rem;
+  line-height: 1.45;
 }
 .garage-route-grid {
   display: grid;
@@ -2528,6 +2532,14 @@ img { max-width: 100%; display: block; }
     linear-gradient(180deg, #f4f1e8, #e3edf1);
 }
 .garage-home-section .section-inner { max-width: 1480px; }
+.garage-home-section .section-head {
+  margin-bottom: 2rem;
+}
+.garage-home-section .section-head h2 {
+  max-width: 1120px;
+  font-size: clamp(4rem, 8vw, 8.2rem);
+  line-height: 0.88;
+}
 .garage-home-section .lead,
 .garage-home-section .garage-intro,
 .garage-home-section .garage-card p { color: #343941; }
@@ -2537,6 +2549,25 @@ img { max-width: 100%; display: block; }
   border-color: rgba(8,9,11,0.12);
   background: rgba(255,255,255,0.62);
   box-shadow: 0 18px 60px rgba(8,9,11,0.08);
+}
+.garage-home-section .classified-call-card {
+  border-color: rgba(8,9,11,0.16);
+  background:
+    linear-gradient(90deg, rgba(8,9,11,0.035) 1px, transparent 1px) 0 0 / 36px 36px,
+    linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.68));
+}
+.garage-home-section .classified-call-meta span,
+.garage-home-section .classified-call-footer span {
+  color: #5f6670;
+}
+.garage-home-section .classified-call-meta span:first-child {
+  color: #6f8500;
+}
+.garage-home-section .classified-call-footer {
+  border-color: rgba(8,9,11,0.12);
+}
+.garage-home-section .classified-call-footer b {
+  color: #12161b;
 }
 .garage-home-section .policy-note {
   background: rgba(255,255,255,0.56);

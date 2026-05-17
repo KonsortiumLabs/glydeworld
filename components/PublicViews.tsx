@@ -2078,6 +2078,7 @@ export function GarageView() {
       access: "Street",
       priority: "High",
       body: "Street crews, mechanics, spotters, route runners, and off-ledger groups shaping the city from below.",
+      bodyLines: ["Street crews, mechanics, spotters,", "route runners, and off-ledger groups", "shaping the city from below."],
       href: "/submit-crew",
     },
     {
@@ -2086,6 +2087,7 @@ export function GarageView() {
       access: "Broadcast",
       priority: "High",
       body: "Broadcast voices, clip curators, commentators, signal chasers, and public-facing figures who shape the sport's visibility.",
+      bodyLines: ["Broadcast voices, clip curators,", "commentators, signal chasers,", "and public-facing figures shaping visibility."],
       href: "/submit-rider",
     },
     {
@@ -2094,6 +2096,7 @@ export function GarageView() {
       access: "Roster",
       priority: "High",
       body: "Riders with pressure, style, flaws, ambition, and a reason to become part of the circuit.",
+      bodyLines: ["Riders with pressure, style, flaws,", "ambition, and a reason", "to become part of the circuit."],
       href: "/submit-rider",
     },
     {
@@ -2102,6 +2105,7 @@ export function GarageView() {
       access: "Private",
       priority: "Selective",
       body: "Private rooms, odds systems, debt rituals, Black Book customs, and the people who price risk.",
+      bodyLines: ["Private rooms, odds systems,", "debt rituals, Black Book customs,", "and people who price risk."],
       href: "/submit-sponsor",
     },
     {
@@ -2110,6 +2114,7 @@ export function GarageView() {
       access: "Commercial",
       priority: "Medium",
       body: "Fictional brands, manufacturers, luxury partners, and cultural sponsors with a clear role inside G//LYDE.",
+      bodyLines: ["Fictional brands, manufacturers,", "luxury partners, and cultural sponsors", "with a clear role inside G//LYDE."],
       href: "/submit-sponsor",
     },
     {
@@ -2118,6 +2123,7 @@ export function GarageView() {
       access: "Rouxline orbit",
       priority: "Selective",
       body: "Whispers, sightings, access myths, private arrivals, and stories tied to the Rouxline orbit.",
+      bodyLines: ["Whispers, sightings, access myths,", "private arrivals, and stories", "tied to the Rouxline orbit."],
       href: "/submit-story",
     },
     {
@@ -2126,6 +2132,7 @@ export function GarageView() {
       access: "Workshop",
       priority: "Medium",
       body: "Garages, builders, suit techs, board stylists, and underground specialists who shape how riders move.",
+      bodyLines: ["Garages, builders, suit techs,", "board stylists, and underground specialists", "who shape how riders move."],
       href: "/submit-machine",
     },
     {
@@ -2134,6 +2141,7 @@ export function GarageView() {
       access: "Expansion",
       priority: "Low",
       body: "Only submit if the route feels essential. New planets, cities, and lines should expand the world without breaking its tone.",
+      bodyLines: ["Only submit if the route feels essential.", "New planets, cities, and lines", "must expand without breaking tone."],
       href: "/submit-circuit",
     },
   ];
@@ -2193,7 +2201,7 @@ export function GarageView() {
                 <span>{call.priority}</span>
               </div>
               <h3 className="display">{call.title}</h3>
-              <p>{call.body}</p>
+              <p>{call.bodyLines.map((line) => <span key={line}>{line}</span>)}</p>
               <div className="classified-call-footer">
                 <span>ACCESS // {call.access}</span>
                 <b>Submit World File →</b>
