@@ -559,6 +559,55 @@ img { max-width: 100%; display: block; }
 .garage-card:hover { transform: translateY(-5px); border-color: rgba(245,243,236,0.32); }
 .garage-card h3 { font-size: clamp(1.8rem, 2.7vw, 3rem); margin: 0.65rem 0; }
 .garage-card p { color: var(--chrome); line-height: 1.6; }
+.classified-call-card {
+  display: grid;
+  align-content: space-between;
+  gap: 1rem;
+  min-height: 340px;
+  background:
+    linear-gradient(90deg, rgba(245,243,236,0.04) 1px, transparent 1px) 0 0 / 36px 36px,
+    linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025)),
+    #0a0b0d;
+}
+.classified-call-card h3 {
+  font-size: clamp(2.1rem, 3.4vw, 4rem);
+  line-height: 0.94;
+}
+.classified-call-meta,
+.classified-call-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+}
+.classified-call-meta span,
+.classified-call-footer span {
+  color: rgba(245,243,236,0.56);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.classified-call-meta span:first-child {
+  color: var(--acid);
+}
+.classified-call-footer {
+  border-top: 1px solid rgba(245,243,236,0.12);
+  padding-top: 0.85rem;
+}
+.classified-call-footer b {
+  color: var(--bone);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.garage-intake-note {
+  max-width: 760px;
+  margin: -0.8rem 0 1.4rem;
+  color: var(--bone);
+  font-size: 1.04rem;
+}
 .garage-route-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1102,6 +1151,102 @@ img { max-width: 100%; display: block; }
 }
 .admin-tabs button.active { background: var(--bone); color: var(--bg); }
 .admin-panel { border: 1px solid var(--line); background: rgba(255,255,255,0.04); padding: 1rem; }
+.cms-visual-editor {
+  display: grid;
+  gap: 1rem;
+}
+.cms-editor-head {
+  border: 1px solid rgba(245,243,236,0.12);
+  border-radius: 22px;
+  padding: 1rem;
+  background: rgba(245,243,236,0.045);
+}
+.cms-editor-head p {
+  margin: 0.35rem 0 0;
+  color: var(--chrome);
+}
+.cms-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+.cms-form-grid > .cms-list-editor,
+.cms-form-grid > .cms-nested-panel,
+.cms-form-grid > .image-field,
+.cms-form-grid > .field:has(textarea) {
+  grid-column: 1 / -1;
+}
+.cms-list-editor {
+  display: grid;
+  gap: 0.75rem;
+}
+.cms-list-head,
+.cms-edit-card summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+.cms-list-head {
+  border-bottom: 1px solid rgba(245,243,236,0.10);
+  padding-bottom: 0.65rem;
+}
+.cms-edit-card,
+.cms-nested-panel {
+  border: 1px solid rgba(245,243,236,0.12);
+  border-radius: 22px;
+  background: rgba(0,0,0,0.18);
+  padding: 0.85rem;
+}
+.cms-edit-card summary,
+.cms-nested-panel summary {
+  color: var(--bone);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.cms-edit-card summary span {
+  color: var(--muted);
+}
+.admin-check {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid rgba(245,243,236,0.12);
+  border-radius: 16px;
+  padding: 0.8rem;
+  color: var(--chrome);
+}
+.image-field {
+  display: grid;
+  gap: 0.65rem;
+}
+.media-dropzone {
+  width: 100%;
+  min-height: 190px;
+  display: grid;
+  place-items: center;
+  gap: 0.5rem;
+  border: 1px dashed rgba(245,243,236,0.28);
+  border-radius: 24px;
+  padding: 1rem;
+  color: var(--chrome);
+  background:
+    radial-gradient(circle at 80% 20%, rgba(70,230,212,0.10), transparent 18rem),
+    rgba(245,243,236,0.035);
+  text-align: center;
+}
+.media-dropzone small {
+  color: var(--muted);
+}
+.media-dropzone .preview-img.wide {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 18px;
+}
 .field { display: grid; gap: 0.38rem; margin-bottom: 0.8rem; }
 .field input, .field textarea, .field select {
   width: 100%;
@@ -1161,6 +1306,17 @@ img { max-width: 100%; display: block; }
 .submission-side p,
 .submission-section .consent-field,
 .submission-section .policy-note p { color: #343941; }
+.submission-side h2 {
+  font-size: clamp(2.8rem, 4.8vw, 5.8rem);
+  line-height: 0.92;
+  margin: 0.45rem 0 1rem;
+}
+.submission-submit {
+  min-height: 3rem;
+  padding-inline: 1.15rem;
+  white-space: normal;
+  text-align: center;
+}
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1987,8 +2143,29 @@ img { max-width: 100%; display: block; }
   font-size: 0.92rem;
   line-height: 1.35;
 }
+.character-roster-hero {
+  min-height: min(720px, calc(100svh - 76px));
+  background: #060708;
+}
+.character-roster-hero::before {
+  background:
+    linear-gradient(180deg, rgba(8,9,11,0.08), rgba(8,9,11,0.18) 42%, rgba(8,9,11,0.96)),
+    linear-gradient(90deg, rgba(8,9,11,0.90), rgba(8,9,11,0.42) 44%, rgba(8,9,11,0.92));
+}
+.character-roster-hero img.bg {
+  object-position: 64% center;
+  opacity: 0.58;
+  filter: saturate(0.92) contrast(1.08) brightness(0.72);
+}
+.character-roster-inner {
+  min-height: min(720px, calc(100svh - 76px));
+}
 .character-roster-hero h1 {
-  max-width: 980px;
+  max-width: 1120px;
+  font-size: clamp(4.2rem, 9.6vw, 9.4rem);
+}
+.character-roster-hero h1 .split-display-title {
+  gap: 0.04em;
 }
 .character-roster-inner p {
   max-width: 760px;
@@ -2200,7 +2377,11 @@ img { max-width: 100%; display: block; }
 }
 .roster-submit-band h3 {
   margin: 0.4rem 0 0;
-  font-size: clamp(2rem, 4vw, 4rem);
+  font-size: clamp(2.4rem, 4.8vw, 5.2rem);
+  line-height: 0.92;
+}
+.roster-submit-band h3 .split-display-title {
+  gap: 0.06em;
 }
 .character-drawer-backdrop {
   align-items: stretch;
@@ -3030,7 +3211,14 @@ img { max-width: 100%; display: block; }
   align-items: end;
   border-bottom: 1px solid var(--line);
 }
-.footer-cta h2 { font-size: clamp(3rem, 7vw, 8rem); margin: 0.5rem 0 0; }
+.footer-cta h2 {
+  max-width: 980px;
+  font-size: clamp(3rem, 7vw, 8rem);
+  margin: 0.5rem 0 0;
+}
+.footer-cta h2 .split-display-title {
+  gap: 0.06em;
+}
 .footer-brand h3 { margin: 1rem 0 0.3rem; font-size: 1rem; }
 .footer-brand .muted { max-width: 520px; }
 .footer-logo { height: 3rem; width: auto; object-fit: contain; }
@@ -3199,6 +3387,7 @@ img { max-width: 100%; display: block; }
   .grid,
   .grid.two,
   .grid.four,
+  .cms-form-grid,
   .path-grid,
   .movement-grid,
   .movement-deep-grid,

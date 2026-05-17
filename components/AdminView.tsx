@@ -62,7 +62,7 @@ const tabs: Array<{ key: TabKey; label: string }> = [
   { key: "codex", label: "Codex" },
   { key: "gcores", label: "Boards / Gear / G-Cores" },
   { key: "submissions", label: "Submissions" },
-  { key: "garage", label: "GG / Garage" },
+  { key: "garage", label: "Garage" },
   { key: "support", label: "Support" },
   { key: "footer", label: "Footer" },
   { key: "images", label: "Images" },
@@ -106,6 +106,34 @@ function Field({
   );
 }
 
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function humanize(key: string) {
+  return key
+    .replace(/([A-Z])/g, " $1")
+    .replace(/[_-]/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function getItemLabel(value: unknown, fallback: string) {
+  if (!isPlainObject(value)) return fallback;
+  return String(value.title ?? value.name ?? value.term ?? value.label ?? value.id ?? fallback);
+}
+
+function makeEmptyLike(value: unknown): unknown {
+  if (Array.isArray(value)) return [];
+  if (!isPlainObject(value)) return "";
+  return Object.fromEntries(Object.entries(value).map(([key, item]) => {
+    if (Array.isArray(item)) return [key, []];
+    if (typeof item === "boolean") return [key, false];
+    if (typeof item === "number") return [key, 0];
+    if (isPlainObject(item)) return [key, makeEmptyLike(item)];
+    return [key, ""];
+  }));
+}
+
 function JsonEditor({
   label,
   value,
@@ -141,14 +169,141 @@ function JsonEditor({
 }
 
 function ImageField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const readFile = (file?: File) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => onChange(String(reader.result ?? ""));
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div className="image-field">
-      <Field label={label} value={value} onChange={onChange} />
-      {value ? <img className="preview-img wide" src={value} alt="" /> : <div className="upload-placeholder">Paste an image URL. Permanent uploads require connected storage.</div>}
+      <span className="label">{label}</span>
+      <button
+        className="media-dropzone"
+        type="button"
+        onClick={() => inputRef.current?.click()}
+        onDragOver={(event) => event.preventDefault()}
+        onDrop={(event) => {
+          event.preventDefault();
+          readFile(event.dataTransfer.files[0]);
+        }}
+      >
+        {value ? <img className="preview-img wide" src={value} alt="" /> : <span>Drop image here or click to select</span>}
+        <small>Browser-local media is stored as a data URL. Connected storage can replace this later.</small>
+      </button>
+      <input ref={inputRef} hidden type="file" accept="image/*" onChange={(event) => readFile(event.target.files?.[0])} />
+      <Field label="Image URL fallback" value={value} onChange={onChange} />
       <div className="admin-actions compact">
         <button onClick={() => onChange("")}>Remove</button>
       </div>
     </div>
+  );
+}
+
+function ValueEditor({ label, value, onChange }: { label: string; value: unknown; onChange: (value: unknown) => void }) {
+  const lower = label.toLowerCase();
+
+  if (typeof value === "boolean") {
+    return (
+      <label className="admin-check">
+        <input type="checkbox" checked={value} onChange={(event) => onChange(event.target.checked)} />
+        <span>{humanize(label)}</span>
+      </label>
+    );
+  }
+
+  if (typeof value === "number") {
+    return <Field label={humanize(label)} value={String(value)} onChange={(next) => onChange(Number(next) || 0)} />;
+  }
+
+  if (typeof value === "string") {
+    if (lower.includes("image") || lower.includes("logo") || lower.includes("favicon") || lower === "url" || lower.endsWith("url")) {
+      return <ImageField label={humanize(label)} value={value} onChange={onChange as (value: string) => void} />;
+    }
+    const textarea = value.length > 90 || lower.includes("body") || lower.includes("description") || lower.includes("copy") || lower.includes("bio") || lower.includes("notice") || lower.includes("excerpt") || lower.includes("full");
+    return <Field label={humanize(label)} value={value} onChange={onChange as (value: string) => void} textarea={textarea} />;
+  }
+
+  if (Array.isArray(value)) {
+    return <ArrayEditor label={humanize(label)} value={value} onChange={onChange} />;
+  }
+
+  if (isPlainObject(value)) {
+    return (
+      <details className="cms-nested-panel" open>
+        <summary>{humanize(label)}</summary>
+        <ObjectEditor value={value} onChange={onChange as (value: Record<string, unknown>) => void} />
+      </details>
+    );
+  }
+
+  return null;
+}
+
+function ObjectEditor({ value, onChange }: { value: Record<string, unknown>; onChange: (value: Record<string, unknown>) => void }) {
+  return (
+    <div className="cms-form-grid">
+      {Object.entries(value).map(([key, item]) => (
+        <ValueEditor key={key} label={key} value={item} onChange={(next) => onChange({ ...value, [key]: next })} />
+      ))}
+    </div>
+  );
+}
+
+function ArrayEditor({ label, value, onChange }: { label: string; value: unknown[]; onChange: (value: unknown[]) => void }) {
+  const primitive = value.every((item) => typeof item !== "object" || item === null);
+
+  if (primitive) {
+    return (
+      <Field
+        label={`${label} (comma separated)`}
+        value={value.map(String).join(", ")}
+        onChange={(next) => onChange(next.split(",").map((item) => item.trim()).filter(Boolean))}
+      />
+    );
+  }
+
+  return (
+    <div className="cms-list-editor">
+      <div className="cms-list-head">
+        <span className="label">{label}</span>
+        <button type="button" onClick={() => onChange([...value, makeEmptyLike(value[0] ?? {})])}>Add Item</button>
+      </div>
+      {value.map((item, index) => (
+        <details className="cms-edit-card" key={index} open={index < 2}>
+          <summary>
+            <b>{getItemLabel(item, `${label} ${index + 1}`)}</b>
+            <span>{index + 1}</span>
+          </summary>
+          {isPlainObject(item) ? (
+            <ObjectEditor
+              value={item}
+              onChange={(next) => onChange(value.map((entry, entryIndex) => entryIndex === index ? next : entry))}
+            />
+          ) : (
+            <Field label={label} value={String(item)} onChange={(next) => onChange(value.map((entry, entryIndex) => entryIndex === index ? next : entry))} />
+          )}
+          <div className="admin-actions compact">
+            <button type="button" onClick={() => onChange([...value.slice(0, index + 1), clone(item), ...value.slice(index + 1)])}>Duplicate</button>
+            <button type="button" onClick={() => onChange(value.filter((_, entryIndex) => entryIndex !== index))}>Delete</button>
+          </div>
+        </details>
+      ))}
+    </div>
+  );
+}
+
+function ContentEditor({ label, value, onChange }: { label: string; value: unknown; onChange: (value: unknown) => void }) {
+  return (
+    <section className="cms-visual-editor">
+      <div className="cms-editor-head">
+        <span className="label">{label}</span>
+        <p>Visual CMS editor. Use Backup for raw JSON import/export.</p>
+      </div>
+      <ValueEditor label={label} value={value} onChange={onChange} />
+    </section>
   );
 }
 
@@ -197,7 +352,7 @@ export function AdminView() {
             }
           }}
         >
-          <span className="label">GG CONTROL // G//LYDE WORLD</span>
+          <span className="label">G//LYDE CONTROL // G//LYDE WORLD</span>
           <h1 className="display" style={{ fontSize: "4rem", margin: "0.6rem 0" }}>World Console</h1>
           <p className="muted">Password-gated CMS for the public portal, archive, submissions, and visual development system.</p>
           <Field label="Password" value={password} onChange={setPassword} />
@@ -209,9 +364,9 @@ export function AdminView() {
 
   return (
     <div className="admin-layout">
-      <span className="label">GG CONTROL // editable CMS</span>
+      <span className="label">G//LYDE CONTROL // editable CMS</span>
       <h1 className="display" style={{ fontSize: "clamp(3rem, 8vw, 8rem)", margin: "0.5rem 0" }}>G//LYDE CONTROL</h1>
-      <p className="lead">Manage the public IP portal, character files, archive drops, routes, boards, GG submissions, SEO, and footer. Backup JSON remains available for migration and safekeeping.</p>
+      <p className="lead">Manage the public IP portal, character files, archive drops, routes, boards, submissions, SEO, and footer. Backup JSON remains available for migration and safekeeping.</p>
 
       <div className="admin-actions">
         <button className="btn primary" onClick={() => setContent(draft)}>Save Changes</button>
@@ -225,9 +380,9 @@ export function AdminView() {
           link.download = "glydeworld-siteContent.json";
           link.click();
           URL.revokeObjectURL(url);
-        }}>Export JSON</button>
+        }}>Export Backup</button>
         <label>
-          Import JSON
+          Import Backup
           <input
             ref={importRef}
             type="file"
@@ -273,7 +428,7 @@ export function AdminView() {
               ))}
               <div className="notice cms-note">
                 <b>CMS mode</b>
-                <p>Use the section editors for world management. Backup import/export is kept separate for migration and safekeeping.</p>
+              <p>Use the visual section editors for world management. Backup import/export is kept separate for migration and safekeeping.</p>
               </div>
             </div>
           )}
@@ -311,22 +466,22 @@ export function AdminView() {
 
           {tab === "nav" && (
             <>
-              <JsonEditor label="Navigation" value={draft.nav} onChange={(value) => update(["nav"], value)} />
-              <JsonEditor label="Global CTAs" value={draft.ctas} onChange={(value) => update(["ctas"], value)} />
-              <JsonEditor label="Feature strip" value={draft.featureStrip} onChange={(value) => update(["featureStrip"], value)} />
+              <ContentEditor label="Navigation" value={draft.nav} onChange={(value) => update(["nav"], value)} />
+              <ContentEditor label="Global CTAs" value={draft.ctas} onChange={(value) => update(["ctas"], value)} />
+              <ContentEditor label="Feature strip" value={draft.featureStrip} onChange={(value) => update(["featureStrip"], value)} />
             </>
           )}
 
-          {tab === "homepage" && <JsonEditor label="Homepage sections: hero, G//LYDE, Off Ledger, Riders / Boards / Routes, Enter the World, GG CTA" value={draft.homepage} onChange={(value) => update(["homepage"], value)} />}
-          {tab === "pages" && <JsonEditor label="Pages: home, gravsports, racing, neoNoctis, garage, support" value={draft.pages} onChange={(value) => update(["pages"], value)} />}
-          {tab === "characters" && <JsonEditor label="Characters" value={draft.characters} onChange={(value) => update(["characters"], value)} />}
-          {tab === "archive" && <JsonEditor label="Archive entries" value={draft.archive} onChange={(value) => update(["archive"], value)} />}
-          {tab === "circuits" && <JsonEditor label="Routes & Cities: planets, cities, districts, routes, gates, tracks, circuits, series" value={draft.circuits} onChange={(value) => update(["circuits"], value)} />}
-          {tab === "factions" && <JsonEditor label="Factions" value={draft.factions} onChange={(value) => update(["factions"], value)} />}
-          {tab === "manufacturers" && <JsonEditor label="Manufacturers" value={draft.manufacturers} onChange={(value) => update(["manufacturers"], value)} />}
-          {tab === "sponsors" && <JsonEditor label="Sponsors" value={draft.sponsors} onChange={(value) => update(["sponsors"], value)} />}
-          {tab === "codex" && <JsonEditor label="Codex terms" value={draft.codex} onChange={(value) => update(["codex"], value)} />}
-          {tab === "gcores" && <JsonEditor label="Boards / gear / G-Core spec panels" value={draft.gCores} onChange={(value) => update(["gCores"], value)} />}
+          {tab === "homepage" && <ContentEditor label="Homepage sections" value={draft.homepage} onChange={(value) => update(["homepage"], value)} />}
+          {tab === "pages" && <ContentEditor label="Pages" value={draft.pages} onChange={(value) => update(["pages"], value)} />}
+          {tab === "characters" && <ContentEditor label="Characters" value={draft.characters} onChange={(value) => update(["characters"], value)} />}
+          {tab === "archive" && <ContentEditor label="Archive entries" value={draft.archive} onChange={(value) => update(["archive"], value)} />}
+          {tab === "circuits" && <ContentEditor label="Routes & Cities" value={draft.circuits} onChange={(value) => update(["circuits"], value)} />}
+          {tab === "factions" && <ContentEditor label="Factions" value={draft.factions} onChange={(value) => update(["factions"], value)} />}
+          {tab === "manufacturers" && <ContentEditor label="Manufacturers" value={draft.manufacturers} onChange={(value) => update(["manufacturers"], value)} />}
+          {tab === "sponsors" && <ContentEditor label="Sponsors" value={draft.sponsors} onChange={(value) => update(["sponsors"], value)} />}
+          {tab === "codex" && <ContentEditor label="Codex terms" value={draft.codex} onChange={(value) => update(["codex"], value)} />}
+          {tab === "gcores" && <ContentEditor label="Boards / gear / G-Core spec panels" value={draft.gCores} onChange={(value) => update(["gCores"], value)} />}
           {tab === "submissions" && (
             <div className="submissions-admin">
               <div className="admin-actions compact">
@@ -395,17 +550,16 @@ export function AdminView() {
               </div>
             </div>
           )}
-          {tab === "garage" && <JsonEditor label="GG / G//LYDE Garage content and submission links" value={draft.garage} onChange={(value) => update(["garage"], value)} />}
-          {tab === "support" && <JsonEditor label="Support content and payment links" value={draft.support} onChange={(value) => update(["support"], value)} />}
-          {tab === "footer" && <JsonEditor label="Footer tagline, columns, links, and social links" value={draft.footer} onChange={(value) => update(["footer"], value)} />}
+          {tab === "garage" && <ContentEditor label="Garage content and submission links" value={draft.garage} onChange={(value) => update(["garage"], value)} />}
+          {tab === "support" && <ContentEditor label="Support content and payment links" value={draft.support} onChange={(value) => update(["support"], value)} />}
+          {tab === "footer" && <ContentEditor label="Footer tagline, columns, links, and social links" value={draft.footer} onChange={(value) => update(["footer"], value)} />}
 
           {tab === "images" && (
             <div className="edit-list">
               {draft.images.map((image, index) => (
                 <div className="edit-item" key={image.id}>
                   <Field label="Title" value={image.title} onChange={(value) => update(["images", index, "title"], value)} />
-                  <Field label="Image URL" value={image.url} onChange={(value) => update(["images", index, "url"], value)} />
-                  <img className="preview-img" src={image.url} alt="" />
+                  <ImageField label="Image" value={image.url} onChange={(value) => update(["images", index, "url"], value)} />
                   <Field label="Alt text" value={image.alt} onChange={(value) => update(["images", index, "alt"], value)} textarea />
                   <Field label="Caption" value={image.caption} onChange={(value) => update(["images", index, "caption"], value)} textarea />
                   <button onClick={() => update(["images", index, "url"], "")}>Remove image URL</button>

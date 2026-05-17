@@ -518,7 +518,7 @@ export function MovementSystemsView() {
           <CtaButtons ctas={[
             { label: "Open The Codex", href: "/codex", kind: "primary" },
             { label: "View Characters", href: "/characters", kind: "secondary" },
-            { label: "Build In GG", href: "/garage", kind: "submission" },
+            { label: "Build in the Garage", href: "/garage", kind: "submission" },
           ]} />
         </div>
       </section>
@@ -633,10 +633,15 @@ export function CharactersView() {
   return (
     <>
       <section className="route-hero character-roster-hero">
-        <img src={content.images[1].url} alt="" />
+        <img className="bg" src={content.images[1].url} alt="" />
         <div className="route-hero-inner character-roster-inner">
           <span className="label">Character Files // G//LYDE Roster</span>
-          <h1 className="display">RIDERS, RIVALS & ROUTE GHOSTS</h1>
+          <h1 className="display">
+            <span className="split-display-title">
+              <span>RIDERS, RIVALS</span>
+              <span>& ROUTE GHOSTS</span>
+            </span>
+          </h1>
           <p>The faces moving through G//LYDE's board culture, from polished circuit talent to off-ledger threats, route fixers, oddsmakers, and house operators.</p>
           <div className="character-hero-actions">
             <Link className="btn primary" href="/submit-rider">Submit Rider File →</Link>
@@ -691,8 +696,13 @@ export function CharactersView() {
         </div>
         <div className="roster-submit-band">
           <div>
-            <span className="label">GG intake</span>
-            <h3 className="display">Have a rider, route fixer, crew face, or board-culture figure?</h3>
+            <span className="label">Garage intake</span>
+            <h3 className="display">
+              <span className="split-display-title">
+                <span>Have a rider, route fixer, crew face,</span>
+                <span>or board-culture figure?</span>
+              </span>
+            </h3>
           </div>
           <Link className="btn primary" href="/submit-rider">Add to the Roster →</Link>
         </div>
@@ -797,7 +807,7 @@ function FileModal({
         {item.tags && <div className="detail-grid"><span className="label">Tags</span><div className="tag-row">{item.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div></div>}
         <div className="detail-grid">
           <span className="label">Next route</span>
-          <CtaButtons ctas={item.ctas ?? [{ label: "Enter GG", href: "/garage", kind: "primary" }]} />
+          <CtaButtons ctas={item.ctas ?? [{ label: "Open the Garage", href: "/garage", kind: "primary" }]} />
         </div>
       </div>
     </div>
@@ -1497,7 +1507,7 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
           title: isCircuits ? "PLANET. CITY. DISTRICT. ROUTE. GATE. CIRCUIT. EVERY LINE HAS A PRICE." : "G//NET MAKES YOU VISIBLE. THE INDEX PRICES YOU. THE BLACK BOOK REMEMBERS WHAT YOU OWE.",
           body: isCircuits ? "A city is not a circuit. Explore the places, gates, tracks, districts, and routes where board culture becomes status, risk, and story." : "The institutions, houses, crews, manufacturers, sponsors, and unofficial systems that control movement, visibility, terms, and debt.",
           image: isCircuits ? content.images[3].url : content.images[2].url,
-          ctas: [{ label: isCircuits ? "Submit a Route or City" : "Enter GG", href: isCircuits ? "/submit-circuit" : "/garage", kind: "primary" }],
+          ctas: [{ label: isCircuits ? "Submit a Route or City" : "Open the Garage", href: isCircuits ? "/submit-circuit" : "/garage", kind: "primary" }],
         }
       }} />
       <section className="section">
@@ -1527,7 +1537,7 @@ export function CollectionView({ type }: { type: "circuits" | "factions" }) {
             description: selected.description,
             whyItMatters: isCircuits ? `${(selected as Circuit).risk} // ${(selected as Circuit).discipline}` : (selected as Faction).agenda,
             tags: selected.tags,
-            ctas: [{ label: isCircuits ? "Submit a Route or City" : "Build in GG", href: isCircuits ? "/submit-circuit" : "/garage", kind: "primary" }],
+            ctas: [{ label: isCircuits ? "Submit a Route or City" : "Build in the Garage", href: isCircuits ? "/submit-circuit" : "/garage", kind: "primary" }],
           }}
         />
       )}
@@ -1717,13 +1727,13 @@ const submissionCopy: Record<SubmissionKind, {
   fitLabel: string;
 }> = {
   rider: {
-    eyebrow: "Garage intake // Rider file",
-    title: "Submit a rider for curated review.",
-    body: "Create a racer, Handler, Oddsmaker, mechanic, G//NET personality, model, inventor, sponsor figure, or rival. Sharp concepts may influence future archive files after review.",
-    titleLabel: "Rider / character name",
-    descriptionLabel: "Rider concept, look, personality, pressure, and story hook",
-    roleLabel: "Discipline / role / affiliation",
-    fitLabel: "Why does this rider belong in G//LYDE?",
+    eyebrow: "Rider intake // Canon review",
+    title: "Submit a rider file.",
+    body: "Send a rider, route fixer, crew face, Oddsmaker, house operator, G//NET personality, sponsor figure, or rival with a clean line into G//LYDE's board culture.",
+    titleLabel: "Rider Name / Alias",
+    descriptionLabel: "Rider Concept / Look / Pressure / Story Hook",
+    roleLabel: "Role / Affiliation / Known Line",
+    fitLabel: "Why does this rider belong on the line?",
   },
   crew: {
     eyebrow: "Garage intake // Crew file",
@@ -1802,6 +1812,7 @@ const submissionCopy: Record<SubmissionKind, {
 export function SubmissionView({ kind }: { kind: SubmissionKind }) {
   const { content } = useSiteContent();
   const copy = submissionCopy[kind];
+  const isRiderSubmission = kind === "rider";
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -1823,7 +1834,7 @@ export function SubmissionView({ kind }: { kind: SubmissionKind }) {
           title: copy.title.toUpperCase(),
           body: copy.body,
           image: content.images[kind === "sponsor" ? 2 : kind === "circuit" ? 0 : kind === "machine" ? 3 : 1].url,
-          ctas: [{ label: "Back to GG", href: "/garage", kind: "secondary" }],
+          ctas: [{ label: "Back to Garage", href: "/garage", kind: "secondary" }],
         }
       }} />
       <section className="section submission-section">
@@ -1832,7 +1843,7 @@ export function SubmissionView({ kind }: { kind: SubmissionKind }) {
             className="submission-form"
             onSubmit={async (event) => {
               event.preventDefault();
-              setState({ status: "sending", message: "Sending to GG..." });
+              setState({ status: "sending", message: isRiderSubmission ? "Submitting rider file..." : "Submitting file..." });
               const response = await fetch("/api/submissions", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -1854,19 +1865,20 @@ export function SubmissionView({ kind }: { kind: SubmissionKind }) {
             <label className="field"><span className="label">{copy.titleLabel}</span><input required value={form.conceptTitle} onChange={(event) => set("conceptTitle", event.target.value)} /></label>
             <label className="field"><span className="label">{copy.roleLabel}</span><input value={form.roleOrDiscipline} onChange={(event) => set("roleOrDiscipline", event.target.value)} /></label>
             <label className="field"><span className="label">{copy.descriptionLabel}</span><textarea required minLength={40} value={form.conceptDescription} onChange={(event) => set("conceptDescription", event.target.value)} /></label>
-            <label className="field"><span className="label">Visual references link</span><input value={form.visualReferences} onChange={(event) => set("visualReferences", event.target.value)} placeholder="Portfolio, moodboard, Drive folder, social post, etc." /></label>
+            <label className="field"><span className="label">{isRiderSubmission ? "Visual References / Moodboard" : "Visual references link"}</span><input value={form.visualReferences} onChange={(event) => set("visualReferences", event.target.value)} placeholder={isRiderSubmission ? "Portfolio, moodboard, Drive folder, social post, sketch reference, etc." : "Portfolio, moodboard, Drive folder, social post, etc."} /></label>
             <label className="field"><span className="label">{copy.fitLabel}</span><textarea required minLength={24} value={form.fitReason} onChange={(event) => set("fitReason", event.target.value)} /></label>
             <label className="consent-field">
               <input required type="checkbox" checked={form.consent} onChange={(event) => set("consent", event.target.checked)} />
-              <span> I understand G//LYDE WORLD is curated. Submission does not guarantee inclusion, ownership, compensation, publication, or canon status.</span>
+              <span>{isRiderSubmission ? "I understand this is a curated submission. Inclusion, publication, compensation, ownership, or canon status is not guaranteed." : "I understand G//LYDE WORLD is curated. Submission does not guarantee inclusion, ownership, compensation, publication, or canon status."}</span>
             </label>
-            <button className="btn primary" disabled={state.status === "sending"} type="submit">{state.status === "sending" ? "Submitting..." : "Submit To GG"} →</button>
+            <button className="btn primary submission-submit" disabled={state.status === "sending"} type="submit">{state.status === "sending" ? "Submitting..." : isRiderSubmission ? "Submit Rider File" : "Submit File"} →</button>
             {state.message && <div className={`form-status ${state.status}`}><b>{state.status === "sent" ? "Received" : state.status === "error" ? "Check the file" : "Working"}</b><p>{state.message}</p>{state.id && <span className="label">Reference: {state.id}</span>}</div>}
           </form>
           <aside className="submission-side">
             <span className="label">What happens next</span>
-            <h2 className="display">Curated review. Clean records. No fake door.</h2>
-            <p>Your submission is saved through the site backend for review in GG CONTROL. Strong concepts may be adapted, renamed, merged, expanded, or declined to protect continuity.</p>
+            <h2 className="display"><SplitDisplayTitle text={isRiderSubmission ? "Submit the rider. We verify the signal." : "Every file enters through review."} /></h2>
+            <p>{isRiderSubmission ? "Your submission enters the G//LYDE review queue for canon consideration. Strong concepts may be refined, merged, expanded, declined, or held for future world development." : "Your submission is saved for review. Strong concepts may be refined, renamed, merged, expanded, declined, or held for future world development."}</p>
+            <p>{isRiderSubmission ? "No submission guarantees inclusion, ownership, compensation, publication, or canon status." : "Submission does not guarantee inclusion, ownership, compensation, publication, or canon status."}</p>
             <div className="submission-steps">
               <span>01 // Received</span>
               <span>02 // Reviewed for fit</span>
@@ -1887,7 +1899,72 @@ export function SubmissionView({ kind }: { kind: SubmissionKind }) {
 export function GarageView() {
   const { content } = useSiteContent();
   const page = content.pages.garage;
-  const openCalls = ["Neo Noctis Lowline Crews", "G//NET Personalities", "Rival Riders", "Wager House Concepts", "Sponsor Brands", "Gate 8 Rumors", "Board Tuning Houses", "Off-World Routes"];
+  const openCalls = [
+    {
+      title: "Neo Noctis Lowline Crews",
+      eyebrow: "OPEN CALL",
+      access: "Street",
+      priority: "High",
+      body: "Street crews, mechanics, spotters, route runners, and off-ledger groups shaping the city from below.",
+      href: "/submit-crew",
+    },
+    {
+      title: "G//NET Personalities",
+      eyebrow: "OPEN CALL",
+      access: "Broadcast",
+      priority: "High",
+      body: "Broadcast voices, clip curators, commentators, signal chasers, and public-facing figures who shape the sport's visibility.",
+      href: "/submit-rider",
+    },
+    {
+      title: "Rival Riders",
+      eyebrow: "OPEN CALL",
+      access: "Roster",
+      priority: "High",
+      body: "Riders with pressure, style, flaws, ambition, and a reason to become part of the circuit.",
+      href: "/submit-rider",
+    },
+    {
+      title: "Wager House Concepts",
+      eyebrow: "OPEN CALL",
+      access: "Private",
+      priority: "Selective",
+      body: "Private rooms, odds systems, debt rituals, Black Book customs, and the people who price risk.",
+      href: "/submit-sponsor",
+    },
+    {
+      title: "Sponsor Brands",
+      eyebrow: "OPEN CALL",
+      access: "Commercial",
+      priority: "Medium",
+      body: "Fictional brands, manufacturers, luxury partners, and cultural sponsors with a clear role inside G//LYDE.",
+      href: "/submit-sponsor",
+    },
+    {
+      title: "Gate 8 Rumors",
+      eyebrow: "OPEN CALL",
+      access: "Rouxline orbit",
+      priority: "Selective",
+      body: "Whispers, sightings, access myths, private arrivals, and stories tied to the Rouxline orbit.",
+      href: "/submit-story",
+    },
+    {
+      title: "Board Tuning Houses",
+      eyebrow: "OPEN CALL",
+      access: "Workshop",
+      priority: "Medium",
+      body: "Garages, builders, suit techs, board stylists, and underground specialists who shape how riders move.",
+      href: "/submit-machine",
+    },
+    {
+      title: "Off-World Routes",
+      eyebrow: "LIMITED CALL",
+      access: "Expansion",
+      priority: "Low",
+      body: "Only submit if the route feels essential. New planets, cities, and lines should expand the world without breaking its tone.",
+      href: "/submit-circuit",
+    },
+  ];
   return (
     <>
       <RouteHero page={page} />
@@ -1899,7 +1976,7 @@ export function GarageView() {
         <div className="garage-route-grid">
           {content.garage.paths.map((path) => (
             <Link className="garage-route-card" key={path.title} href={path.href}>
-              <span className="label">GG route</span>
+              <span className="label">Garage route</span>
               <h3 className="display">{path.title}</h3>
               <p>{path.body}</p>
               <span className="btn">{path.linkLabel} →</span>
@@ -1910,11 +1987,11 @@ export function GarageView() {
       <section className="section garage-process-section">
         <div className="section-head">
           <div><span className="label">Review flow</span><h2 className="display">What happens after you submit.</h2></div>
-          <p className="lead">GG is curated, not closed. Every submission becomes a clean review file, then moves through fit, continuity, follow-up, and possible adaptation.</p>
+          <p className="lead">The Garage is curated, not closed. Every submission becomes a clean review file, then moves through fit, continuity, follow-up, and possible adaptation.</p>
         </div>
         <div className="review-flow-grid">
           {[
-            ["01", "Received", "The submission is saved to the backend and appears in GG CONTROL for review."],
+            ["01", "Received", "The submission is saved to the backend and appears in G//LYDE CONTROL for review."],
             ["02", "Checked for fit", "We look for a clean hook, visual clarity, world pressure, and continuity."],
             ["03", "Follow-up", "Strong files may need refinement, questions, references, or a sharper route into the archive."],
             ["04", "Adapted or declined", "Accepted ideas may be edited, renamed, merged, expanded, or held for later."],
@@ -1929,9 +2006,29 @@ export function GarageView() {
       </section>
       <section className="section garage-home-section">
         <div className="section-inner">
-          <div className="section-head"><div><span className="label">Open calls</span><h2 className="display">What we are looking for now.</h2></div></div>
-          <div className="garage-card-grid">{openCalls.map((call) => <Link className="garage-card" href={call.includes("Route") ? "/submit-circuit" : call.includes("Sponsor") || call.includes("House") ? "/submit-sponsor" : call.includes("Board") ? "/submit-machine" : "/submit-rider"} key={call}><span className="label">Open call</span><h3 className="display">{call}</h3><p>Bring a clean hook, a visual direction, and a reason it matters to Neo Noctis or the wider board culture.</p></Link>)}</div>
-          <details className="policy-note"><summary>Canon & support notice</summary><p>{content.garage.canonNotice}</p><p>{content.garage.supportNotice}</p></details>
+          <div className="section-head compact">
+            <div>
+              <span className="label">Open calls</span>
+              <h2 className="display">Currently accepting signals.</h2>
+              <p className="garage-intro">Selected submissions may be reviewed for future G//LYDE world development, visual drops, rider files, route records, or archive entries. Strong ideas should feel specific, visual, and connected to board culture.</p>
+              <p className="garage-intake-note">We are not looking for everything. We are looking for signals that belong on the line.</p>
+            </div>
+          </div>
+          <div className="garage-card-grid">{openCalls.map((call) => (
+            <Link className="garage-card classified-call-card" href={call.href} key={call.title}>
+              <div className="classified-call-meta">
+                <span>{call.eyebrow}</span>
+                <span>{call.priority}</span>
+              </div>
+              <h3 className="display">{call.title}</h3>
+              <p>{call.body}</p>
+              <div className="classified-call-footer">
+                <span>ACCESS // {call.access}</span>
+                <b>Submit World File →</b>
+              </div>
+            </Link>
+          ))}</div>
+          <details className="policy-note"><summary>Submission Notice</summary><p>G//LYDE is curated. Submissions may be refined, merged, declined, or held for future development. Submission does not guarantee inclusion, ownership, compensation, publication, or canon status.</p></details>
         </div>
       </section>
     </>

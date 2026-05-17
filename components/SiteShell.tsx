@@ -66,7 +66,12 @@ export function SiteFooter() {
       <div className="footer-cta">
         <div>
           <span className="label">G//LYDE WORLD</span>
-          <h2 className="display">Enter before Volume 0 drops.</h2>
+          <h2 className="display">
+            <span className="split-display-title">
+              <span>Enter before Volume 0</span>
+              <span>drops.</span>
+            </span>
+          </h2>
         </div>
         <div className="cta-row">
           <Link className="btn primary" href="/join">Join The World →</Link>

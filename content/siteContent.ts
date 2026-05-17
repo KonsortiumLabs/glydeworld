@@ -330,7 +330,7 @@ export const siteContent: SiteContent = {
       {
         title: "Build",
         links: [
-          { label: "GG / Garage", href: "/garage" },
+          { label: "The Garage", href: "/garage" },
           { label: "Submit a Concept", href: "/garage" },
           { label: "Support a Drop", href: "/support-a-drop" },
           { label: "Collaborate", href: "/collaborate" },
@@ -376,7 +376,7 @@ export const siteContent: SiteContent = {
     { label: "Codex", href: "/codex" },
     { label: "Routes & Cities", href: "/routes-cities" },
     { label: "Factions", href: "/factions" },
-    { label: "GG", href: "/garage" },
+    { label: "Garage", href: "/garage" },
     { label: "Support", href: "/support" },
   ],
   ctas: [
@@ -456,7 +456,7 @@ export const siteContent: SiteContent = {
         body: "Submit a rider, crew, route, sponsor, board, or story concept for curated review.",
         href: "/garage",
         image: asset("ref-catalog.jpg"),
-        tags: ["GG", "Submissions", "Volume 0"],
+        tags: ["Garage", "Submissions", "Volume 0"],
       },
     ],
     worldTeaser: {
@@ -691,7 +691,7 @@ export const siteContent: SiteContent = {
       ctas: [
         { label: "Join The World", href: "/join", kind: "primary" },
         { label: "Support A Drop", href: "/support-a-drop", kind: "support" },
-        { label: "Enter GG", href: "/garage", kind: "secondary" },
+        { label: "Open the Garage", href: "/garage", kind: "secondary" },
       ],
     },
     canonNotice:
@@ -713,7 +713,7 @@ export const siteContent: SiteContent = {
         ctas: [
           { label: "Enter Neo Noctis", href: "/neo-noctis", kind: "primary" },
           { label: "Read Off Ledger", href: "/archive", kind: "secondary" },
-          { label: "Build in GG", href: "/garage", kind: "support" },
+          { label: "Build in the Garage", href: "/garage", kind: "support" },
         ],
       },
       blocks: [
@@ -833,15 +833,15 @@ export const siteContent: SiteContent = {
     },
     garage: {
       slug: "/garage",
-      navLabel: "GG",
-      seoTitle: "GG / G//LYDE Garage | Creator and Supporter Portal",
+      navLabel: "Garage",
+      seoTitle: "The Garage | Creator and Supporter Portal",
       seoDescription:
-        "GG / G//LYDE Garage is the early-access creator and supporter portal for curated G//LYDE WORLD participation.",
+        "The Garage is the early-access creator and supporter portal for curated G//LYDE WORLD participation.",
       hero: {
-        eyebrow: "GG // G//LYDE Garage",
+        eyebrow: "The Garage // G//LYDE intake",
         title: "ENTER THE WORLD BEFORE THE FIRST VOLUME DROPS.",
         body:
-          "G//LYDE WORLD is being developed through character files, illustrated drops, route lore, story entries, and curated community participation. GG is the early-access portal for supporters, writers, artists, builders, brands, and worldmakers who want to help shape the edges before Volume 0.",
+          "G//LYDE WORLD is being developed through character files, illustrated drops, route lore, story entries, and curated community participation. The Garage is the early-access portal for supporters, writers, artists, builders, brands, and worldmakers who want to help shape the edges before Volume 0.",
         image: asset("ref-catalog.jpg"),
         ctas: [
           { label: "Join The World", href: "/join", kind: "primary" },
@@ -1381,11 +1381,11 @@ export const siteContent: SiteContent = {
       term: "G//LYDE WORLD",
       category: "World",
       definition: "The public portal for character files, story drops, Codex entries, routes, and curated co-creation.",
-      fullDescription: "G//LYDE WORLD is the doorway into the branch. It publishes the files that make the universe legible: journals, G//NET clips, visual drops, route lore, Codex records, and GG entry points for early supporters.",
+      fullDescription: "G//LYDE WORLD is the doorway into the branch. It publishes the files that make the universe legible: journals, G//NET clips, visual drops, route lore, Codex records, and Garage entry points for early supporters.",
       whyItMatters: "The site is where the current equivalent of chapters lives before Volume 0 becomes the next formal release.",
       usage: "Open G//LYDE WORLD when you need the story, the terms, and the route map in one place.",
-      tags: ["portal", "archive", "GG"],
-      relatedTerms: ["The Archive", "Volume 0", "GG"],
+      tags: ["portal", "archive", "Garage"],
+      relatedTerms: ["The Archive", "Volume 0", "The Garage"],
       relatedArchiveIds: ["kellan-rooftop", "gate-8"],
       relatedCharacterIds: ["kellan-roux", "gio-roux", "uno-roux", "vey-sable"],
       relatedCircuitIds: ["neo-noctis", "gate-8"],
@@ -1447,7 +1447,7 @@ export const siteContent: SiteContent = {
       whyItMatters: "It gives support and participation a clear purpose without promising uncontrolled canon or finished media before it exists.",
       usage: "Build the world before Volume 0 drops.",
       tags: ["release", "development", "visual drops"],
-      relatedTerms: ["G//LYDE WORLD", "GG", "The Archive"],
+      relatedTerms: ["G//LYDE WORLD", "The Garage", "The Archive"],
       relatedArchiveIds: ["off-ledger-run"],
       relatedCharacterIds: [],
       relatedCircuitIds: [],
@@ -1953,9 +1953,9 @@ export const siteContent: SiteContent = {
     },
   ],
   garage: {
-    title: "GG / G//LYDE Garage",
+    title: "The Garage",
     intro:
-      "GG is the early-access creator and supporter portal for G//LYDE WORLD. Join the world, support drops, submit concepts for curated review, collaborate, and help build before Volume 0.",
+      "The Garage is the early-access creator and supporter portal for G//LYDE WORLD. Join the world, support drops, submit concepts for curated review, collaborate, and help build before Volume 0.",
     prompt:
       "Bring a sharp idea with a clean hook: what pressure it adds, where it lives, who it changes, and why it belongs in a world where visibility is class.",
     paths: [
@@ -1985,7 +1985,7 @@ export const siteContent: SiteContent = {
       "A premium invitation to help fund visual development, archive entries, character illustrations, pitch materials, worldbuilding, and the first official Volume 0 release.",
     cards: [
       { title: "Join the Early List", body: "Get first signal when new archive drops, rider files, and Volume 0 updates go live.", linkLabel: "Join", href: "/join" },
-      { title: "Enter GG", body: "Submit a rider, crew, route, sponsor, board, or story concept for curated review.", linkLabel: "Enter", href: "/garage" },
+      { title: "Enter the Garage", body: "Submit a rider, crew, route, sponsor, board, or story concept for curated review.", linkLabel: "Enter", href: "/garage" },
       { title: "Back Volume 0", body: "Help build the first official story package and pitch-ready world foundation.", linkLabel: "Back Volume 0", href: "/support-a-drop" },
       { title: "Sponsor a Drop", body: "Support a future illustrated archive drop, character file, or circuit report.", linkLabel: "Sponsor", href: "/support-a-drop" },
       { title: "Fund an Illustration", body: "Contribute directly to concept and character visual development.", linkLabel: "Fund", href: "/support-a-drop" },
